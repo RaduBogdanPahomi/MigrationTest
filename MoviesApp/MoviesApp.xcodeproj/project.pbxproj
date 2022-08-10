@@ -56,6 +56,13 @@
 		A201467728A3938600DD1CA8 /* MoviesApp */ = {
 			isa = PBXGroup;
 			children = (
+				A201469228A394C300DD1CA8 /* Enums */,
+				A201469028A394C300DD1CA8 /* Extensions */,
+				A201468D28A394C300DD1CA8 /* Helpers */,
+				A201468F28A394C300DD1CA8 /* Managers */,
+				A201469128A394C300DD1CA8 /* Controllers */,
+				A201468E28A394C300DD1CA8 /* Models */,
+				A201468C28A394C300DD1CA8 /* Views */,
 				A201467828A3938600DD1CA8 /* AppDelegate.swift */,
 				A201467A28A3938600DD1CA8 /* SceneDelegate.swift */,
 				A201467C28A3938600DD1CA8 /* ViewController.swift */,
@@ -65,6 +72,55 @@
 				A201468628A3938B00DD1CA8 /* Info.plist */,
 			);
 			path = MoviesApp;
+			sourceTree = "<group>";
+		};
+		A201468C28A394C300DD1CA8 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		A201468D28A394C300DD1CA8 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		A201468E28A394C300DD1CA8 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		A201468F28A394C300DD1CA8 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
+		A201469028A394C300DD1CA8 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		A201469128A394C300DD1CA8 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		A201469228A394C300DD1CA8 /* Enums */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Enums;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
