@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MovieDetailsHeaderView" customModule="MoviesApp" customModuleProvider="target">
+            <connections>
+                <outlet property="contentView" destination="iN0-l3-epB" id="ODw-8x-DgE"/>
+                <outlet property="movieLengthLabel" destination="ls6-pB-cYJ" id="Qne-G1-Ort"/>
+                <outlet property="movieRatingLabel" destination="lqC-aD-CbR" id="G3N-uH-0d7"/>
+                <outlet property="movieTitleLabel" destination="prB-fJ-fiT" id="Iz6-Qg-wEH"/>
+                <outlet property="movieYearLabel" destination="OAq-ib-uRa" id="oge-EV-D6x"/>
+                <outlet property="starImageView" destination="fGi-UK-5kP" id="Eu3-7Y-MOM"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="640" height="140"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" text="Spider-Man: No Way Home" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="prB-fJ-fiT">
+                    <rect key="frame" x="10" y="10" width="579" height="89"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="23"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="2021" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OAq-ib-uRa">
+                    <rect key="frame" x="10" y="109" width="40" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2h 28m" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ls6-pB-cYJ">
+                    <rect key="frame" x="60" y="109" width="62" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                    <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="StarIcon" translatesAutoresizingMaskIntoConstraints="NO" id="fGi-UK-5kP">
+                    <rect key="frame" x="599" y="39.5" width="31" height="30"/>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="8.7/10" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lqC-aD-CbR">
+                    <rect key="frame" x="582" y="109" width="48" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                    <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="OAq-ib-uRa" secondAttribute="bottom" constant="10" id="0WG-Jb-lcj"/>
+                <constraint firstAttribute="trailing" secondItem="fGi-UK-5kP" secondAttribute="trailing" constant="10" id="3jl-vG-5Ku"/>
+                <constraint firstItem="lqC-aD-CbR" firstAttribute="centerY" secondItem="OAq-ib-uRa" secondAttribute="centerY" id="7uw-a7-3oS"/>
+                <constraint firstItem="OAq-ib-uRa" firstAttribute="top" secondItem="prB-fJ-fiT" secondAttribute="bottom" constant="10" id="It4-cL-kJg"/>
+                <constraint firstItem="fGi-UK-5kP" firstAttribute="leading" secondItem="prB-fJ-fiT" secondAttribute="trailing" constant="10" id="Nxz-tk-ALg"/>
+                <constraint firstItem="prB-fJ-fiT" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="10" id="bAI-zq-o0A"/>
+                <constraint firstItem="ls6-pB-cYJ" firstAttribute="centerY" secondItem="OAq-ib-uRa" secondAttribute="centerY" id="cUL-77-TZ3"/>
+                <constraint firstItem="prB-fJ-fiT" firstAttribute="centerY" secondItem="fGi-UK-5kP" secondAttribute="centerY" id="fIN-kj-Oi8"/>
+                <constraint firstItem="fGi-UK-5kP" firstAttribute="trailing" secondItem="lqC-aD-CbR" secondAttribute="trailing" id="gVl-lU-Ydp"/>
+                <constraint firstItem="ls6-pB-cYJ" firstAttribute="leading" secondItem="OAq-ib-uRa" secondAttribute="trailing" constant="10" id="jik-Oa-i3n"/>
+                <constraint firstItem="prB-fJ-fiT" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="10" id="naJ-ku-ACY"/>
+                <constraint firstItem="prB-fJ-fiT" firstAttribute="leading" secondItem="OAq-ib-uRa" secondAttribute="leading" id="w6a-UU-3tL"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="192.75362318840581" y="16.071428571428569"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="StarIcon" width="31" height="30"/>
+    </resources>
+</document>
