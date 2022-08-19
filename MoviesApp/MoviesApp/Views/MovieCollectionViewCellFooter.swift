@@ -30,7 +30,7 @@ class MovieCollectionViewCellFooter: UIView {
     private let starImageView = UIImageView()
 
     func update(withMovie movie: Movie) {
-        movieNameLabel.text = movie.name
+        movieNameLabel.text = movie.title
         movieRatingLabel.text = "\(movie.rating ?? 0)"
     }
 }

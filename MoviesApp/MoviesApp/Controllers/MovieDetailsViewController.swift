@@ -123,7 +123,7 @@ extension MovieDetailsViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionview.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! MovieCollectionViewCell
         
-        let movie = Movie(name: "Spider-Man: No Way Home", rating: 7.5, year: 2021)
+        let movie = Movie(title: "Spider-Man: No Way Home", rating: 8.7, releaseYear: 2021, genreIDS: nil)
         cell.update(withMovie: movie)
         
         return cell

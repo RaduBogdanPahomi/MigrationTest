@@ -29,9 +29,9 @@ class MovieDetailsView: UIView {
     private let movieYearLabel = UILabel()
 
     func update(withMovie movie: Movie) {
-        movieNameLabel.text = movie.name
+        movieNameLabel.text = movie.title
         movieRatingLabel.text = "\(movie.rating ?? 0)"
-        movieYearLabel.text = "\(movie.year ?? 0)"
+        movieYearLabel.text = "\(movie.releaseYear ?? 0)"
     }
 }
 
