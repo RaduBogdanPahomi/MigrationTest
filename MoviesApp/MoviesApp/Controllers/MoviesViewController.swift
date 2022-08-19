@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class MoviesViewController: UIViewController {
     // MARK: - Public API
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,7 +28,7 @@ class ViewController: UIViewController {
 }
 
 // MARK: - Private API
-private extension ViewController {
+private extension MoviesViewController {
     func setupTableView() {
         tableview.delegate = self
         tableview.dataSource = self
@@ -47,7 +47,7 @@ private extension ViewController {
 }
 
 // MARK: - UITableViewDataSource protocol
-extension ViewController: UITableViewDataSource {
+extension MoviesViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 10
     }
@@ -64,8 +64,9 @@ extension ViewController: UITableViewDataSource {
 }
 
 // MARK: - UITableViewDelegate protocol
-extension ViewController: UITableViewDelegate {
+extension MoviesViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        let movieDetailsVC = MovieDetailsViewController()
+        navigationController?.pushViewController(movieDetailsVC, animated: true)
     }
 }

@@ -8,7 +8,7 @@
 import UIKit
 
 class MovieTableViewCell: UITableViewCell {
-    private let movieDetailsView = MovieDetailsView()
+    // MARK: - Public API
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -23,16 +23,18 @@ class MovieTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
     }
     
-    var posterImageView: UIImageView = {
+    // MARK: - Private properties
+    private let movieDetailsView = MovieDetailsView()
+    private var posterImageView: UIImageView = {
         let posterImageView = UIImageView()
         posterImageView.translatesAutoresizingMaskIntoConstraints = false
         posterImageView.contentMode = .scaleAspectFit
-        posterImageView.setContentHuggingPriority(.required, for: .horizontal)
+        posterImageView.setContentHuggingPriority(.defaultLow, for: .horizontal)
         
         return posterImageView
     }()
     
-    let favouriteButton: UIButton = {
+    private let favouriteButton: UIButton = {
         let favouriteButton = UIButton()
         favouriteButton.translatesAutoresizingMaskIntoConstraints = false
         favouriteButton.contentMode = .scaleAspectFit
@@ -46,6 +48,7 @@ class MovieTableViewCell: UITableViewCell {
     }
 }
 
+// MARK: - Private API
 private extension MovieTableViewCell {
     func setupCellView() {
         setupSubviews()
@@ -53,7 +56,6 @@ private extension MovieTableViewCell {
         
         let heartImage = UIImage(systemName: "heart")
         posterImageView.image = UIImage(named: "MoviePoster.jpeg")
-        
         favouriteButton.setImage(heartImage, for: .normal)
     }
     
@@ -73,6 +75,7 @@ private extension MovieTableViewCell {
             posterImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             posterImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5.0),
             posterImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 5.0),
+            posterImageView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.4),
 
             movieDetailsView.leadingAnchor.constraint(equalTo: posterImageView.trailingAnchor, constant: 5.0),
             movieDetailsView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 5.0),
