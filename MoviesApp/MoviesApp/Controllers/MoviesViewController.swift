@@ -57,7 +57,7 @@ extension MoviesViewController: UITableViewDataSource {
         cell.accessoryView = UIImageView(image: UIImage(systemName: "chevron.right"))
         cell.tintColor = .white
         
-        let movie = Movie(name: "Shang-Chi and the Legend of the Ten Rings - \(indexPath.row)", rating: 4.5, year: 2010)
+        let movie = Movie(title: "Spider-Man: No Way Home", rating: 8.7, releaseYear: 2021, genreIDS: nil)
         cell.update(withMovie: movie)
         return cell
     }

@@ -7,8 +7,16 @@
 
 import Foundation
 
-struct Movie {
-    var name: String?
-    var rating: Double?
-    var year: Int?
+struct Movie: Codable {
+    let title: String
+    let rating: Double
+    let releaseYear: Int
+    let genreIDS: [Int]?
+
+    enum CodingKeys: String, CodingKey {
+        case title
+        case rating
+        case releaseYear
+        case genreIDS
+    }
 }
