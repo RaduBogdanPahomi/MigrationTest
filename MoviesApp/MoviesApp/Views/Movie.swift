@@ -8,15 +8,42 @@
 import Foundation
 
 struct Movie: Codable {
-    let title: String
-    let rating: Double
-    let releaseYear: Int
+    let adult: Bool
+    let backdropPath: String
     let genreIDS: [Int]?
-
+    let id: Int
+    let originalLanguage: String
+    let originalTitle: String
+    let overview: String
+    let popularity: Double
+    let posterPath: String
+    let releaseDate: String
+    let title: String
+    let video: Bool
+    let voteAverage: Double
+    let voteCount: Int
+    
+    let imageSize = 500
+    let posterBaseURL = "https://image.tmdb.org/t/p/w"
+    
     enum CodingKeys: String, CodingKey {
+        case adult
+        case overview
+        case popularity
+        case id
         case title
-        case rating
-        case releaseYear
-        case genreIDS
+        case video
+        case backdropPath = "backdrop_path"
+        case genreIDS = "genre_ids"
+        case originalLanguage = "original_language"
+        case originalTitle = "original_title"
+        case posterPath = "poster_path"
+        case releaseDate = "release_date"
+        case voteAverage = "vote_average"
+        case voteCount = "vote_count"
+    }
+    
+    func composedPosterPath() -> String {
+        return posterBaseURL + "\(imageSize)" + posterPath
     }
 }

@@ -8,43 +8,71 @@
 import UIKit
 
 class MovieTableViewCell: UITableViewCell {
-    // MARK: - Public API
+    // MARK: - Private properties
+    private let movieDetailsView = MovieDetailsView()
+
+    private let horizontalStackView: UIStackView = {
+        let horizontalStackView = UIStackView()
+        horizontalStackView.axis = .horizontal
+        horizontalStackView.spacing = 10.0
+        horizontalStackView.translatesAutoresizingMaskIntoConstraints = false
+        horizontalStackView.alignment = .center
+
+        return horizontalStackView
+    }()
+        
+    private let posterImageView: UIImageView = {
+        let posterImageView = UIImageView()
+        posterImageView.contentMode = .scaleAspectFit
+        posterImageView.setContentHuggingPriority(.required, for: .horizontal)
+        
+        return posterImageView
+    }()
     
+    private let activityIndicatorView: UIActivityIndicatorView = {
+        let activityIndicatorView = UIActivityIndicatorView(style: .medium)
+        activityIndicatorView.translatesAutoresizingMaskIntoConstraints = false
+        
+        return activityIndicatorView
+    }()
+    
+    private let favouriteButton: UIButton = {
+        let favouriteButton = UIButton()
+        favouriteButton.translatesAutoresizingMaskIntoConstraints = false
+        favouriteButton.tintColor = .white
+        
+        return favouriteButton
+    }()
+    
+    func update(withMovie movie: Movie) {
+        movieDetailsView.update(withMovie: movie)
+        activityIndicatorView.startAnimating()
+        
+        ImageDownloader.shared.downloadImage(with: movie.composedPosterPath(), completionHandler: {(image, cached) in
+            self.posterImageView.image = image
+            self.setNeedsLayout()
+            self.horizontalStackView.setNeedsLayout()
+        }, placeholderImage: UIImage(named: "MoviePoster.jpeg"))
+        
+    #warning("This should be placed inside download completion")
+        activityIndicatorView.stopAnimating()
+    }
+
+    #warning("Place public lifecycle methods before other public methods ")
+    // MARK: - Public API
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupCellView()
+        
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    #warning("Not needed")
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-    }
-    
-    // MARK: - Private properties
-    private let movieDetailsView = MovieDetailsView()
-    private var posterImageView: UIImageView = {
-        let posterImageView = UIImageView()
-        posterImageView.translatesAutoresizingMaskIntoConstraints = false
-        posterImageView.contentMode = .scaleAspectFit
-        posterImageView.setContentHuggingPriority(.defaultLow, for: .horizontal)
-        
-        return posterImageView
-    }()
-    
-    private let favouriteButton: UIButton = {
-        let favouriteButton = UIButton()
-        favouriteButton.translatesAutoresizingMaskIntoConstraints = false
-        favouriteButton.contentMode = .scaleAspectFit
-        favouriteButton.tintColor = .white
-        
-        return favouriteButton
-    }()
-        
-    func update(withMovie movie: Movie) {
-        movieDetailsView.update(withMovie: movie)
     }
 }
 
@@ -54,35 +82,38 @@ private extension MovieTableViewCell {
         setupSubviews()
         setupConstraints()
         
+        #warning("We already setup favourite button in private let favouriteButton: UIButton = {. Move the code there")
         let heartImage = UIImage(systemName: "heart")
-        posterImageView.image = UIImage(named: "MoviePoster.jpeg")
         favouriteButton.setImage(heartImage, for: .normal)
     }
     
     func setupSubviews() {
-        self.selectionStyle = .none
+        selectionStyle = .none
         backgroundColor = .black
-        movieDetailsView.translatesAutoresizingMaskIntoConstraints = false
-        
-        contentView.addSubview(posterImageView)
-        contentView.addSubview(movieDetailsView)
+
+        contentView.addSubview(horizontalStackView)
+        horizontalStackView.addArrangedSubview(posterImageView)
+        horizontalStackView.addArrangedSubview(movieDetailsView)
         
         posterImageView.addSubview(favouriteButton)
+        posterImageView.addSubview(activityIndicatorView)
     }
        
     func setupConstraints() {
         NSLayoutConstraint.activate([
-            posterImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            posterImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5.0),
-            posterImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 5.0),
-            posterImageView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.4),
-
-            movieDetailsView.leadingAnchor.constraint(equalTo: posterImageView.trailingAnchor, constant: 5.0),
-            movieDetailsView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 5.0),
-            movieDetailsView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            horizontalStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5.0),
+            horizontalStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5.0),
+            horizontalStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            horizontalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            
+            posterImageView.widthAnchor.constraint(equalToConstant: 150.0),
+            posterImageView.heightAnchor.constraint(equalToConstant: 225.0),
+            
+            activityIndicatorView.centerXAnchor.constraint(equalTo: posterImageView.centerXAnchor),
+            activityIndicatorView.centerYAnchor.constraint(equalTo: posterImageView.centerYAnchor),
                         
-            favouriteButton.leadingAnchor.constraint(equalTo: posterImageView.leadingAnchor, constant: 10),
-            favouriteButton.topAnchor.constraint(equalTo: posterImageView.topAnchor, constant: 20),
+            favouriteButton.leadingAnchor.constraint(equalTo: posterImageView.leadingAnchor, constant: 5.0),
+            favouriteButton.topAnchor.constraint(equalTo: posterImageView.topAnchor, constant: 5.0)
         ])
     }
 }

@@ -8,10 +8,15 @@
 import UIKit
 
 class MoviesViewController: UIViewController {
+    private var movies: [Movie] = []
+    private var service: MoviesServiceable = MovieService()
+    
     // MARK: - Public API
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupTableView()
+        
+        setupUserInterface()
+        loadTableView()
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -29,6 +34,35 @@ class MoviesViewController: UIViewController {
 
 // MARK: - Private API
 private extension MoviesViewController {
+    func setupUserInterface() {
+        title = "All Movies"
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        
+        setupTableView()
+    }
+    
+    func fetchData(completion: @escaping (Result<TopRated, RequestError>) -> Void) {
+        Task(priority: .background) {
+            let result = await service.getTopRated()
+            completion(result)
+        }
+    }
+    
+    func loadTableView(completion: (() -> Void)? = nil) {
+        fetchData { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .success(let response):
+                self.movies = response.results
+                self.tableview.reloadData()
+                completion?()
+            case .failure(let error):
+                self.showModal(title: "Error", message: error.customMessage)
+                completion?()
+            }
+        }
+    }
+    
     func setupTableView() {
         tableview.delegate = self
         tableview.dataSource = self
@@ -44,21 +78,38 @@ private extension MoviesViewController {
             tableview.leftAnchor.constraint(equalTo: self.view.leftAnchor)
         ])
     }
+    
+    func showDetail(`for` movie: Movie) {
+        let movieDetailsVC = MovieDetailsViewController()
+        Task(priority: .background) {
+            let result = await service.getMovie(id: movie.id)
+            switch result {
+            case .success(_):
+                navigationController?.pushViewController(movieDetailsVC, animated: true)
+            case .failure(let error):
+                showModal(title: "Error", message: error.customMessage)
+            }
+        }
+    }
+    
+    private func showModal(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+    }
 }
 
 // MARK: - UITableViewDataSource protocol
 extension MoviesViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return movies.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableview.dequeueReusableCell(withIdentifier: "cellId", for: indexPath) as! MovieTableViewCell
         cell.accessoryView = UIImageView(image: UIImage(systemName: "chevron.right"))
         cell.tintColor = .white
-        
-        let movie = Movie(title: "Spider-Man: No Way Home", rating: 8.7, releaseYear: 2021, genreIDS: nil)
-        cell.update(withMovie: movie)
+        cell.update(withMovie: movies[indexPath.row])
         return cell
     }
 }
@@ -66,7 +117,6 @@ extension MoviesViewController: UITableViewDataSource {
 // MARK: - UITableViewDelegate protocol
 extension MoviesViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let movieDetailsVC = MovieDetailsViewController()
-        navigationController?.pushViewController(movieDetailsVC, animated: true)
+        showDetail(for: movies[indexPath.row])
     }
 }

@@ -8,6 +8,13 @@
 import UIKit
 
 class MovieCollectionViewCellFooter: UIView {
+    // MARK: - Private properties
+    private let containerStackView = UIStackView()
+    private let movieNameLabel = UILabel()
+    private let horizontalStackView = UIStackView()
+    private let movieRatingLabel = UILabel()
+    private let starImageView = UIImageView()
+    
     // MARK: - Public API
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -21,17 +28,10 @@ class MovieCollectionViewCellFooter: UIView {
     convenience init() {
         self.init(frame: .zero)
     }
-    
-    // MARK: - Private properties
-    private let containerStackView = UIStackView()
-    private let movieNameLabel = UILabel()
-    private let horizontalStackView = UIStackView()
-    private let movieRatingLabel = UILabel()
-    private let starImageView = UIImageView()
 
     func update(withMovie movie: Movie) {
         movieNameLabel.text = movie.title
-        movieRatingLabel.text = "\(movie.rating ?? 0)"
+        movieRatingLabel.text = "\(movie.voteAverage)"
     }
 }
 
@@ -61,17 +61,17 @@ private extension MovieCollectionViewCellFooter {
         horizontalStackView.addArrangedSubview(starImageView)
         horizontalStackView.addArrangedSubview(movieRatingLabel)
        
-        self.addSubview(containerStackView)
+        addSubview(containerStackView)
         
         setupContraints()
     }
     
     func setupContraints() {
         NSLayoutConstraint.activate([
-            containerStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            containerStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            containerStackView.topAnchor.constraint(equalTo: self.topAnchor),
-            containerStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            containerStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            containerStackView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            containerStackView.topAnchor.constraint(equalTo: topAnchor),
+            containerStackView.bottomAnchor.constraint(equalTo: bottomAnchor),
             
             horizontalStackView.topAnchor.constraint(equalTo: containerStackView.topAnchor, constant: 5.0),
             horizontalStackView.leadingAnchor.constraint(equalTo: containerStackView.leadingAnchor, constant: 5.0),

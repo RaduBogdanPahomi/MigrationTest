@@ -8,6 +8,7 @@
 import UIKit
 
 class MovieDescriptionView: UIView {
+    // MARK: - Private properties
     @IBOutlet private weak var contentView: UIView!
     @IBOutlet private weak var moviePosterImageView: UIImageView!
     @IBOutlet private weak var tagStackView: UIStackView!
@@ -29,14 +30,14 @@ class MovieDescriptionView: UIView {
 // MARK: - Private API
 private extension MovieDescriptionView {
     func commonInit() {
-        Bundle.main.loadNibNamed("MovieDescriptionView", owner: self, options: nil)
+        Bundle.main.loadNibNamed(MovieDescriptionView.identifier, owner: self, options: nil)
         addSubview(contentView)
         
         NSLayoutConstraint.activate([
-            contentView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            contentView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            contentView.topAnchor.constraint(equalTo: self.topAnchor),
-            contentView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+            contentView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            contentView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            contentView.topAnchor.constraint(equalTo: topAnchor),
+            contentView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
     }
 }

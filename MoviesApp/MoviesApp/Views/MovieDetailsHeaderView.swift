@@ -8,14 +8,13 @@
 import UIKit
 
 class MovieDetailsHeaderView: UIView {
-    //Private for all the @IBOutlet
+    // MARK: - Private properties
 	@IBOutlet private weak var contentView: UIView!
-    @IBOutlet weak var movieTitleLabel: UILabel!
-    @IBOutlet weak var movieYearLabel: UILabel!
-    @IBOutlet weak var movieLengthLabel: UILabel!
-    @IBOutlet weak var starImageView: UIImageView!
-    @IBOutlet weak var movieRatingLabel: UILabel!
-    //create a function to update these values
+    @IBOutlet private weak var movieTitleLabel: UILabel!
+    @IBOutlet private weak var movieYearLabel: UILabel!
+    @IBOutlet private weak var movieLengthLabel: UILabel!
+    @IBOutlet private weak var starImageView: UIImageView!
+    @IBOutlet private weak var movieRatingLabel: UILabel!
     
 	// MARK: - Public API
 	override init(frame: CGRect) {
@@ -32,14 +31,14 @@ class MovieDetailsHeaderView: UIView {
 // MARK: - Private API
 private extension MovieDetailsHeaderView {
 	func commonInit() {
-		Bundle.main.loadNibNamed("MovieDetailsHeaderView", owner: self, options: nil)
+        Bundle.main.loadNibNamed(MovieDetailsHeaderView.identifier, owner: self, options: nil)
 		addSubview(contentView)
 		
 		NSLayoutConstraint.activate([
-            contentView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-			contentView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-			contentView.topAnchor.constraint(equalTo: self.topAnchor),
-			contentView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+            contentView.leadingAnchor.constraint(equalTo: leadingAnchor),
+			contentView.trailingAnchor.constraint(equalTo: trailingAnchor),
+			contentView.topAnchor.constraint(equalTo: topAnchor),
+			contentView.bottomAnchor.constraint(equalTo: bottomAnchor)
 		])
 	}
 }
