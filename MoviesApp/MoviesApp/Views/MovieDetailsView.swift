@@ -8,6 +8,29 @@
 import UIKit
 
 class MovieDetailsView: UIView {
+    // MARK: - Private properties
+    private let containerStackView = UIStackView()
+    private let movieNameLabel: UILabel = {
+        let movieNameLabel = UILabel()
+        movieNameLabel.font = movieNameLabel.font.withSize(23)
+        
+        return movieNameLabel
+    }()
+    
+    private let movieRatingLabel: UILabel = {
+        let movieRatinglabel = UILabel()
+        movieRatinglabel.font = movieRatinglabel.font.withSize(18)
+        
+        return movieRatinglabel
+    }()
+    
+    private let movieYearLabel: UILabel = {
+        let movieYearLabel = UILabel()
+        movieYearLabel.font = movieYearLabel.font.withSize(18)
+        
+        return movieYearLabel
+    }()
+    
     // MARK: - Public API
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -22,16 +45,10 @@ class MovieDetailsView: UIView {
         self.init(frame: .zero)
     }
     
-    // MARK: - Private properties
-    private let containerStackView = UIStackView()
-    private let movieNameLabel = UILabel()
-    private let movieRatingLabel = UILabel()
-    private let movieYearLabel = UILabel()
-
     func update(withMovie movie: Movie) {
-        movieNameLabel.text = movie.title
-        movieRatingLabel.text = "\(movie.rating ?? 0)"
-        movieYearLabel.text = "\(movie.releaseYear ?? 0)"
+        movieNameLabel.text = movie.originalTitle
+        movieRatingLabel.text = "\(movie.voteAverage)"
+        movieYearLabel.text = movie.releaseDate.getYear() ?? ""
     }
 }
 
@@ -52,6 +69,8 @@ private extension MovieDetailsView {
         starImageView.contentMode = .scaleAspectFit
         starImageView.image = UIImage(named: "StarIcon.png")
         starImageView.setContentHuggingPriority(.required, for: .horizontal)
+        starImageView.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        starImageView.widthAnchor.constraint(equalToConstant: 20).isActive = true
         
         movieRatingLabel.numberOfLines = 0
         movieRatingLabel.textColor = .white
@@ -68,17 +87,17 @@ private extension MovieDetailsView {
         horizontalStackView.addArrangedSubview(movieRatingLabel)
         horizontalStackView.addArrangedSubview(movieYearLabel)
         
-        self.addSubview(containerStackView)
+        addSubview(containerStackView)
         
         setupContraints()
     }
     
     func setupContraints() {
         NSLayoutConstraint.activate([
-            containerStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 5.0),
-            containerStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -30.0),
-            containerStackView.topAnchor.constraint(equalTo: self.topAnchor, constant: 5.0),
-            containerStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 5.0)
+            containerStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            containerStackView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            containerStackView.topAnchor.constraint(equalTo: topAnchor),
+            containerStackView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
     }
 }

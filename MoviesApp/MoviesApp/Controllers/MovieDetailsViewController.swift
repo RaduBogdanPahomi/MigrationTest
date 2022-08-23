@@ -123,7 +123,7 @@ extension MovieDetailsViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionview.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! MovieCollectionViewCell
         
-        let movie = Movie(title: "Spider-Man: No Way Home", rating: 8.7, releaseYear: 2021, genreIDS: nil)
+        let movie = Movie(adult: false, backdropPath: "/lXhgCODAbBXL5buk9yEmTpOoOgR.jpg", genreIDS: [1], id: 122, originalLanguage: "en", originalTitle: "The Lord of the Rings: The Return of the King", overview: "Aragorn is revealed as the heir to the ancient kings as he, Gandalf and the other members of the broken fellowship struggle to save Gondor from Sauron\'s forces. Meanwhile, Frodo and Sam take the ring closer to the heart of Mordor, the dark lord\'s realm.", popularity: 148.908, posterPath: "/rCzpDGLbOoPwLjy3OAm5NUPOTrC.jpg", releaseDate: "2003-12-01", title: "The Lord of the Rings: The Return of the King", video: false, voteAverage: 8.5, voteCount: 20012)
         cell.update(withMovie: movie)
         
         return cell

@@ -6,12 +6,15 @@
 //
 
 enum MoviesEndpoint {
+    case topRated
     case movie(id: Int)
 }
 
 extension MoviesEndpoint: Endpoint {
     var path: String {
         switch self {
+        case .topRated:
+            return "/3/movie/top_rated"
         case .movie(let id):
             return "/3/movie/\(id)"
         }
@@ -19,15 +22,15 @@ extension MoviesEndpoint: Endpoint {
     
     var method: RequestMethod {
         switch self {
-        case .movie:
+        case .topRated, .movie:
             return .get
         }
     }
     
     var header: [String : String]? {
-        let accessToken = ""
+        let accessToken = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2NDBjMmI0OWM4ZDNkMTg3MDRiMDkyMzc0ZjM2ZGNjNSIsInN1YiI6IjYyZmYyYzE0YmM4NjU3MDA4MzdjOGE4MCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.wO7miNgox_YNDY-qNU0BKAEM_bgd9ewsIR38f-NJZZg"
         switch self {
-        case .movie:
+        case .topRated, .movie:
             return [
                 "Authorization": "Bearer \(accessToken)",
                 "Content-Type": "application/json;charset=utf-8"
@@ -37,8 +40,8 @@ extension MoviesEndpoint: Endpoint {
     
     var body: [String : String]? {
         switch self {
-        case .movie:
-            return .none
+        case .topRated, .movie:
+            return nil
         }
     }
 }
