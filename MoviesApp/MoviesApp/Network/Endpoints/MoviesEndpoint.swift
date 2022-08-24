@@ -10,7 +10,7 @@ enum MoviesEndpoint {
     case movie(id: Int)
 }
 
-extension MoviesEndpoint: Endpoint {
+extension MoviesEndpoint: Endpoint {    
     var path: String {
         switch self {
         case .topRated:
@@ -43,5 +43,10 @@ extension MoviesEndpoint: Endpoint {
         case .topRated, .movie:
             return nil
         }
+    }
+    
+    var queryStrings: [String: String?]? {
+        let apiKey = "626d05abf324b3be1c089c695497d49c"
+        return ["api_key": apiKey]
     }
 }

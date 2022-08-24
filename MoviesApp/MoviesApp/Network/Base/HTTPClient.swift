@@ -18,8 +18,12 @@ extension HTTPClient {
         urlComponents.host = endpoint.host
         urlComponents.path = endpoint.path
         
-        guard let url = urlComponents.url else {
+        guard var url = urlComponents.url else {
             return.failure(.invalidURL)
+        }
+        
+        if let queryStrings = endpoint.queryStrings {
+            url.setQueryString(queryStrings)
         }
         
         var request = URLRequest(url: url)

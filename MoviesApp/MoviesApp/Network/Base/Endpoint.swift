@@ -10,6 +10,7 @@ protocol Endpoint {
     var host: String {get}
     var path: String {get}
     var method: RequestMethod {get}
+    var queryStrings: [String: String?]? {get}
     var header: [String: String]? {get}
     var body: [String: String]? {get}
 }
@@ -21,5 +22,9 @@ extension Endpoint {
     
     var host: String {
         return "api.themoviedb.org"
+    }
+    
+    var queryStrings: [String : String?]? {
+        return nil
     }
 }

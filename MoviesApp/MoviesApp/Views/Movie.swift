@@ -7,10 +7,15 @@
 
 import Foundation
 
+struct Genre: Hashable, Codable {
+    let id: Int?
+    let name: String?
+}
+
 struct Movie: Codable {
     let adult: Bool
     let backdropPath: String
-    let genreIDS: [Int]?
+    let genres: [Genre]?
     let id: Int
     let originalLanguage: String
     let originalTitle: String
@@ -33,8 +38,8 @@ struct Movie: Codable {
         case id
         case title
         case video
+        case genres
         case backdropPath = "backdrop_path"
-        case genreIDS = "genre_ids"
         case originalLanguage = "original_language"
         case originalTitle = "original_title"
         case posterPath = "poster_path"
