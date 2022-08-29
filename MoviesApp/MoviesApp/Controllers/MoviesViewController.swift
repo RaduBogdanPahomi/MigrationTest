@@ -49,6 +49,8 @@ private extension MoviesViewController {
     }
     
     func loadTableView(completion: (() -> Void)? = nil) {
+        #warning("There is no point in having let moviesVC = MoviesViewController() here; we are not doing anything with this controller. This is only a load function")
+        #warning("The error under failure should be displayed on current , self, controller")
         let moviesVC = MoviesViewController()
         fetchData { [weak self] result in
             guard let self = self else { return }
@@ -81,6 +83,8 @@ private extension MoviesViewController {
     }
     
     func showDetail(`for` movie: Movie) {
+        #warning("We do not need let moviesVC = MoviesViewController(); We will display the error on current controller (self) ")
+        #warning(" Move this let movieDetailsVC = MovieDetailsViewController(), under success. There is no point in creating the controller outside success - consider if an error will appear. We will do nothing with the controller")
         let movieDetailsVC = MovieDetailsViewController()
         let moviesVC = MoviesViewController()
         Task(priority: .background) {
