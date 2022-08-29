@@ -162,6 +162,7 @@ private extension MovieDetailsViewController {
             landscapePosterImageView.topAnchor.constraint(equalTo: detailsHeaderView.bottomAnchor),
             landscapePosterImageView.leadingAnchor.constraint(equalTo: scrollContentLayoutGuide.leadingAnchor),
             landscapePosterImageView.trailingAnchor.constraint(equalTo: scrollContentLayoutGuide.trailingAnchor),
+            landscapePosterImageView.heightAnchor.constraint(equalToConstant: 250.0),
 
             activityIndicatorView.centerXAnchor.constraint(equalTo: landscapePosterImageView.centerXAnchor),
             activityIndicatorView.centerYAnchor.constraint(equalTo: landscapePosterImageView.centerYAnchor),
@@ -173,11 +174,11 @@ private extension MovieDetailsViewController {
             similarMoviesLabel.topAnchor.constraint(equalTo: descriptionView.bottomAnchor, constant: 20.0),
             similarMoviesLabel.leadingAnchor.constraint(equalTo: scrollContentLayoutGuide.leadingAnchor),
 
-            collectionview.topAnchor.constraint(equalTo: similarMoviesLabel.bottomAnchor, constant: 20.0),
+            collectionview.topAnchor.constraint(equalTo: similarMoviesLabel.bottomAnchor, constant: 10.0),
             collectionview.bottomAnchor.constraint(equalTo: scrollContentLayoutGuide.bottomAnchor),
             collectionview.leadingAnchor.constraint(equalTo: scrollContentLayoutGuide.leadingAnchor),
             collectionview.trailingAnchor.constraint(equalTo: scrollContentLayoutGuide.trailingAnchor),
-            collectionview.heightAnchor.constraint(equalToConstant: 350)
+            collectionview.heightAnchor.constraint(equalToConstant: 400.0)
         ])
     }
     
@@ -193,13 +194,6 @@ private extension MovieDetailsViewController {
                 showModal(title: "Error", message: error.customMessage)
             }
         }
-    }
-    
-    #warning("Remove this. THis will be kept in an UIViewController extension")
-    private func showModal(title: String, message: String) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-        self.present(alert, animated: true, completion: nil)
     }
 }
 

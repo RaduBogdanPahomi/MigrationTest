@@ -41,6 +41,8 @@ private extension MovieCollectionViewCellFooter {
         containerStackView.axis = .vertical
         containerStackView.backgroundColor = .secondaryLabel
         containerStackView.spacing = 10.0
+        containerStackView.isLayoutMarginsRelativeArrangement = true
+        containerStackView.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 5.0, leading: 10.0, bottom: 5.0, trailing: 10.0)
         containerStackView.translatesAutoresizingMaskIntoConstraints = false
         
         horizontalStackView.axis = .horizontal
@@ -74,9 +76,6 @@ private extension MovieCollectionViewCellFooter {
             containerStackView.trailingAnchor.constraint(equalTo: trailingAnchor),
             containerStackView.topAnchor.constraint(equalTo: topAnchor),
             containerStackView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            
-            horizontalStackView.topAnchor.constraint(equalTo: containerStackView.topAnchor, constant: 10.0),
-            horizontalStackView.leadingAnchor.constraint(equalTo: containerStackView.leadingAnchor, constant: 10.0),
                     
             starImageView.heightAnchor.constraint(equalToConstant: 15.0),
             starImageView.widthAnchor.constraint(equalToConstant: 15.0)

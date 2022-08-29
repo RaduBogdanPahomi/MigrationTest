@@ -49,9 +49,6 @@ private extension MoviesViewController {
     }
     
     func loadTableView(completion: (() -> Void)? = nil) {
-        #warning("There is no point in having let moviesVC = MoviesViewController() here; we are not doing anything with this controller. This is only a load function")
-        #warning("The error under failure should be displayed on current , self, controller")
-        let moviesVC = MoviesViewController()
         fetchData { [weak self] result in
             guard let self = self else { return }
             switch result {
@@ -60,7 +57,7 @@ private extension MoviesViewController {
                 self.tableview.reloadData()
                 completion?()
             case .failure(let error):
-                self.view.showModal(title: "Error", message: error.customMessage, vc: moviesVC)
+                self.showModal(title: "Error", message: error.customMessage)
                 completion?()
             }
         }
@@ -83,18 +80,15 @@ private extension MoviesViewController {
     }
     
     func showDetail(`for` movie: Movie) {
-        #warning("We do not need let moviesVC = MoviesViewController(); We will display the error on current controller (self) ")
-        #warning(" Move this let movieDetailsVC = MovieDetailsViewController(), under success. There is no point in creating the controller outside success - consider if an error will appear. We will do nothing with the controller")
-        let movieDetailsVC = MovieDetailsViewController()
-        let moviesVC = MoviesViewController()
         Task(priority: .background) {
             let result = await service.getMovie(id: movie.id)
             switch result {
             case .success(let movie):
+                let movieDetailsVC = MovieDetailsViewController()
                 movieDetailsVC.update(withMovie: movie)
                 navigationController?.pushViewController(movieDetailsVC, animated: true)
             case .failure(let error):
-                view.showModal(title: "Error", message: error.customMessage, vc: moviesVC)
+                self.showModal(title: "Error", message: error.customMessage)
             }
         }
     }

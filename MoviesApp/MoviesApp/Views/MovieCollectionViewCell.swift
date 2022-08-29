@@ -24,11 +24,8 @@ class MovieCollectionViewCell: UICollectionViewCell {
         setupCellView()
     }
     
-    #warning("self.isUserInteractionEnabled = true is not needed. THis is by default")
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        
-        self.isUserInteractionEnabled = true
     }
         
     func update(withMovie movie: Movie) {
@@ -64,7 +61,6 @@ private extension MovieCollectionViewCell {
             movieCollectionViewFooter.leadingAnchor.constraint(equalTo: posterImageView.leadingAnchor),
             movieCollectionViewFooter.trailingAnchor.constraint(equalTo: posterImageView.trailingAnchor),
             movieCollectionViewFooter.topAnchor.constraint(equalTo: posterImageView.bottomAnchor),
-//            movieCollectionViewFooter.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
         ])
     }
 }
