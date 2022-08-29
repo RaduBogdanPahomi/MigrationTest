@@ -40,9 +40,21 @@ class MovieTableViewCell: UITableViewCell {
         let favouriteButton = UIButton()
         favouriteButton.translatesAutoresizingMaskIntoConstraints = false
         favouriteButton.tintColor = .white
-        
+        let heartImage = UIImage(systemName: "heart")
+        favouriteButton.setImage(heartImage, for: .normal)
+
         return favouriteButton
     }()
+    
+    // MARK: - Public API
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        setupCellView()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     func update(withMovie movie: Movie) {
         movieDetailsView.update(withMovie: movie)
@@ -50,29 +62,8 @@ class MovieTableViewCell: UITableViewCell {
         
         ImageDownloader.shared.downloadImage(with: movie.composedPosterPath(), completionHandler: {(image, cached) in
             self.posterImageView.image = image
-            self.setNeedsLayout()
-            self.horizontalStackView.setNeedsLayout()
+            self.activityIndicatorView.stopAnimating()
         }, placeholderImage: UIImage(named: "MoviePoster.jpeg"))
-        
-    #warning("This should be placed inside download completion")
-        activityIndicatorView.stopAnimating()
-    }
-
-    #warning("Place public lifecycle methods before other public methods ")
-    // MARK: - Public API
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        setupCellView()
-        
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    #warning("Not needed")
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
     }
 }
 
@@ -81,10 +72,6 @@ private extension MovieTableViewCell {
     func setupCellView() {
         setupSubviews()
         setupConstraints()
-        
-        #warning("We already setup favourite button in private let favouriteButton: UIButton = {. Move the code there")
-        let heartImage = UIImage(systemName: "heart")
-        favouriteButton.setImage(heartImage, for: .normal)
     }
     
     func setupSubviews() {

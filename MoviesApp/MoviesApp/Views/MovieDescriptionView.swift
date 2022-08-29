@@ -12,8 +12,9 @@ class MovieDescriptionView: UIView {
     @IBOutlet private weak var contentView: UIView!
     @IBOutlet private weak var moviePosterImageView: UIImageView!
     @IBOutlet private weak var tagStackView: UIStackView!
-    @IBOutlet private weak var movieTagLabel: DesignableLabel!
     @IBOutlet private weak var movieDescriptionLabel: UILabel!
+    private var genre: Genre?
+        
     
     // MARK: - Public API
     override init(frame: CGRect) {
@@ -24,6 +25,34 @@ class MovieDescriptionView: UIView {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         commonInit()
+    }
+    
+    func update(withMovie movie: Movie) {
+        movieDescriptionLabel.text = movie.overview
+        getMovieTagLabels(forMovie: movie)
+        
+        ImageDownloader.shared.downloadImage(with: movie.composedPosterPath(), completionHandler: {(image, cached) in
+            self.moviePosterImageView.image = image
+        }, placeholderImage: UIImage(named: "MoviePoster.jpeg"))
+    }
+    
+    func getMovieTagLabels(forMovie movie: Movie) {
+        tagStackView.subviews.forEach { (view) in
+            view.removeFromSuperview()
+        }
+        
+        if let genres = movie.genres {
+            for genre in genres {
+                let genreLabel = UILabel()
+                genreLabel.text = genre.name
+                genreLabel.textColor = .white
+                genreLabel.textAlignment = .center
+                genreLabel.borderWidth = 3
+                genreLabel.borderColor = .darkGray
+                
+                tagStackView.addArrangedSubview(genreLabel)
+            }
+        }
     }
 }
 

@@ -19,10 +19,10 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iN0-l3-epB">
-            <rect key="frame" x="0.0" y="0.0" width="640" height="140"/>
+            <rect key="frame" x="0.0" y="0.0" width="705" height="140"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" text="Spider-Man: No Way Home" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="prB-fJ-fiT">
-                    <rect key="frame" x="10" y="10" width="579" height="89"/>
+                    <rect key="frame" x="10" y="10" width="270.5" height="89"/>
                     <fontDescription key="fontDescription" type="system" pointSize="23"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <nil key="highlightedColor"/>
@@ -40,10 +40,10 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="StarIcon" translatesAutoresizingMaskIntoConstraints="NO" id="fGi-UK-5kP">
-                    <rect key="frame" x="599" y="39.5" width="31" height="30"/>
+                    <rect key="frame" x="664" y="39.5" width="31" height="30"/>
                 </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="8.7/10" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lqC-aD-CbR">
-                    <rect key="frame" x="582" y="109" width="48" height="21"/>
+                    <rect key="frame" x="647" y="109" width="48" height="21"/>
                     <fontDescription key="fontDescription" type="system" pointSize="18"/>
                     <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <nil key="highlightedColor"/>
@@ -56,7 +56,7 @@
                 <constraint firstAttribute="trailing" secondItem="fGi-UK-5kP" secondAttribute="trailing" constant="10" id="3jl-vG-5Ku"/>
                 <constraint firstItem="lqC-aD-CbR" firstAttribute="centerY" secondItem="OAq-ib-uRa" secondAttribute="centerY" id="7uw-a7-3oS"/>
                 <constraint firstItem="OAq-ib-uRa" firstAttribute="top" secondItem="prB-fJ-fiT" secondAttribute="bottom" constant="10" id="It4-cL-kJg"/>
-                <constraint firstItem="fGi-UK-5kP" firstAttribute="leading" secondItem="prB-fJ-fiT" secondAttribute="trailing" constant="10" id="Nxz-tk-ALg"/>
+                <constraint firstItem="fGi-UK-5kP" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="prB-fJ-fiT" secondAttribute="trailing" constant="10" id="Nxz-tk-ALg"/>
                 <constraint firstItem="prB-fJ-fiT" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="10" id="bAI-zq-o0A"/>
                 <constraint firstItem="ls6-pB-cYJ" firstAttribute="centerY" secondItem="OAq-ib-uRa" secondAttribute="centerY" id="cUL-77-TZ3"/>
                 <constraint firstItem="prB-fJ-fiT" firstAttribute="centerY" secondItem="fGi-UK-5kP" secondAttribute="centerY" id="fIN-kj-Oi8"/>
@@ -66,7 +66,7 @@
                 <constraint firstItem="prB-fJ-fiT" firstAttribute="leading" secondItem="OAq-ib-uRa" secondAttribute="leading" id="w6a-UU-3tL"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="192.75362318840581" y="16.071428571428569"/>
+            <point key="canvasLocation" x="239.85507246376812" y="16.071428571428569"/>
         </view>
     </objects>
     <resources>

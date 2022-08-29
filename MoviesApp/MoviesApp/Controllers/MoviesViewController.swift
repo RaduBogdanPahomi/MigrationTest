@@ -8,8 +8,16 @@
 import UIKit
 
 class MoviesViewController: UIViewController {
+    // MARK: - Private properties
     private var movies: [Movie] = []
     private var service: MoviesServiceable = MovieService()
+   
+    private let tableview: UITableView = {
+        let tableview = UITableView()
+        tableview.translatesAutoresizingMaskIntoConstraints = false
+        
+        return tableview
+    }()
     
     // MARK: - Public API
     override func viewDidLoad() {
@@ -22,16 +30,8 @@ class MoviesViewController: UIViewController {
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
-    
-    // MARK: - Private properties
-    private let tableview: UITableView = {
-        let tableview = UITableView()
-        tableview.translatesAutoresizingMaskIntoConstraints = false
-        
-        return tableview
-    }()
 }
-
+    
 // MARK: - Private API
 private extension MoviesViewController {
     func setupUserInterface() {
@@ -41,14 +41,15 @@ private extension MoviesViewController {
         setupTableView()
     }
     
-    func fetchData(completion: @escaping (Result<TopRated, RequestError>) -> Void) {
+    func fetchData(completion: @escaping (Result<MovieList, RequestError>) -> Void) {
         Task(priority: .background) {
-            let result = await service.getTopRated()
+            let result = await service.getMovieList()
             completion(result)
         }
     }
     
     func loadTableView(completion: (() -> Void)? = nil) {
+        let moviesVC = MoviesViewController()
         fetchData { [weak self] result in
             guard let self = self else { return }
             switch result {
@@ -57,7 +58,7 @@ private extension MoviesViewController {
                 self.tableview.reloadData()
                 completion?()
             case .failure(let error):
-                self.showModal(title: "Error", message: error.customMessage)
+                self.view.showModal(title: "Error", message: error.customMessage, vc: moviesVC)
                 completion?()
             }
         }
@@ -72,30 +73,26 @@ private extension MoviesViewController {
         view.addSubview(tableview)
         
         NSLayoutConstraint.activate([
-            tableview.topAnchor.constraint(equalTo: self.view.topAnchor),
-            tableview.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
-            tableview.rightAnchor.constraint(equalTo: self.view.rightAnchor),
-            tableview.leftAnchor.constraint(equalTo: self.view.leftAnchor)
+            tableview.topAnchor.constraint(equalTo: view.topAnchor),
+            tableview.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            tableview.rightAnchor.constraint(equalTo: view.rightAnchor),
+            tableview.leftAnchor.constraint(equalTo: view.leftAnchor)
         ])
     }
     
     func showDetail(`for` movie: Movie) {
         let movieDetailsVC = MovieDetailsViewController()
+        let moviesVC = MoviesViewController()
         Task(priority: .background) {
             let result = await service.getMovie(id: movie.id)
             switch result {
-            case .success(_):
+            case .success(let movie):
+                movieDetailsVC.update(withMovie: movie)
                 navigationController?.pushViewController(movieDetailsVC, animated: true)
             case .failure(let error):
-                showModal(title: "Error", message: error.customMessage)
+                view.showModal(title: "Error", message: error.customMessage, vc: moviesVC)
             }
         }
-    }
-    
-    private func showModal(title: String, message: String) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-        self.present(alert, animated: true, completion: nil)
     }
 }
 

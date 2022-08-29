@@ -26,6 +26,21 @@ class MovieDetailsHeaderView: UIView {
 		super.init(coder: aDecoder)
 		commonInit()
 	}
+    
+    func update(withMovie movie: Movie) {
+        movieTitleLabel.text = movie.originalTitle
+        movieYearLabel.text = movie.releaseDate.getYear()
+        movieLengthLabel.text = formatRuntime(forMovie: movie)
+        movieRatingLabel.text = "\(movie.voteAverage.limitNumberOfDigits(forDouble: movie.voteAverage))/10"
+    }
+    
+    func formatRuntime(forMovie movie: Movie) -> String {
+        let totalHours = movie.runtime?.minutesToHours(movie.runtime ?? 0).hours
+        let totalMinutes = movie.runtime?.minutesToHours(movie.runtime ?? 0).leftMinutes
+        let formatedRuntime = "\(Int((totalHours) ?? 0))h" + " \(Int((totalMinutes) ?? 0))m"
+        
+        return formatedRuntime
+    }
 }
 
 // MARK: - Private API

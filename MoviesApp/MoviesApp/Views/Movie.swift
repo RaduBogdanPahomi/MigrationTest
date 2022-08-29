@@ -14,7 +14,7 @@ struct Genre: Hashable, Codable {
 
 struct Movie: Codable {
     let adult: Bool
-    let backdropPath: String
+    let backdropPath: String?
     let genres: [Genre]?
     let id: Int
     let originalLanguage: String
@@ -27,7 +27,7 @@ struct Movie: Codable {
     let video: Bool
     let voteAverage: Double
     let voteCount: Int
-    
+    let runtime: Double?
     let imageSize = 500
     let posterBaseURL = "https://image.tmdb.org/t/p/w"
     
@@ -39,6 +39,7 @@ struct Movie: Codable {
         case title
         case video
         case genres
+        case runtime
         case backdropPath = "backdrop_path"
         case originalLanguage = "original_language"
         case originalTitle = "original_title"
@@ -50,5 +51,11 @@ struct Movie: Codable {
     
     func composedPosterPath() -> String {
         return posterBaseURL + "\(imageSize)" + posterPath
+    }
+    
+    func composedBackdropPath() -> String? {
+        guard let backdropPath = backdropPath else { return nil }
+            
+        return posterBaseURL + "\(imageSize)" + backdropPath
     }
 }
