@@ -30,8 +30,8 @@ class MovieCollectionViewCellFooter: UIView {
     }
 
     func update(withMovie movie: Movie) {
-        movieNameLabel.text = movie.title
-        movieRatingLabel.text = "\(movie.voteAverage)"
+        movieNameLabel.text = movie.originalTitle
+        movieRatingLabel.text = "\(movie.voteAverage.limitNumberOfDigits(forDouble: movie.voteAverage))"
     }
 }
 
@@ -39,20 +39,22 @@ class MovieCollectionViewCellFooter: UIView {
 private extension MovieCollectionViewCellFooter {
     func setupUserInterface() {
         containerStackView.axis = .vertical
-        containerStackView.backgroundColor = .darkGray
-        containerStackView.spacing = 2.0
+        containerStackView.backgroundColor = .secondaryLabel
+        containerStackView.spacing = 10.0
         containerStackView.translatesAutoresizingMaskIntoConstraints = false
         
         horizontalStackView.axis = .horizontal
         horizontalStackView.spacing = 1.0
         
         movieNameLabel.numberOfLines = 0
+        movieNameLabel.font = .systemFont(ofSize: 13.0)
         movieNameLabel.textColor = .white
 
         starImageView.contentMode = .scaleAspectFit
         starImageView.image = UIImage(named: "StarIcon.png")
         
         movieRatingLabel.numberOfLines = 0
+        movieRatingLabel.font = .systemFont(ofSize: 13.0)
         movieRatingLabel.textColor = .white
         
         containerStackView.addArrangedSubview(horizontalStackView)
@@ -73,13 +75,11 @@ private extension MovieCollectionViewCellFooter {
             containerStackView.topAnchor.constraint(equalTo: topAnchor),
             containerStackView.bottomAnchor.constraint(equalTo: bottomAnchor),
             
-            horizontalStackView.topAnchor.constraint(equalTo: containerStackView.topAnchor, constant: 5.0),
-            horizontalStackView.leadingAnchor.constraint(equalTo: containerStackView.leadingAnchor, constant: 5.0),
-            
-            starImageView.heightAnchor.constraint(equalToConstant: 15),
-            starImageView.widthAnchor.constraint(equalToConstant: 15),
-            
-            movieNameLabel.bottomAnchor.constraint(equalTo: containerStackView.bottomAnchor)
+            horizontalStackView.topAnchor.constraint(equalTo: containerStackView.topAnchor, constant: 10.0),
+            horizontalStackView.leadingAnchor.constraint(equalTo: containerStackView.leadingAnchor, constant: 10.0),
+                    
+            starImageView.heightAnchor.constraint(equalToConstant: 15.0),
+            starImageView.widthAnchor.constraint(equalToConstant: 15.0)
         ])
     }
 }

@@ -1,22 +1,20 @@
 //
-//  TopRated.swift
+//  SimilarMovies.swift
 //  MoviesApp
 //
-//  Created by Tudor Ghilvacs on 22.08.2022.
+//  Created by Tudor Ghilvacs on 26.08.2022.
 //
 
 import Foundation
 
-struct MovieList: Codable {
-    let page: Int
+struct SimilarMovies: Codable {
+    let results: [Movie]
     let totalPages: Int
     let totalResults: Int
-    let results: [Movie]
     
     enum CodingKeys: String, CodingKey {
-        case page
+        case results
         case totalPages = "total_pages"
         case totalResults = "total_results"
-        case results
     }
 }

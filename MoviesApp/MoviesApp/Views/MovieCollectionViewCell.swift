@@ -14,7 +14,6 @@ class MovieCollectionViewCell: UICollectionViewCell {
         let posterImageView = UIImageView()
         posterImageView.translatesAutoresizingMaskIntoConstraints = false
         posterImageView.contentMode = .scaleAspectFit
-        posterImageView.image = UIImage(named: "MoviePoster.jpeg")
         
         return posterImageView
     }()
@@ -25,18 +24,19 @@ class MovieCollectionViewCell: UICollectionViewCell {
         setupCellView()
     }
     
+    #warning("self.isUserInteractionEnabled = true is not needed. THis is by default")
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         
         self.isUserInteractionEnabled = true
     }
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-    }
-    
+        
     func update(withMovie movie: Movie) {
         movieCollectionViewFooter.update(withMovie: movie)
+        
+        ImageDownloader.shared.downloadImage(with: movie.composedPosterPath(), completionHandler: {(image, cached) in
+            self.posterImageView.image = image
+        }, placeholderImage: UIImage(named: "MoviePoster.jpeg"))
     }
 }
 
@@ -56,14 +56,15 @@ private extension MovieCollectionViewCell {
     
     func setupConstraints() {
         NSLayoutConstraint.activate([
+            posterImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
             posterImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             posterImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            posterImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            posterImageView.heightAnchor.constraint(equalToConstant: 200.0),
             
-            movieCollectionViewFooter.leadingAnchor.constraint(equalTo: posterImageView.leadingAnchor, constant: 5.0),
-            movieCollectionViewFooter.trailingAnchor.constraint(equalTo: posterImageView.trailingAnchor, constant: -5.0),
+            movieCollectionViewFooter.leadingAnchor.constraint(equalTo: posterImageView.leadingAnchor),
+            movieCollectionViewFooter.trailingAnchor.constraint(equalTo: posterImageView.trailingAnchor),
             movieCollectionViewFooter.topAnchor.constraint(equalTo: posterImageView.bottomAnchor),
-            movieCollectionViewFooter.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+//            movieCollectionViewFooter.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
         ])
     }
 }

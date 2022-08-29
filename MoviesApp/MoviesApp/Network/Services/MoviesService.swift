@@ -8,16 +8,21 @@
 import Foundation
 
 protocol MoviesServiceable {
-    func getTopRated() async -> Result<TopRated, RequestError>
+    func getMovieList() async -> Result<MovieList, RequestError>
     func getMovie(id: Int) async -> Result<Movie, RequestError>
+    func getSimilarMovies(id: Int) async -> Result<SimilarMovies, RequestError>
 }
 
 struct MovieService: HTTPClient, MoviesServiceable {
-    func getTopRated() async -> Result<TopRated, RequestError> {
-        return await sendRequest(endpoint: MoviesEndpoint.topRated, responseModel: TopRated.self)
+    func getMovieList() async -> Result<MovieList, RequestError> {
+        return await sendRequest(endpoint: MoviesEndpoint.movieList, responseModel: MovieList.self)
     }
     
     func getMovie(id: Int) async -> Result<Movie, RequestError> {
         return await sendRequest(endpoint: MoviesEndpoint.movie(id: id), responseModel: Movie.self)
+    }
+    
+    func getSimilarMovies(id: Int) async -> Result<SimilarMovies ,RequestError> {
+        return await sendRequest(endpoint: MoviesEndpoint.similarMovie(id: id), responseModel: SimilarMovies.self)
     }
 }

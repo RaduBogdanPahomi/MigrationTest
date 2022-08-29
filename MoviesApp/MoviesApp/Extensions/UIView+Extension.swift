@@ -46,3 +46,12 @@ extension UIView {
         return String(describing: self)
     }
 }
+
+extension UIView {
+    #warning("This function should be an extension for UIViewController. In this way, we will not need the VC parameter.")
+    func showModal(title: String, message: String, vc: UIViewController) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+        vc.present(alert, animated: true, completion: nil)
+    }
+}
