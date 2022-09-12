@@ -28,7 +28,6 @@
 		35AEAEC428CF3F1F0091F176 /* FavoriteMovie+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35AEAEC228CF3F1F0091F176 /* FavoriteMovie+CoreDataClass.swift */; };
 		35AEAEC528CF3F1F0091F176 /* FavoriteMovie+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35AEAEC328CF3F1F0091F176 /* FavoriteMovie+CoreDataProperties.swift */; };
 		35AEAEC728CF4ACA0091F176 /* FavoriteMovieProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35AEAEC628CF4ACA0091F176 /* FavoriteMovieProvider.swift */; };
-		35AEAEC928CF4B410091F176 /* FavoritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35AEAEC828CF4B410091F176 /* FavoritesViewController.swift */; };
 		35B3BD9C28B3605000CF388C /* TopRated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B3BD9B28B3605000CF388C /* TopRated.swift */; };
 		35D0A0FE28B3AD3D007C1ED6 /* ImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D0A0FD28B3AD3D007C1ED6 /* ImageDownloader.swift */; };
 		35EAE29E28A3ADB800A2D796 /* MovieTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35EAE29D28A3ADB800A2D796 /* MovieTableViewCell.swift */; };
@@ -68,7 +67,6 @@
 		35AEAEC228CF3F1F0091F176 /* FavoriteMovie+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FavoriteMovie+CoreDataClass.swift"; sourceTree = "<group>"; };
 		35AEAEC328CF3F1F0091F176 /* FavoriteMovie+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FavoriteMovie+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		35AEAEC628CF4ACA0091F176 /* FavoriteMovieProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteMovieProvider.swift; sourceTree = "<group>"; };
-		35AEAEC828CF4B410091F176 /* FavoritesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesViewController.swift; sourceTree = "<group>"; };
 		35B3BD9B28B3605000CF388C /* TopRated.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TopRated.swift; path = MoviesApp/Network/Services/TopRated.swift; sourceTree = SOURCE_ROOT; };
 		35D0A0FD28B3AD3D007C1ED6 /* ImageDownloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDownloader.swift; sourceTree = "<group>"; };
 		35EAE29D28A3ADB800A2D796 /* MovieTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieTableViewCell.swift; sourceTree = "<group>"; };
@@ -244,7 +242,6 @@
 			children = (
 				A269401728AE30100040A726 /* MovieDetailsViewController.swift */,
 				A269401628AE30100040A726 /* MoviesViewController.swift */,
-				35AEAEC828CF4B410091F176 /* FavoritesViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -339,7 +336,6 @@
 				35AEAEA928CF2B5D0091F176 /* CoreDataStack.swift in Sources */,
 				357D422E28B8BD7B00513C9F /* SimilarMovies.swift in Sources */,
 				358973A228AB99F400D91903 /* MovieDescriptionView.swift in Sources */,
-				35AEAEC928CF4B410091F176 /* FavoritesViewController.swift in Sources */,
 				A230C99028B53D1500A10A8C /* String+Utils.swift in Sources */,
 				35B3BD9C28B3605000CF388C /* TopRated.swift in Sources */,
 				A20F11BF28A67AD900CD4207 /* UITableView+Extension.swift in Sources */,
