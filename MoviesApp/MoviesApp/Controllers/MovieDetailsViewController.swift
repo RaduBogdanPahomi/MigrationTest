@@ -13,6 +13,13 @@ class MovieDetailsViewController: UIViewController {
     private var movie: Movie?
     private var movies: [Movie] = []
     
+    private let isFavoriteButtonImageView: UIImageView = {
+        let isFavoriteButtonImageView = UIImageView(image: UIImage(systemName: "heart"))
+        isFavoriteButtonImageView.tintColor = .red
+        
+        return isFavoriteButtonImageView
+    }()
+
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -93,6 +100,7 @@ private extension MovieDetailsViewController {
     func setupUserInterface() {
         title = "\(movie?.originalTitle ?? "")"
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: isFavoriteButtonImageView.image, style: .plain, target: self, action: .none)
         
         view.addSubview(scrollView)
         
@@ -174,11 +182,11 @@ private extension MovieDetailsViewController {
             similarMoviesLabel.topAnchor.constraint(equalTo: descriptionView.bottomAnchor, constant: 20.0),
             similarMoviesLabel.leadingAnchor.constraint(equalTo: scrollContentLayoutGuide.leadingAnchor),
 
-            collectionview.topAnchor.constraint(equalTo: similarMoviesLabel.bottomAnchor, constant: 10.0),
+            collectionview.topAnchor.constraint(equalTo: similarMoviesLabel.bottomAnchor),
             collectionview.bottomAnchor.constraint(equalTo: scrollContentLayoutGuide.bottomAnchor),
             collectionview.leadingAnchor.constraint(equalTo: scrollContentLayoutGuide.leadingAnchor),
             collectionview.trailingAnchor.constraint(equalTo: scrollContentLayoutGuide.trailingAnchor),
-            collectionview.heightAnchor.constraint(equalToConstant: 400.0)
+            collectionview.heightAnchor.constraint(equalToConstant: 350.0)
         ])
     }
     

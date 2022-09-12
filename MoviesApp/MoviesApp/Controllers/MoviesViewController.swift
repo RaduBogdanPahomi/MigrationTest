@@ -11,6 +11,7 @@ class MoviesViewController: UIViewController {
     // MARK: - Private properties
     private var movies: [Movie] = []
     private var service: MoviesServiceable = MovieService()
+    private let filterButtonImage = UIImage(systemName: "arrow.up.arrow.down.circle")
    
     private let tableview: UITableView = {
         let tableview = UITableView()
@@ -37,6 +38,7 @@ private extension MoviesViewController {
     func setupUserInterface() {
         title = "All Movies"
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: filterButtonImage, style: .plain, target: self, action: .none)
         
         setupTableView()
     }
