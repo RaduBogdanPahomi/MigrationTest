@@ -43,8 +43,6 @@ final class FavoriteMovieViewModel: NSObject {
     }
     
     func getAllFavouriteMovies() -> [FavoriteMovie]? {
-        
-        print(" ----- getAllFavouriteMovies")
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return nil }
         
         let managedContext = appDelegate.persistentContainer.viewContext
