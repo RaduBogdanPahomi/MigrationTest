@@ -109,5 +109,3 @@ private extension MovieDetailsView {
         ])
     }
 }
-
-
