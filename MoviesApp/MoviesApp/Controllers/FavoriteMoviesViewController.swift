@@ -49,8 +49,8 @@ class FavoriteMoviesViewController: UIViewController {
         let submitButton = UIAlertAction(title: "Add", style: .default) { (action) in
             let text = alert.textFields![0]
             let newMovie = FavoriteMovie(context: self.context)
-            newMovie.name = text.text
-            self.title = newMovie.name
+            newMovie.originalTitle = text.text
+            self.title = newMovie.originalTitle
             do {
                 try self.context.save()
             } catch {
@@ -100,7 +100,7 @@ extension FavoriteMoviesViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath)
         let favorite = self.items?[indexPath.row]
-        cell.textLabel?.text = favorite?.name ?? ""
+        cell.textLabel?.text = favorite?.originalTitle ?? ""
 
         return cell
     }

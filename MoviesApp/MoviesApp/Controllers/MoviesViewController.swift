@@ -12,6 +12,7 @@ class MoviesViewController: UIViewController {
     private var movies: [Movie] = []
     private var service: MoviesServiceable = MovieService()
     private let filterButtonImage = UIImage(systemName: "arrow.up.arrow.down.circle")
+    private let viewModel = FavoriteMovieViewModel()
    
     private let tableview: UITableView = {
         let tableview = UITableView()
@@ -104,9 +105,18 @@ extension MoviesViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableview.dequeueReusableCell(withIdentifier: "cellId", for: indexPath) as! MovieTableViewCell
+        
+        let movie = movies[indexPath.row]
+        cell.favouriteAction = {[weak self] isFavourite in
+            self?.viewModel.markMovie(withId: movie.id, asFavorite: isFavourite)
+        }
+        
         cell.accessoryView = UIImageView(image: UIImage(systemName: "chevron.right"))
         cell.tintColor = .white
-        cell.update(withMovie: movies[indexPath.row])
+        
+        cell.update(withMovie: movie, isFavourite: viewModel.allFavouriteMovies?.contains(where: { favMovie in
+            favMovie.id == movie.id
+        }) ?? false)
         return cell
     }
 }

@@ -2,7 +2,7 @@
 //  FavoriteMovie+CoreDataProperties.swift
 //  MoviesApp
 //
-//  Created by Tudor Ghilvacs on 12.09.2022.
+//  Created by bogdan.pahomi on 14.09.2022.
 //
 //
 
@@ -15,9 +15,10 @@ extension FavoriteMovie {
     @nonobjc public class func fetchRequest() -> NSFetchRequest<FavoriteMovie> {
         return NSFetchRequest<FavoriteMovie>(entityName: "FavoriteMovie")
     }
-    
-    @NSManaged public var name: String?
-    
+
+    @NSManaged public var originalTitle: String?
+    @NSManaged public var id: Int64
+
 }
 
 extension FavoriteMovie : Identifiable {
