@@ -12,12 +12,17 @@ class MovieDetailsViewController: UIViewController {
     private var service: MoviesServiceable = MovieService()
     private var movie: Movie?
     private var movies: [Movie] = []
+    private var favouriteAction: ((Bool) -> Void)?
+    private let viewModel = FavoriteMovieViewModel()
     
-    private let isFavoriteButtonImageView: UIImageView = {
-        let isFavoriteButtonImageView = UIImageView(image: UIImage(systemName: "heart"))
-        isFavoriteButtonImageView.tintColor = .red
+    private let favouriteButton: UIBarButtonItem = {
+        let heartImageNormal = UIImage(systemName: "heart")
+        let heartImageSelected = UIImage(systemName: "heart.fill")
+        let favouriteButton = UIBarButtonItem(image: .none , style: .plain, target: self, action: #selector(favouriteButtonAction))
+        favouriteButton.setBackgroundImage(heartImageNormal, for: .normal, style: .plain, barMetrics: .default)
+        favouriteButton.setBackgroundImage(heartImageSelected, for: .selected, style: .plain, barMetrics: .default)
         
-        return isFavoriteButtonImageView
+        return favouriteButton
     }()
 
     private let scrollView: UIScrollView = {
@@ -93,6 +98,11 @@ class MovieDetailsViewController: UIViewController {
         detailsHeaderView.update(withMovie: movie)
         descriptionView.update(withMovie: movie)
     }
+    
+    @objc func favouriteButtonAction() {
+        favouriteButton.isSelected = !favouriteButton.isSelected
+        favouriteAction?(favouriteButton.isSelected)
+    }
 }
 
 // MARK: - Private API
@@ -100,7 +110,7 @@ private extension MovieDetailsViewController {
     func setupUserInterface() {
         title = "\(movie?.originalTitle ?? "")"
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: isFavoriteButtonImageView.image, style: .plain, target: self, action: .none)
+        navigationItem.rightBarButtonItem = favouriteButton
         
         view.addSubview(scrollView)
         
@@ -118,6 +128,10 @@ private extension MovieDetailsViewController {
             }, placeholderImage: UIImage(named: "MoviePoster.jpeg"))
         } else {
             landscapePosterImageView.image = UIImage(named: "MoviePoster.jpeg")
+        }
+        
+        self.favouriteAction = {[weak self] isFavourite in
+            self?.viewModel.markMovie(withId: self!.movie!.id, asFavorite: isFavourite)
         }
         
         collectionview.delegate = self
