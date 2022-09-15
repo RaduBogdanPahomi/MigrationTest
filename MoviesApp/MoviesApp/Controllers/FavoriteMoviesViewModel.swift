@@ -18,6 +18,10 @@ final class FavoriteMovieViewModel: NSObject {
         allFavouriteMovies = getAllFavouriteMovies()
     }
     
+    func isFavoriteMovie(withId movieId: Int) -> Bool {
+        return getMovie(withId: movieId) != nil
+    }
+        
     func markMovie(withId movieId: Int, asFavorite favorite: Bool) {
         //If movie exists, then we will remove the record
         if favorite == false {

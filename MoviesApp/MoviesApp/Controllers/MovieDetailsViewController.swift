@@ -10,18 +10,17 @@ import UIKit
 class MovieDetailsViewController: UIViewController {
     // MARK: - Private properties
     private var service: MoviesServiceable = MovieService()
-    private var movie: Movie?
+    private var movie: Movie!
     private var movies: [Movie] = []
-    private var favouriteAction: ((Bool) -> Void)?
     private let viewModel = FavoriteMovieViewModel()
     
-    private let favouriteButton: UIBarButtonItem = {
-        let heartImageNormal = UIImage(systemName: "heart")
-        let heartImageSelected = UIImage(systemName: "heart.fill")
-        let favouriteButton = UIBarButtonItem(image: .none , style: .plain, target: self, action: #selector(favouriteButtonAction))
-        favouriteButton.setBackgroundImage(heartImageNormal, for: .normal, style: .plain, barMetrics: .default)
-        favouriteButton.setBackgroundImage(heartImageSelected, for: .selected, style: .plain, barMetrics: .default)
-        
+    private lazy var favouriteButton: UIBarButtonItem = {
+        let favouriteButton = UIBarButtonItem(image: .none,
+                                              style: .plain,
+                                              target: self, action:
+                                                #selector(favouriteButtonAction))
+        favouriteButton.image = UIImage(systemName: viewModel.isFavoriteMovie(withId: movie.id) ? "heart.fill" : "heart")
+        favouriteButton.tintColor = .red
         return favouriteButton
     }()
 
@@ -100,8 +99,8 @@ class MovieDetailsViewController: UIViewController {
     }
     
     @objc func favouriteButtonAction() {
-        favouriteButton.isSelected = !favouriteButton.isSelected
-        favouriteAction?(favouriteButton.isSelected)
+        viewModel.markMovie(withId: movie.id, asFavorite: !viewModel.isFavoriteMovie(withId: movie.id))
+        favouriteButton.image = UIImage(systemName: viewModel.isFavoriteMovie(withId: movie.id) ? "heart.fill" : "heart")
     }
 }
 
@@ -128,10 +127,6 @@ private extension MovieDetailsViewController {
             }, placeholderImage: UIImage(named: "MoviePoster.jpeg"))
         } else {
             landscapePosterImageView.image = UIImage(named: "MoviePoster.jpeg")
-        }
-        
-        self.favouriteAction = {[weak self] isFavourite in
-            self?.viewModel.markMovie(withId: self!.movie!.id, asFavorite: isFavourite)
         }
         
         collectionview.delegate = self
