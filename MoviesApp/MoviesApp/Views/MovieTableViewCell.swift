@@ -40,6 +40,7 @@ class MovieTableViewCell: UITableViewCell {
     private let favoriteButton: UIButton = {
         let favoriteButton = UIButton()
         favoriteButton.translatesAutoresizingMaskIntoConstraints = false
+        favoriteButton.backgroundColor = UIColor(red: 0.3, green: 0.3, blue: 0.3, alpha: 0.5)
         favoriteButton.tintColor = .red
         let heartImageNormal = UIImage(systemName: "heart")
         let heartImageSelected = UIImage(systemName: "heart.fill")
@@ -66,6 +67,17 @@ class MovieTableViewCell: UITableViewCell {
         favoriteButton.isSelected = isFavourite
         
         ImageDownloader.shared.downloadImage(with: movie.composedPosterPath(), completionHandler: {(image, cached) in
+            self.posterImageView.image = image
+            self.activityIndicatorView.stopAnimating()
+        }, placeholderImage: UIImage(named: "MoviePoster.jpeg"))
+    }
+    
+    func updateFavorite(withFavorite favorite: FavoriteMovie) {
+        movieDetailsView.updateFavorite(withFavorite: favorite)
+        activityIndicatorView.startAnimating()
+        favoriteButton.isHidden = true
+        
+        ImageDownloader.shared.downloadImage(with: favorite.composedPosterPath(), completionHandler: {(image, cached) in
             self.posterImageView.image = image
             self.activityIndicatorView.stopAnimating()
         }, placeholderImage: UIImage(named: "MoviePoster.jpeg"))
@@ -110,8 +122,10 @@ private extension MovieTableViewCell {
             activityIndicatorView.centerXAnchor.constraint(equalTo: posterImageView.centerXAnchor),
             activityIndicatorView.centerYAnchor.constraint(equalTo: posterImageView.centerYAnchor),
                         
-            favoriteButton.leadingAnchor.constraint(equalTo: posterImageView.leadingAnchor, constant: 5.0),
-            favoriteButton.topAnchor.constraint(equalTo: posterImageView.topAnchor, constant: 5.0)
+            favoriteButton.leadingAnchor.constraint(equalTo: posterImageView.leadingAnchor),
+            favoriteButton.topAnchor.constraint(equalTo: posterImageView.topAnchor),
+            favoriteButton.widthAnchor.constraint(equalToConstant: 40.0),
+            favoriteButton.heightAnchor.constraint(equalToConstant: 40.0)
         ])
     }
 }

@@ -10,11 +10,17 @@ import CoreData
 
 class FavoriteMoviesViewController: UIViewController {
     //MARK: - Private properties
-    @IBOutlet private weak var tableView: UITableView!
-    @IBOutlet private weak var plusButton: UIBarButtonItem!
-    
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-    private var items: [FavoriteMovie]?
+    private var viewModel = FavoriteMovieViewModel()
+    private var service: MoviesServiceable = MovieService()
+    private var movies: [FavoriteMovie] = []
+    
+    private let tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        
+        return tableView
+    }()
     
     //MARK: - Public API
     override func viewDidLoad() {
@@ -22,62 +28,27 @@ class FavoriteMoviesViewController: UIViewController {
         setupUserInterface()
     }
     
-    func fetchMovies() {
-        do {
-            self.items = try context.fetch(FavoriteMovie.fetchRequest())
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
-        } catch {
-            print("Fetch Error")
-        }
-    }
-    
-    func retrieveData() {
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "FavoriteMovie")
-        do {
-            let result = try context.fetch(fetchRequest)
-        } catch {
-            print("Retrieving Error")
-        }
-    }
-    
-    @IBAction func addTapped(_ sender: UIButton) {
-        let alert = UIAlertController(title: "Add Movie", message: "Add Movie", preferredStyle: .alert)
-        alert.addTextField()
-        
-        let submitButton = UIAlertAction(title: "Add", style: .default) { (action) in
-            let text = alert.textFields![0]
-            let newMovie = FavoriteMovie(context: self.context)
-            newMovie.originalTitle = text.text
-            self.title = newMovie.originalTitle
-            do {
-                try self.context.save()
-            } catch {
-                print("Saving Error")
-            }
-            self.fetchMovies()
-        }
-        
-        alert.addAction(submitButton)
-        self.present(alert, animated: true, completion: nil)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.movies = viewModel.getAllFavouriteMovies() ?? []
+        tableView.reloadData()
     }
 }
 
 //MARK: - Private API
 private extension FavoriteMoviesViewController {
     func setupUserInterface() {
+        navigationItem.title = "Favorites"
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add", style: .plain, target: self, action: #selector(addTapped))
-        retrieveData()
+        
         setupTableView()
     }
-    
+        
     func setupTableView() {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.backgroundColor = .black
-        tableView.register(FavoriteMovieCell.self, forCellReuseIdentifier: "cellId")
+        tableView.register(MovieTableViewCell.self, forCellReuseIdentifier: "cellId")
         
         view.addSubview(tableView)
         
@@ -89,19 +60,32 @@ private extension FavoriteMoviesViewController {
         ])
     }
     
+    func showDetail(`for` movie: FavoriteMovie) {
+        Task(priority: .background) {
+            let result = await service.getMovie(id: Int(movie.id))
+            switch result {
+            case .success(let movie):
+                let movieDetailsVC = MovieDetailsViewController()
+                movieDetailsVC.update(withMovie: movie)
+                navigationController?.pushViewController(movieDetailsVC, animated: true)
+            case .failure(let error):
+                self.showModal(title: "Error", message: error.customMessage)
+            }
+        }
+    }
 }
 
 // MARK: - UITableViewDataSource protocol
 extension FavoriteMoviesViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return items?.count ?? 0
+        return movies.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath)
-        let favorite = self.items?[indexPath.row]
-        cell.textLabel?.text = favorite?.originalTitle ?? ""
-
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath) as! MovieTableViewCell
+        let favorite = movies[indexPath.row]
+        cell.updateFavorite(withFavorite: favorite)
+        
         return cell
     }
 }
@@ -109,6 +93,6 @@ extension FavoriteMoviesViewController: UITableViewDataSource {
 // MARK: - UITableViewDelegate protocol
 extension FavoriteMoviesViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        showDetail(for: movies[indexPath.row])
     }
 }

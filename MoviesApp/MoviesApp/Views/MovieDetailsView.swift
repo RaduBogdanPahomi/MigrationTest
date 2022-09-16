@@ -61,6 +61,12 @@ class MovieDetailsView: UIView {
         movieRatingLabel.text = "\(movie.voteAverage)"
         movieYearLabel.text = movie.releaseDate.getYear() ?? ""
     }
+    
+    func updateFavorite(withFavorite favorite: FavoriteMovie) {
+        movieNameLabel.text = favorite.originalTitle
+        movieRatingLabel.text = "\(favorite.voteAverage)"
+        movieYearLabel.text = favorite.releaseDate?.getYear() ?? ""
+    }
 }
 
 // MARK: - Private API

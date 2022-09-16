@@ -12,6 +12,7 @@ class MovieDetailsViewController: UIViewController {
     private var service: MoviesServiceable = MovieService()
     private var movie: Movie!
     private var movies: [Movie] = []
+    private var favMovie: FavoriteMovie!
     private let viewModel = FavoriteMovieViewModel()
     
     private lazy var favouriteButton: UIBarButtonItem = {
@@ -87,9 +88,10 @@ class MovieDetailsViewController: UIViewController {
         setupUserInterface()
         loadCollectionView()
     }
-
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .lightContent
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        view.reloadInputViews()
     }
     
     func update(withMovie movie: Movie) {
@@ -99,7 +101,7 @@ class MovieDetailsViewController: UIViewController {
     }
     
     @objc func favouriteButtonAction() {
-        viewModel.markMovie(withId: movie.id, asFavorite: !viewModel.isFavoriteMovie(withId: movie.id))
+        viewModel.markMovie(movie: movie, withId: movie.id, asFavorite: !viewModel.isFavoriteMovie(withId: movie.id))
         favouriteButton.image = UIImage(systemName: viewModel.isFavoriteMovie(withId: movie.id) ? "heart.fill" : "heart")
     }
 }
@@ -162,7 +164,6 @@ private extension MovieDetailsViewController {
     }
     
     func setupConstraints() {
-        
         let scrollContentLayoutGuide = scrollView.contentLayoutGuide
         
         NSLayoutConstraint.activate([
@@ -228,6 +229,7 @@ extension MovieDetailsViewController: UICollectionViewDataSource {
         let cell = collectionview.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! MovieCollectionViewCell
         
         cell.update(withMovie: movies[indexPath.section])
+        
         return cell
     }
 }

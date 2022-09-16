@@ -11,7 +11,6 @@ class MoviesViewController: UIViewController {
     // MARK: - Private properties
     private var movies: [Movie] = []
     private var service: MoviesServiceable = MovieService()
-    private let filterButtonImage = UIImage(systemName: "arrow.up.arrow.down.circle")
     private let viewModel = FavoriteMovieViewModel()
    
     private let tableview: UITableView = {
@@ -19,6 +18,13 @@ class MoviesViewController: UIViewController {
         tableview.translatesAutoresizingMaskIntoConstraints = false
         
         return tableview
+    }()
+    
+    private let filterButton: UIBarButtonItem = {
+        let filterButtonImage = UIImage(systemName: "arrow.up.arrow.down.circle")
+        let filterButton = UIBarButtonItem(image: filterButtonImage, style: .plain, target: self, action: .none)
+        
+        return filterButton
     }()
     
     // MARK: - Public API
@@ -31,12 +37,7 @@ class MoviesViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         tableview.reloadData()
-    }
-    
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .lightContent
     }
 }
     
@@ -45,8 +46,7 @@ private extension MoviesViewController {
     func setupUserInterface() {
         title = "All Movies"
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: filterButtonImage, style: .plain, target: self, action: .none)
-        
+        navigationItem.rightBarButtonItem = filterButton
         setupTableView()
     }
     
@@ -111,10 +111,10 @@ extension MoviesViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableview.dequeueReusableCell(withIdentifier: "cellId", for: indexPath) as! MovieTableViewCell
-        
         let movie = movies[indexPath.row]
+        
         cell.favouriteAction = {[weak self] isFavourite in
-            self?.viewModel.markMovie(withId: movie.id, asFavorite: isFavourite)
+            self?.viewModel.markMovie(movie: movie, withId: movie.id, asFavorite: isFavourite)
         }
         
         cell.accessoryView = UIImageView(image: UIImage(systemName: "chevron.right"))
@@ -123,6 +123,7 @@ extension MoviesViewController: UITableViewDataSource {
         cell.update(withMovie: movie, isFavourite: viewModel.allFavouriteMovies?.contains(where: { favMovie in
             favMovie.id == movie.id
         }) ?? false)
+        
         return cell
     }
 }

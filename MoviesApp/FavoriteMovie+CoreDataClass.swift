@@ -2,7 +2,7 @@
 //  FavoriteMovie+CoreDataClass.swift
 //  MoviesApp
 //
-//  Created by bogdan.pahomi on 14.09.2022.
+//  Created by Tudor Ghilvacs on 16.09.2022.
 //
 //
 
@@ -11,5 +11,6 @@ import CoreData
 
 
 public class FavoriteMovie: NSManagedObject {
-
+    let imageSize = 500
+    let posterBaseURL = "https://image.tmdb.org/t/p/w"
 }

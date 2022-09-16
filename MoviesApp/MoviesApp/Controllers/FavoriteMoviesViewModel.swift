@@ -22,12 +22,12 @@ final class FavoriteMovieViewModel: NSObject {
         return getMovie(withId: movieId) != nil
     }
         
-    func markMovie(withId movieId: Int, asFavorite favorite: Bool) {
+    func markMovie(movie: Movie, withId movieId: Int, asFavorite favorite: Bool) {
         //If movie exists, then we will remove the record
         if favorite == false {
-            deleteMovie(withId: movieId)
+            deleteMovie(favMovie: movie)
         } else {
-            addMovie(withId: movieId)
+            addMovie(favMovie: movie)
         }
     }
     
@@ -59,12 +59,11 @@ final class FavoriteMovieViewModel: NSObject {
         }
     }
 
-    func deleteMovie(withId movieId: Int) {
+    func deleteMovie(favMovie: Movie) {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-        
         let managedContext = appDelegate.persistentContainer.viewContext
         let fetchRequest = FavoriteMovie.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "id == \(movieId)")
+        fetchRequest.predicate = NSPredicate(format: "id == \(favMovie.id)")
         
         do {
             guard let movie = try managedContext.fetch(fetchRequest).first else { return }
@@ -82,13 +81,15 @@ final class FavoriteMovieViewModel: NSObject {
         allFavouriteMovies = getAllFavouriteMovies()
     }
     
-    func addMovie(withId movieId: Int) {
+    func addMovie(favMovie: Movie) {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-        
         let managedContext = appDelegate.persistentContainer.viewContext
-        
         let movie = FavoriteMovie(context: managedContext)
-        movie.id = Int64(movieId)
+        movie.id = Int64(favMovie.id)
+        movie.voteAverage = favMovie.voteAverage
+        movie.originalTitle = favMovie.originalTitle
+        movie.posterPath = favMovie.posterPath
+        movie.releaseDate = favMovie.releaseDate
         
         do {
             try managedContext.save()
