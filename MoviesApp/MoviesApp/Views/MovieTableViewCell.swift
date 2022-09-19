@@ -10,6 +10,7 @@ import UIKit
 class MovieTableViewCell: UITableViewCell {
     // MARK: - Private properties
     private let movieDetailsView = MovieDetailsView()
+    var favouriteAction: ((Bool) -> Void)?
 
     private let horizontalStackView: UIStackView = {
         let horizontalStackView = UIStackView()
@@ -36,14 +37,18 @@ class MovieTableViewCell: UITableViewCell {
         return activityIndicatorView
     }()
     
-    private let favouriteButton: UIButton = {
-        let favouriteButton = UIButton()
-        favouriteButton.translatesAutoresizingMaskIntoConstraints = false
-        favouriteButton.tintColor = .white
-        let heartImage = UIImage(systemName: "heart")
-        favouriteButton.setImage(heartImage, for: .normal)
+    private let favoriteButton: UIButton = {
+        let favoriteButton = UIButton()
+        favoriteButton.translatesAutoresizingMaskIntoConstraints = false
+        favoriteButton.backgroundColor = UIColor(red: 0.3, green: 0.3, blue: 0.3, alpha: 0.5)
+        favoriteButton.tintColor = .red
+        let heartImageNormal = UIImage(systemName: "heart")
+        let heartImageSelected = UIImage(systemName: "heart.fill")
+        favoriteButton.setImage(heartImageNormal, for: .normal)
+        favoriteButton.setImage(heartImageSelected, for: .selected)
+        favoriteButton.addTarget(self, action: #selector(favouriteButtonAction), for: .touchUpInside)
 
-        return favouriteButton
+        return favoriteButton
     }()
     
     // MARK: - Public API
@@ -60,10 +65,18 @@ class MovieTableViewCell: UITableViewCell {
         movieDetailsView.update(withMovie: movie)
         activityIndicatorView.startAnimating()
         
+        let isFavourite = CoreDataManager.sharedManager.isFavoriteMovie(withId: movie.id)
+        favoriteButton.isSelected = isFavourite
+        
         ImageDownloader.shared.downloadImage(with: movie.composedPosterPath(), completionHandler: {(image, cached) in
             self.posterImageView.image = image
             self.activityIndicatorView.stopAnimating()
         }, placeholderImage: UIImage(named: "MoviePoster.jpeg"))
+    }
+        
+    @objc func favouriteButtonAction() {
+        favoriteButton.isSelected = !favoriteButton.isSelected
+        favouriteAction?(favoriteButton.isSelected)
     }
 }
 
@@ -82,7 +95,8 @@ private extension MovieTableViewCell {
         horizontalStackView.addArrangedSubview(posterImageView)
         horizontalStackView.addArrangedSubview(movieDetailsView)
         
-        posterImageView.addSubview(favouriteButton)
+        posterImageView.isUserInteractionEnabled = true
+        posterImageView.addSubview(favoriteButton)
         posterImageView.addSubview(activityIndicatorView)
     }
        
@@ -99,8 +113,10 @@ private extension MovieTableViewCell {
             activityIndicatorView.centerXAnchor.constraint(equalTo: posterImageView.centerXAnchor),
             activityIndicatorView.centerYAnchor.constraint(equalTo: posterImageView.centerYAnchor),
                         
-            favouriteButton.leadingAnchor.constraint(equalTo: posterImageView.leadingAnchor, constant: 5.0),
-            favouriteButton.topAnchor.constraint(equalTo: posterImageView.topAnchor, constant: 5.0)
+            favoriteButton.leadingAnchor.constraint(equalTo: posterImageView.leadingAnchor),
+            favoriteButton.topAnchor.constraint(equalTo: posterImageView.topAnchor),
+            favoriteButton.widthAnchor.constraint(equalToConstant: 40.0),
+            favoriteButton.heightAnchor.constraint(equalToConstant: 40.0)
         ])
     }
 }
