@@ -19,6 +19,13 @@ class MoviesViewController: UIViewController {
         return tableview
     }()
     
+    private let filterButton: UIBarButtonItem = {
+        let filterButtonImage = UIImage(systemName: "arrow.up.arrow.down.circle")
+        let filterButton = UIBarButtonItem(image: filterButtonImage, style: .plain, target: self, action: .none)
+        
+        return filterButton
+    }()
+    
     // MARK: - Public API
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,8 +34,9 @@ class MoviesViewController: UIViewController {
         loadTableView()
     }
     
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .lightContent
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableview.reloadData()
     }
 }
     
@@ -37,7 +45,7 @@ private extension MoviesViewController {
     func setupUserInterface() {
         title = "All Movies"
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
-        
+        navigationItem.rightBarButtonItem = filterButton
         setupTableView()
     }
     
@@ -48,17 +56,16 @@ private extension MoviesViewController {
         }
     }
     
-    func loadTableView(completion: (() -> Void)? = nil) {
+    func loadTableView() {
         fetchData { [weak self] result in
             guard let self = self else { return }
+            
             switch result {
             case .success(let response):
                 self.movies = response.results
                 self.tableview.reloadData()
-                completion?()
             case .failure(let error):
                 self.showModal(title: "Error", message: error.customMessage)
-                completion?()
             }
         }
     }
@@ -102,9 +109,17 @@ extension MoviesViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableview.dequeueReusableCell(withIdentifier: "cellId", for: indexPath) as! MovieTableViewCell
+        let movie = movies[indexPath.row]
+        
+        cell.favouriteAction = { isFavourite in
+            CoreDataManager.sharedManager.markMovie(withId: movie.id, asFavorite: isFavourite)
+        }
+        
         cell.accessoryView = UIImageView(image: UIImage(systemName: "chevron.right"))
         cell.tintColor = .white
-        cell.update(withMovie: movies[indexPath.row])
+        
+        cell.update(withMovie: movie)
+        
         return cell
     }
 }

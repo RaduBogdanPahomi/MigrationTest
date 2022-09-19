@@ -21,7 +21,7 @@ struct Movie: Codable {
     let originalTitle: String
     let overview: String
     let popularity: Double
-    let posterPath: String
+    let posterPath: String?
     let releaseDate: String
     let title: String
     let video: Bool
@@ -50,7 +50,7 @@ struct Movie: Codable {
     }
     
     func composedPosterPath() -> String {
-        return posterBaseURL + "\(imageSize)" + posterPath
+        return posterBaseURL + "\(imageSize)" + (posterPath ?? "")
     }
     
     func composedBackdropPath() -> String? {

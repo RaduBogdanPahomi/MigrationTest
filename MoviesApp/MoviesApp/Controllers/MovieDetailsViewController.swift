@@ -10,9 +10,21 @@ import UIKit
 class MovieDetailsViewController: UIViewController {
     // MARK: - Private properties
     private var service: MoviesServiceable = MovieService()
-    private var movie: Movie?
+    private var movie: Movie!
     private var movies: [Movie] = []
+    private var favMovie: FavoriteMovie!
     
+    private lazy var favouriteButton: UIBarButtonItem = {
+        let favouriteButton = UIBarButtonItem(image: .none,
+                                              style: .plain,
+                                              target: self, action:
+                                                #selector(favouriteButtonAction))
+        let isFavorite = CoreDataManager.sharedManager.isFavoriteMovie(withId: movie.id)
+        favouriteButton.image = UIImage(systemName: isFavorite ? "heart.fill" : "heart")
+        favouriteButton.tintColor = .red
+        return favouriteButton
+    }()
+
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -76,15 +88,22 @@ class MovieDetailsViewController: UIViewController {
         setupUserInterface()
         loadCollectionView()
     }
-
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .lightContent
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        view.reloadInputViews()
     }
     
     func update(withMovie movie: Movie) {
         self.movie = movie
         detailsHeaderView.update(withMovie: movie)
         descriptionView.update(withMovie: movie)
+    }
+    
+    @objc func favouriteButtonAction() {
+        let isFavorite = CoreDataManager.sharedManager.isFavoriteMovie(withId: movie.id)
+        CoreDataManager.sharedManager.markMovie(withId: movie.id, asFavorite: !isFavorite)
+        favouriteButton.image = UIImage(systemName: !isFavorite ? "heart.fill" : "heart")
     }
 }
 
@@ -93,6 +112,7 @@ private extension MovieDetailsViewController {
     func setupUserInterface() {
         title = "\(movie?.originalTitle ?? "")"
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        navigationItem.rightBarButtonItem = favouriteButton
         
         view.addSubview(scrollView)
         
@@ -145,7 +165,6 @@ private extension MovieDetailsViewController {
     }
     
     func setupConstraints() {
-        
         let scrollContentLayoutGuide = scrollView.contentLayoutGuide
         
         NSLayoutConstraint.activate([
@@ -174,11 +193,11 @@ private extension MovieDetailsViewController {
             similarMoviesLabel.topAnchor.constraint(equalTo: descriptionView.bottomAnchor, constant: 20.0),
             similarMoviesLabel.leadingAnchor.constraint(equalTo: scrollContentLayoutGuide.leadingAnchor),
 
-            collectionview.topAnchor.constraint(equalTo: similarMoviesLabel.bottomAnchor, constant: 10.0),
+            collectionview.topAnchor.constraint(equalTo: similarMoviesLabel.bottomAnchor),
             collectionview.bottomAnchor.constraint(equalTo: scrollContentLayoutGuide.bottomAnchor),
             collectionview.leadingAnchor.constraint(equalTo: scrollContentLayoutGuide.leadingAnchor),
             collectionview.trailingAnchor.constraint(equalTo: scrollContentLayoutGuide.trailingAnchor),
-            collectionview.heightAnchor.constraint(equalToConstant: 400.0)
+            collectionview.heightAnchor.constraint(equalToConstant: 350.0)
         ])
     }
     
@@ -211,6 +230,7 @@ extension MovieDetailsViewController: UICollectionViewDataSource {
         let cell = collectionview.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! MovieCollectionViewCell
         
         cell.update(withMovie: movies[indexPath.section])
+        
         return cell
     }
 }

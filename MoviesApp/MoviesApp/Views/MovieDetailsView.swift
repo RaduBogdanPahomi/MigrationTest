@@ -10,11 +10,22 @@ import UIKit
 class MovieDetailsView: UIView {
     // MARK: - Private properties
     private let containerStackView = UIStackView()
+    private let horizontalStackView = UIStackView()
+    
     private let movieNameLabel: UILabel = {
         let movieNameLabel = UILabel()
         movieNameLabel.font = movieNameLabel.font.withSize(23)
         
         return movieNameLabel
+    }()
+    
+    private let starImageView: UIImageView = {
+        let starImageView = UIImageView()
+        starImageView.contentMode = .scaleAspectFit
+        starImageView.image = UIImage(named: "StarIcon.png")
+        starImageView.setContentHuggingPriority(.required, for: .horizontal)
+        
+        return starImageView
     }()
     
     private let movieRatingLabel: UILabel = {
@@ -49,7 +60,7 @@ class MovieDetailsView: UIView {
         movieNameLabel.text = movie.originalTitle
         movieRatingLabel.text = "\(movie.voteAverage)"
         movieYearLabel.text = movie.releaseDate.getYear() ?? ""
-    }
+    }    
 }
 
 // MARK: - Private API
@@ -57,21 +68,15 @@ private extension MovieDetailsView {
     func setupUserInterface() {
         containerStackView.axis = .vertical
         containerStackView.translatesAutoresizingMaskIntoConstraints = false
+        containerStackView.spacing = 10.0
         
         movieNameLabel.numberOfLines = 0
         movieNameLabel.textColor = .white
         
-        let horizontalStackView = UIStackView()
         horizontalStackView.axis = .horizontal
+        horizontalStackView.translatesAutoresizingMaskIntoConstraints = false
         horizontalStackView.spacing = 10.0
-        
-        let starImageView = UIImageView()
-        starImageView.contentMode = .scaleAspectFit
-        starImageView.image = UIImage(named: "StarIcon.png")
-        starImageView.setContentHuggingPriority(.required, for: .horizontal)
-        starImageView.heightAnchor.constraint(equalToConstant: 20).isActive = true
-        starImageView.widthAnchor.constraint(equalToConstant: 20).isActive = true
-        
+
         movieRatingLabel.numberOfLines = 0
         movieRatingLabel.textColor = .white
         movieRatingLabel.setContentHuggingPriority(.required, for: .horizontal)
@@ -97,9 +102,10 @@ private extension MovieDetailsView {
             containerStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
             containerStackView.trailingAnchor.constraint(equalTo: trailingAnchor),
             containerStackView.topAnchor.constraint(equalTo: topAnchor),
-            containerStackView.bottomAnchor.constraint(equalTo: bottomAnchor)
+            containerStackView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            
+            starImageView.heightAnchor.constraint(equalToConstant: 20),
+            starImageView.widthAnchor.constraint(equalToConstant: 20)
         ])
     }
 }
-
-
