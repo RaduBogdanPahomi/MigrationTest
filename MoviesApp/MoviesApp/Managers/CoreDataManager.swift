@@ -58,7 +58,7 @@ class CoreDataManager {
         }
     }
         
-    func getAllFavouriteMoviesIDs() -> [Int]? {
+    func getAllFavoriteMoviesIDs() -> [Int]? {
         let managedContext = persistentContainer.viewContext
         let favoriteRequest = FavoriteMovie.fetchRequest()
 

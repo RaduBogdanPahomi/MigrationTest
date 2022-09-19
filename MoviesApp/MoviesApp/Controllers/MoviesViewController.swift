@@ -111,8 +111,8 @@ extension MoviesViewController: UITableViewDataSource {
         let cell = tableview.dequeueReusableCell(withIdentifier: "cellId", for: indexPath) as! MovieTableViewCell
         let movie = movies[indexPath.row]
         
-        cell.favouriteAction = { isFavourite in
-            CoreDataManager.sharedManager.markMovie(withId: movie.id, asFavorite: isFavourite)
+        cell.favoriteAction = { isFavorite in
+            FavoriteMoviesManager.shared.markMovie(movie: movie, asFavorite: isFavorite)
         }
         
         cell.accessoryView = UIImageView(image: UIImage(systemName: "chevron.right"))

@@ -14,15 +14,15 @@ class MovieDetailsViewController: UIViewController {
     private var movies: [Movie] = []
     private var favMovie: FavoriteMovie!
     
-    private lazy var favouriteButton: UIBarButtonItem = {
-        let favouriteButton = UIBarButtonItem(image: .none,
+    private lazy var favoriteButton: UIBarButtonItem = {
+        let favoriteButton = UIBarButtonItem(image: .none,
                                               style: .plain,
                                               target: self, action:
-                                                #selector(favouriteButtonAction))
-        let isFavorite = CoreDataManager.sharedManager.isFavoriteMovie(withId: movie.id)
-        favouriteButton.image = UIImage(systemName: isFavorite ? "heart.fill" : "heart")
-        favouriteButton.tintColor = .red
-        return favouriteButton
+                                                #selector(favoriteButtonAction))
+        let isFavorite = FavoriteMoviesManager.shared.isFavoriteMovie(id: movie.id)
+        favoriteButton.image = UIImage(systemName: isFavorite ? "heart.fill" : "heart")
+        favoriteButton.tintColor = .red
+        return favoriteButton
     }()
 
     private let scrollView: UIScrollView = {
@@ -100,10 +100,10 @@ class MovieDetailsViewController: UIViewController {
         descriptionView.update(withMovie: movie)
     }
     
-    @objc func favouriteButtonAction() {
-        let isFavorite = CoreDataManager.sharedManager.isFavoriteMovie(withId: movie.id)
-        CoreDataManager.sharedManager.markMovie(withId: movie.id, asFavorite: !isFavorite)
-        favouriteButton.image = UIImage(systemName: !isFavorite ? "heart.fill" : "heart")
+    @objc func favoriteButtonAction() {
+        FavoriteMoviesManager.shared.changeFavoriteState(forMovie: movie)
+        let isFavorite = FavoriteMoviesManager.shared.isFavoriteMovie(id: movie.id)
+        favoriteButton.image = UIImage(systemName: isFavorite ? "heart.fill" : "heart")
     }
 }
 
@@ -112,7 +112,7 @@ private extension MovieDetailsViewController {
     func setupUserInterface() {
         title = "\(movie?.originalTitle ?? "")"
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
-        navigationItem.rightBarButtonItem = favouriteButton
+        navigationItem.rightBarButtonItem = favoriteButton
         
         view.addSubview(scrollView)
         

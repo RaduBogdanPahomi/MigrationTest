@@ -37,6 +37,8 @@
 		A22C1C3228D8895600951828 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A22C1C3128D8895600951828 /* CoreDataManager.swift */; };
 		A22C1C3528D8899D00951828 /* FavoriteMovie+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = A22C1C3328D8899D00951828 /* FavoriteMovie+CoreDataClass.swift */; };
 		A22C1C3628D8899D00951828 /* FavoriteMovie+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = A22C1C3428D8899D00951828 /* FavoriteMovie+CoreDataProperties.swift */; };
+		A22C1C3828D8917700951828 /* FavoriteMoviesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A22C1C3728D8917700951828 /* FavoriteMoviesManager.swift */; };
+		A22C1C3A28D89C3900951828 /* Notification+name.swift in Sources */ = {isa = PBXBuildFile; fileRef = A22C1C3928D89C3900951828 /* Notification+name.swift */; };
 		A230C99028B53D1500A10A8C /* String+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = A230C98F28B53D1500A10A8C /* String+Utils.swift */; };
 		A230C99228B6259200A10A8C /* URL+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A230C99128B6259200A10A8C /* URL+Extension.swift */; };
 		A269401828AE30100040A726 /* MoviesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A269401628AE30100040A726 /* MoviesViewController.swift */; };
@@ -78,6 +80,8 @@
 		A22C1C3128D8895600951828 /* CoreDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		A22C1C3328D8899D00951828 /* FavoriteMovie+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FavoriteMovie+CoreDataClass.swift"; sourceTree = "<group>"; };
 		A22C1C3428D8899D00951828 /* FavoriteMovie+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FavoriteMovie+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		A22C1C3728D8917700951828 /* FavoriteMoviesManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteMoviesManager.swift; sourceTree = "<group>"; };
+		A22C1C3928D89C3900951828 /* Notification+name.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+name.swift"; sourceTree = "<group>"; };
 		A230C98F28B53D1500A10A8C /* String+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Utils.swift"; sourceTree = "<group>"; };
 		A230C99128B6259200A10A8C /* URL+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Extension.swift"; sourceTree = "<group>"; };
 		A269401628AE30100040A726 /* MoviesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoviesViewController.swift; sourceTree = "<group>"; };
@@ -219,6 +223,7 @@
 			isa = PBXGroup;
 			children = (
 				A22C1C3128D8895600951828 /* CoreDataManager.swift */,
+				A22C1C3728D8917700951828 /* FavoriteMoviesManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -232,6 +237,7 @@
 				A230C99128B6259200A10A8C /* URL+Extension.swift */,
 				358329BC28B6138300574C19 /* Double+Extension.swift */,
 				35037B3828BCB2EE006C5C6D /* UIViewController+Extension.swift */,
+				A22C1C3928D89C3900951828 /* Notification+name.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -336,6 +342,7 @@
 				357D422E28B8BD7B00513C9F /* SimilarMovies.swift in Sources */,
 				358973A228AB99F400D91903 /* MovieDescriptionView.swift in Sources */,
 				A230C99028B53D1500A10A8C /* String+Utils.swift in Sources */,
+				A22C1C3A28D89C3900951828 /* Notification+name.swift in Sources */,
 				35D5452228D0517A0025BDB0 /* FavoriteMoviesViewController.swift in Sources */,
 				35B3BD9C28B3605000CF388C /* TopRated.swift in Sources */,
 				A20F11BF28A67AD900CD4207 /* UITableView+Extension.swift in Sources */,
@@ -357,6 +364,7 @@
 				359D545D28A6634D000D3430 /* MovieDetailsView.swift in Sources */,
 				A230C99228B6259200A10A8C /* URL+Extension.swift in Sources */,
 				A269401828AE30100040A726 /* MoviesViewController.swift in Sources */,
+				A22C1C3828D8917700951828 /* FavoriteMoviesManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

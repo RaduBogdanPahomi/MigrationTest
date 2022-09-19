@@ -10,7 +10,7 @@ import UIKit
 class FavoriteMoviesViewController: UIViewController {
     //MARK: - Private properties
     private var service: MoviesServiceable = MovieService()
-    private var movies: [FavoriteMovie] = []
+    private var movies: [Movie] = []
     
     private let tableView: UITableView = {
         let tableView = UITableView()
@@ -27,7 +27,8 @@ class FavoriteMoviesViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-//        self.movies = viewModel.getAllFavouriteMovies() ?? []
+        //self.movies = viewModel.getAllFavoriteMovies() ?? []
+        self.movies = FavoriteMoviesManager.shared.favoriteMovies
         tableView.reloadData()
     }
 }
@@ -57,7 +58,7 @@ private extension FavoriteMoviesViewController {
         ])
     }
     
-    func showDetail(`for` movie: FavoriteMovie) {
+    func showDetail(`for` movie: Movie) {
         Task(priority: .background) {
             let result = await service.getMovie(id: Int(movie.id))
             switch result {
@@ -80,8 +81,9 @@ extension FavoriteMoviesViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath) as! MovieTableViewCell
-        let favorite = movies[indexPath.row]
-//        cell.updateFavorite(withFavorite: favorite)
+        let movie = movies[indexPath.row]
+        cell.shouldHideFavorite(hide: true)
+        cell.update(withMovie: movie)
         
         return cell
     }
