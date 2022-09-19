@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 protocol HTTPClient {
     func sendRequest<T: Decodable>(endpoint: Endpoint, responseModel: T.Type) async -> Result<T, RequestError>
@@ -41,7 +42,9 @@ extension HTTPClient {
             }
             switch response.statusCode {
             case 200...299:
-                guard let decodeResponse = try? JSONDecoder().decode(responseModel, from: data) else {
+                let jsonDecoder = JSONDecoder()
+                jsonDecoder.userInfo[CodingUserInfoKey.managedObjectContext] = CoreDataManager.sharedManager.persistentContainer.viewContext
+                guard let decodeResponse = try? jsonDecoder.decode(responseModel, from: data) else {
                     return .failure(.decode)
                 }
                 return .success(decodeResponse)

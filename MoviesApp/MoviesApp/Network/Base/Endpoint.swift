@@ -4,6 +4,7 @@
 //
 //  Created by Tudor Ghilvacs on 19.08.2022.
 //
+import Foundation
 
 protocol Endpoint {
     var scheme: String {get}

@@ -61,23 +61,13 @@ class MovieTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func update(withMovie movie: Movie, isFavourite: Bool) {
+    func update(withMovie movie: Movie) {
         movieDetailsView.update(withMovie: movie)
         activityIndicatorView.startAnimating()
-        favoriteButton.isSelected = isFavourite
+        let isFavorite = CoreDataManager.sharedManager.isFavoriteMovie(withId: Int(movie.id))
+        favoriteButton.isSelected = isFavorite
         
         ImageDownloader.shared.downloadImage(with: movie.composedPosterPath(), completionHandler: {(image, cached) in
-            self.posterImageView.image = image
-            self.activityIndicatorView.stopAnimating()
-        }, placeholderImage: UIImage(named: "MoviePoster.jpeg"))
-    }
-    
-    func updateFavorite(withFavorite favorite: FavoriteMovie) {
-        movieDetailsView.updateFavorite(withFavorite: favorite)
-        activityIndicatorView.startAnimating()
-        favoriteButton.isHidden = true
-        
-        ImageDownloader.shared.downloadImage(with: favorite.composedPosterPath(), completionHandler: {(image, cached) in
             self.posterImageView.image = image
             self.activityIndicatorView.stopAnimating()
         }, placeholderImage: UIImage(named: "MoviePoster.jpeg"))

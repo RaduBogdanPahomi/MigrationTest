@@ -59,13 +59,7 @@ class MovieDetailsView: UIView {
     func update(withMovie movie: Movie) {
         movieNameLabel.text = movie.originalTitle
         movieRatingLabel.text = "\(movie.voteAverage)"
-        movieYearLabel.text = movie.releaseDate.getYear() ?? ""
-    }
-    
-    func updateFavorite(withFavorite favorite: FavoriteMovie) {
-        movieNameLabel.text = favorite.originalTitle
-        movieRatingLabel.text = "\(favorite.voteAverage)"
-        movieYearLabel.text = favorite.releaseDate?.getYear() ?? ""
+        movieYearLabel.text = movie.releaseDate?.getYear() ?? ""
     }
 }
 

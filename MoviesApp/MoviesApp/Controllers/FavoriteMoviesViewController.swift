@@ -10,10 +10,8 @@ import CoreData
 
 class FavoriteMoviesViewController: UIViewController {
     //MARK: - Private properties
-    private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-    private var viewModel = FavoriteMovieViewModel()
     private var service: MoviesServiceable = MovieService()
-    private var movies: [FavoriteMovie] = []
+    private var movies: [Movie] = []
     
     private let tableView: UITableView = {
         let tableView = UITableView()
@@ -21,6 +19,8 @@ class FavoriteMoviesViewController: UIViewController {
         
         return tableView
     }()
+    @IBOutlet private weak var plusButton: UIBarButtonItem!
+    
     
     //MARK: - Public API
     override func viewDidLoad() {
@@ -28,10 +28,12 @@ class FavoriteMoviesViewController: UIViewController {
         setupUserInterface()
     }
     
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.movies = viewModel.getAllFavouriteMovies() ?? []
-        tableView.reloadData()
+        
+        movies = CoreDataManager.sharedManager.getAllFavouriteMovies() ?? []
+        self.tableView.reloadData()
     }
 }
 
@@ -60,7 +62,7 @@ private extension FavoriteMoviesViewController {
         ])
     }
     
-    func showDetail(`for` movie: FavoriteMovie) {
+    func showDetail(`for` movie: Movie) {
         Task(priority: .background) {
             let result = await service.getMovie(id: Int(movie.id))
             switch result {
@@ -83,8 +85,8 @@ extension FavoriteMoviesViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath) as! MovieTableViewCell
-        let favorite = movies[indexPath.row]
-        cell.updateFavorite(withFavorite: favorite)
+        let movie = movies[indexPath.row]
+        cell.update(withMovie: movie)
         
         return cell
     }

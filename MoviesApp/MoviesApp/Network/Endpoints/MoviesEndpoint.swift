@@ -5,6 +5,9 @@
 //  Created by Tudor Ghilvacs on 19.08.2022.
 //
 
+import Foundation
+import UIKit
+
 enum MoviesEndpoint {
     case movieList
     case movie(id: Int)
@@ -50,6 +53,8 @@ extension MoviesEndpoint: Endpoint {
     
     var queryStrings: [String: String?]? {
         let apiKey = "626d05abf324b3be1c089c695497d49c"
-        return ["api_key": apiKey]
-    }
+        return ["api_key" : apiKey]
+        
+        
+    }    
 }

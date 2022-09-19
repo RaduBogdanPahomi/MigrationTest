@@ -21,7 +21,7 @@ struct MovieService: HTTPClient, MoviesServiceable {
     func getMovie(id: Int) async -> Result<Movie, RequestError> {
         return await sendRequest(endpoint: MoviesEndpoint.movie(id: id), responseModel: Movie.self)
     }
-    
+        
     func getSimilarMovies(id: Int) async -> Result<SimilarMovies ,RequestError> {
         return await sendRequest(endpoint: MoviesEndpoint.similarMovie(id: id), responseModel: SimilarMovies.self)
     }

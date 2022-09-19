@@ -12,15 +12,14 @@ class MovieDetailsViewController: UIViewController {
     private var service: MoviesServiceable = MovieService()
     private var movie: Movie!
     private var movies: [Movie] = []
-    private var favMovie: FavoriteMovie!
-    private let viewModel = FavoriteMovieViewModel()
     
     private lazy var favouriteButton: UIBarButtonItem = {
         let favouriteButton = UIBarButtonItem(image: .none,
                                               style: .plain,
                                               target: self, action:
                                                 #selector(favouriteButtonAction))
-        favouriteButton.image = UIImage(systemName: viewModel.isFavoriteMovie(withId: movie.id) ? "heart.fill" : "heart")
+        let isFavorite = CoreDataManager.sharedManager.isFavoriteMovie(withId: Int(movie.id))
+        favouriteButton.image = UIImage(systemName: isFavorite ? "heart.fill" : "heart")
         favouriteButton.tintColor = .red
         return favouriteButton
     }()
@@ -88,10 +87,9 @@ class MovieDetailsViewController: UIViewController {
         setupUserInterface()
         loadCollectionView()
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        view.reloadInputViews()
+
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
     }
     
     func update(withMovie movie: Movie) {
@@ -101,8 +99,9 @@ class MovieDetailsViewController: UIViewController {
     }
     
     @objc func favouriteButtonAction() {
-        viewModel.markMovie(movie: movie, withId: movie.id, asFavorite: !viewModel.isFavoriteMovie(withId: movie.id))
-        favouriteButton.image = UIImage(systemName: viewModel.isFavoriteMovie(withId: movie.id) ? "heart.fill" : "heart")
+        let isFavorite = CoreDataManager.sharedManager.isFavoriteMovie(withId: Int(movie.id))
+        CoreDataManager.sharedManager.markMovie(withId: Int(movie.id), asFavorite: !isFavorite)
+        favouriteButton.image = UIImage(systemName: !isFavorite ? "heart.fill" : "heart")
     }
 }
 
@@ -143,7 +142,7 @@ private extension MovieDetailsViewController {
     
     func fetchData(completion: @escaping (Result<SimilarMovies, RequestError>) -> Void) {
         Task(priority: .background) {
-            let result = await service.getSimilarMovies(id: movie?.id ?? 0)
+            let result = await service.getSimilarMovies(id: Int(movie?.id ?? 0))
             completion(result)
         }
     }
@@ -164,6 +163,7 @@ private extension MovieDetailsViewController {
     }
     
     func setupConstraints() {
+        
         let scrollContentLayoutGuide = scrollView.contentLayoutGuide
         
         NSLayoutConstraint.activate([
@@ -202,7 +202,7 @@ private extension MovieDetailsViewController {
     
     func showDetail(`for` movie: Movie) {
         Task(priority: .background) {
-            let result = await service.getMovie(id: movie.id)
+            let result = await service.getMovie(id: Int(movie.id))
             switch result {
             case .success(let movie):
                 let movieDetailsVC = MovieDetailsViewController()
@@ -229,7 +229,6 @@ extension MovieDetailsViewController: UICollectionViewDataSource {
         let cell = collectionview.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! MovieCollectionViewCell
         
         cell.update(withMovie: movies[indexPath.section])
-        
         return cell
     }
 }

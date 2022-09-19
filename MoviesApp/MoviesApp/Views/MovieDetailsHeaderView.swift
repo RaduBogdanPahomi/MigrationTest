@@ -29,15 +29,15 @@ class MovieDetailsHeaderView: UIView {
     
     func update(withMovie movie: Movie) {
         movieTitleLabel.text = movie.originalTitle
-        movieYearLabel.text = movie.releaseDate.getYear()
+        movieYearLabel.text = movie.releaseDate?.getYear()
         movieLengthLabel.text = formatRuntime(forMovie: movie)
         movieRatingLabel.text = "\(movie.voteAverage.limitNumberOfDigits(forDouble: movie.voteAverage))/10"
     }
     
     func formatRuntime(forMovie movie: Movie) -> String {
-        let totalHours = movie.runtime?.minutesToHours(movie.runtime ?? 0).hours
-        let totalMinutes = movie.runtime?.minutesToHours(movie.runtime ?? 0).leftMinutes
-        let formatedRuntime = "\(Int((totalHours) ?? 0))h" + " \(Int((totalMinutes) ?? 0))m"
+        let totalHours = movie.runtime.minutesToHours(movie.runtime).hours
+        let totalMinutes = movie.runtime.minutesToHours(movie.runtime).leftMinutes
+        let formatedRuntime = "\(Int(totalHours))h" + " \(Int(totalMinutes))m"
         
         return formatedRuntime
     }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Genre: Hashable, Codable {
+struct Genre1: Hashable, Codable {
     let id: Int?
     let name: String?
 }
@@ -15,7 +15,7 @@ struct Genre: Hashable, Codable {
 struct Movie: Codable {
     let adult: Bool
     let backdropPath: String?
-    let genres: [Genre]?
+    let genres: [Genre1]?
     let id: Int
     let originalLanguage: String
     let originalTitle: String

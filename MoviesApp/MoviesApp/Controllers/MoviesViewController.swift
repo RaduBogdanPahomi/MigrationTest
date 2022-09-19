@@ -11,7 +11,7 @@ class MoviesViewController: UIViewController {
     // MARK: - Private properties
     private var movies: [Movie] = []
     private var service: MoviesServiceable = MovieService()
-    private let viewModel = FavoriteMovieViewModel()
+    private let filterButtonImage = UIImage(systemName: "arrow.up.arrow.down.circle")
    
     private let tableview: UITableView = {
         let tableview = UITableView()
@@ -61,9 +61,13 @@ private extension MoviesViewController {
         fetchData { [weak self] result in
             guard let self = self else { return }
             switch result {
-            case .success(let response):
-                self.movies = response.results
-                self.tableview.reloadData()
+            case .success:
+                CoreDataManager.sharedManager.saveContext()
+                
+                if let movies = CoreDataManager.sharedManager.getAllMovies() {
+                    self.movies = movies
+                    self.tableview.reloadData()
+                }
                 completion?()
             case .failure(let error):
                 self.showModal(title: "Error", message: error.customMessage)
@@ -90,7 +94,7 @@ private extension MoviesViewController {
     
     func showDetail(`for` movie: Movie) {
         Task(priority: .background) {
-            let result = await service.getMovie(id: movie.id)
+            let result = await service.getMovie(id: Int(movie.id))
             switch result {
             case .success(let movie):
                 let movieDetailsVC = MovieDetailsViewController()
@@ -101,6 +105,7 @@ private extension MoviesViewController {
             }
         }
     }
+
 }
 
 // MARK: - UITableViewDataSource protocol
@@ -112,18 +117,15 @@ extension MoviesViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableview.dequeueReusableCell(withIdentifier: "cellId", for: indexPath) as! MovieTableViewCell
         let movie = movies[indexPath.row]
-        
-        cell.favouriteAction = {[weak self] isFavourite in
-            self?.viewModel.markMovie(movie: movie, withId: movie.id, asFavorite: isFavourite)
+
+        cell.favouriteAction = { isFavourite in
+            CoreDataManager.sharedManager.markMovie(withId: Int(movie.id), asFavorite: isFavourite)
         }
         
         cell.accessoryView = UIImageView(image: UIImage(systemName: "chevron.right"))
         cell.tintColor = .white
-        
-        cell.update(withMovie: movie, isFavourite: viewModel.allFavouriteMovies?.contains(where: { favMovie in
-            favMovie.id == movie.id
-        }) ?? false)
-        
+
+        cell.update(withMovie: movie)
         return cell
     }
 }

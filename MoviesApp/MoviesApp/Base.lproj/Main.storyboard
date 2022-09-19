@@ -65,10 +65,10 @@
             </objects>
             <point key="canvasLocation" x="1101" y="78"/>
         </scene>
-        <!--Tab Bar Controller-->
+        <!--Movies Tab Bar Controller-->
         <scene sceneID="WdU-PB-VUF">
             <objects>
-                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="Wkn-tZ-73s" sceneMemberID="viewController">
+                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="Wkn-tZ-73s" customClass="MoviesTabBarController" customModule="MoviesApp" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" barStyle="black" translucent="NO" id="2ah-lF-Yoe">
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
