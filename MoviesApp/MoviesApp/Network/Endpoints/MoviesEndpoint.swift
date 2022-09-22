@@ -6,7 +6,7 @@
 //
 
 enum MoviesEndpoint {
-    case movieList
+    case movieList(page: Int)
     case movie(id: Int)
     case similarMovie(id: Int)
 }
@@ -50,6 +50,11 @@ extension MoviesEndpoint: Endpoint {
     
     var queryStrings: [String: String?]? {
         let apiKey = "626d05abf324b3be1c089c695497d49c"
-        return ["api_key": apiKey]
+        var queryParameters = ["api_key": apiKey]
+     
+        if case .movieList(let page) = self {
+            queryParameters["page"] = "\(page)"
+        }
+        return queryParameters
     }
 }

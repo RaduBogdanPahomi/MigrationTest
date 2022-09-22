@@ -11,7 +11,9 @@ class MoviesViewController: UIViewController {
     // MARK: - Private properties
     private var movies: [Movie] = []
     private var service: MoviesServiceable = MovieService()
-   
+    private var page = 1
+    private var isMovieRequestInProgress = false
+    
     private let tableview: UITableView = {
         let tableview = UITableView()
         tableview.translatesAutoresizingMaskIntoConstraints = false
@@ -51,7 +53,9 @@ private extension MoviesViewController {
     
     func fetchData(completion: @escaping (Result<MovieList, RequestError>) -> Void) {
         Task(priority: .background) {
-            let result = await service.getMovieList()
+            isMovieRequestInProgress = true
+            let result = await service.getMovieList(page: page)
+            isMovieRequestInProgress = false
             completion(result)
         }
     }
@@ -62,7 +66,7 @@ private extension MoviesViewController {
             
             switch result {
             case .success(let response):
-                self.movies = response.results
+                self.movies.append(contentsOf: response.results)
                 self.tableview.reloadData()
             case .failure(let error):
                 self.showModal(title: "Error", message: error.customMessage)
@@ -129,4 +133,12 @@ extension MoviesViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         showDetail(for: movies[indexPath.row])
     }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.row + 1 == movies.count && isMovieRequestInProgress == false {
+            page += 1
+            loadTableView()
+        }
+    }
 }
+
