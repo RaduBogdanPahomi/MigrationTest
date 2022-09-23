@@ -16,9 +16,9 @@ class MovieDetailsViewController: UIViewController {
     
     private lazy var favoriteButton: UIBarButtonItem = {
         let favoriteButton = UIBarButtonItem(image: .none,
-                                              style: .plain,
-                                              target: self, action:
-                                                #selector(favoriteButtonAction))
+                                             style: .plain,
+                                             target: self,
+                                             action: #selector(favoriteButtonAction))
         let isFavorite = FavoriteMoviesManager.shared.isFavoriteMovie(id: movie.id)
         favoriteButton.image = UIImage(systemName: isFavorite ? "heart.fill" : "heart")
         favoriteButton.tintColor = .red

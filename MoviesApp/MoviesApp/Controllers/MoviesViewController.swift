@@ -13,17 +13,49 @@ class MoviesViewController: UIViewController {
     private var service: MoviesServiceable = MovieService()
     private var page = 1
     private var isMovieRequestInProgress = false
+    private var action = ""
+   
+    enum SortType {
+        case popularity
+        case releaseDate
+        case rating
+        case ascTitle
+        case descTitle
+    }
     
+    private let popularityItem = UIAction(title: "Popularity") {_ in
+        print("Popularity")
+    }
+    
+    private let releaseDateItem = UIAction(title: "Release date") {_ in
+        print("Release date")
+    }
+    
+    
+    private let ratingItem = UIAction(title: "Rating") {_ in
+        print("Rating")
+    }
+    
+    private let titleAscendingItem = UIAction(title: "Title (A-Z)") {_ in
+        print("Title (A-Z)")
+    }
+    
+    private let titleDescendingItem = UIAction(title: "Title (Z-A)") {_ in
+        print("Title (Z-A)")
+    }
+
     private let tableview: UITableView = {
         let tableview = UITableView()
         tableview.translatesAutoresizingMaskIntoConstraints = false
         
         return tableview
     }()
-    
-    private let filterButton: UIBarButtonItem = {
-        let filterButtonImage = UIImage(systemName: "arrow.up.arrow.down.circle")
-        let filterButton = UIBarButtonItem(image: filterButtonImage, style: .plain, target: self, action: .none)
+
+    private lazy var filterButton: UIBarButtonItem = {
+        let filterButton = UIBarButtonItem(image: UIImage(systemName: "arrow.up.arrow.down.circle"),
+                                           style: .plain,
+                                           target: self,
+                                           action: .none)
         
         return filterButton
     }()
@@ -45,6 +77,8 @@ class MoviesViewController: UIViewController {
 // MARK: - Private API
 private extension MoviesViewController {
     func setupUserInterface() {
+        let menu = UIMenu(title: "Sort by", children: [popularityItem, releaseDateItem, ratingItem, titleAscendingItem, titleDescendingItem])
+        filterButton.menu = menu
         title = "All Movies"
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         navigationItem.rightBarButtonItem = filterButton
@@ -54,7 +88,7 @@ private extension MoviesViewController {
     func fetchData(completion: @escaping (Result<MovieList, RequestError>) -> Void) {
         Task(priority: .background) {
             isMovieRequestInProgress = true
-            let result = await service.getMovieList(page: page)
+            let result = await service.getMovieList(page: page, action: action)
             isMovieRequestInProgress = false
             completion(result)
         }
@@ -63,7 +97,6 @@ private extension MoviesViewController {
     func loadTableView() {
         fetchData { [weak self] result in
             guard let self = self else { return }
-            
             switch result {
             case .success(let response):
                 self.movies.append(contentsOf: response.results)
@@ -124,6 +157,7 @@ extension MoviesViewController: UITableViewDataSource {
         
         cell.update(withMovie: movie)
         
+        
         return cell
     }
 }
@@ -141,4 +175,3 @@ extension MoviesViewController: UITableViewDelegate {
         }
     }
 }
-
