@@ -8,14 +8,14 @@
 import Foundation
 
 protocol MoviesServiceable {
-    func getMovieList(page: Int, action: String) async -> Result<MovieList, RequestError>
+    func getMovieList(page: Int, sortType: String) async -> Result<MovieList, RequestError>
     func getMovie(id: Int) async -> Result<Movie, RequestError>
     func getSimilarMovies(id: Int) async -> Result<SimilarMovies, RequestError>
 }
 
 struct MovieService: HTTPClient, MoviesServiceable {
-    func getMovieList(page: Int, action: String) async -> Result<MovieList, RequestError> {
-        return await sendRequest(endpoint: MoviesEndpoint.movieList(page: page, action: action), responseModel: MovieList.self)
+    func getMovieList(page: Int, sortType: String) async -> Result<MovieList, RequestError> {
+        return await sendRequest(endpoint: MoviesEndpoint.movieList(page: page, sortType: sortType), responseModel: MovieList.self)
     }
     
     func getMovie(id: Int) async -> Result<Movie, RequestError> {

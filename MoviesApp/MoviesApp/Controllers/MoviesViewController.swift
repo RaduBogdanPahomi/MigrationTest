@@ -7,43 +7,40 @@
 
 import UIKit
 
+#warning("Center Sort by")
+#warning("Add check image left to sort type")
+
+enum SortType: String, CaseIterable {
+    case popularity = "Popularity"
+    case releaseDate = "Release date"
+    case rating = "Rating"
+    case ascTitle = "Title (A-Z)"
+    case descTitle = "Title (Z-A)"
+    
+    func sortQueryParameter() -> String {
+        switch self {
+        case .popularity:
+             return "popularity.desc"
+        case .releaseDate:
+            return "release_date.desc"
+        case .rating:
+            return "vote_average.desc"
+        case .ascTitle:
+            return "original_title.asc"
+        case .descTitle:
+            return "original_title.desc"
+        }
+    }
+}
+
 class MoviesViewController: UIViewController {
     // MARK: - Private properties
     private var movies: [Movie] = []
     private var service: MoviesServiceable = MovieService()
     private var page = 1
     private var isMovieRequestInProgress = false
-    private var action = ""
-   
-    enum SortType {
-        case popularity
-        case releaseDate
-        case rating
-        case ascTitle
-        case descTitle
-    }
+    private var sortType: SortType = .popularity
     
-    private let popularityItem = UIAction(title: "Popularity") {_ in
-        print("Popularity")
-    }
-    
-    private let releaseDateItem = UIAction(title: "Release date") {_ in
-        print("Release date")
-    }
-    
-    
-    private let ratingItem = UIAction(title: "Rating") {_ in
-        print("Rating")
-    }
-    
-    private let titleAscendingItem = UIAction(title: "Title (A-Z)") {_ in
-        print("Title (A-Z)")
-    }
-    
-    private let titleDescendingItem = UIAction(title: "Title (Z-A)") {_ in
-        print("Title (Z-A)")
-    }
-
     private let tableview: UITableView = {
         let tableview = UITableView()
         tableview.translatesAutoresizingMaskIntoConstraints = false
@@ -77,18 +74,17 @@ class MoviesViewController: UIViewController {
 // MARK: - Private API
 private extension MoviesViewController {
     func setupUserInterface() {
-        let menu = UIMenu(title: "Sort by", children: [popularityItem, releaseDateItem, ratingItem, titleAscendingItem, titleDescendingItem])
-        filterButton.menu = menu
         title = "All Movies"
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         navigationItem.rightBarButtonItem = filterButton
         setupTableView()
+        setupSortMenu()
     }
     
     func fetchData(completion: @escaping (Result<MovieList, RequestError>) -> Void) {
         Task(priority: .background) {
             isMovieRequestInProgress = true
-            let result = await service.getMovieList(page: page, action: action)
+            let result = await service.getMovieList(page: page, sortType: sortType.sortQueryParameter())
             isMovieRequestInProgress = false
             completion(result)
         }
@@ -99,6 +95,7 @@ private extension MoviesViewController {
             guard let self = self else { return }
             switch result {
             case .success(let response):
+                #warning("if the sort type was changed, we need to remove all existing movies, and set the new ones (do not append)")
                 self.movies.append(contentsOf: response.results)
                 self.tableview.reloadData()
             case .failure(let error):
@@ -123,6 +120,17 @@ private extension MoviesViewController {
         ])
     }
     
+    func setupSortMenu() {
+        #warning("Check if we can update an existing UIACTION - with image. If not, will create the actions each time the sort button is touched")
+        var childrens = [UIAction]()
+        for sortType in SortType.allCases {
+            childrens.append(createActionItem(forSortType: sortType))
+        }
+        
+        let sortMenu = UIMenu(title: "Sort by", children: childrens)
+        filterButton.menu = sortMenu
+    }
+    
     func showDetail(`for` movie: Movie) {
         Task(priority: .background) {
             let result = await service.getMovie(id: movie.id)
@@ -135,6 +143,17 @@ private extension MoviesViewController {
                 self.showModal(title: "Error", message: error.customMessage)
             }
         }
+    }
+
+    func createActionItem(forSortType sortType: SortType) -> UIAction {
+        
+        let actionImage = self.sortType == sortType ? UIImage(systemName: "chevron.right") : nil
+        let action = UIAction(title: sortType.rawValue, image: actionImage) { [weak self] _ in
+            self?.sortType = sortType
+            self?.loadTableView()
+        }
+        
+        return action
     }
 }
 
