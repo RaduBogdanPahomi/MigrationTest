@@ -7,9 +7,6 @@
 
 import UIKit
 
-#warning("Center Sort by")
-#warning("Add check image left to sort type")
-
 enum SortType: String, CaseIterable {
     case popularity = "Popularity"
     case releaseDate = "Release date"
@@ -40,6 +37,7 @@ class MoviesViewController: UIViewController {
     private var page = 1
     private var isMovieRequestInProgress = false
     private var sortType: SortType = .popularity
+    private var sortTypeWasChanged = false
     
     private let tableview: UITableView = {
         let tableview = UITableView()
@@ -78,7 +76,6 @@ private extension MoviesViewController {
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         navigationItem.rightBarButtonItem = filterButton
         setupTableView()
-        setupSortMenu()
     }
     
     func fetchData(completion: @escaping (Result<MovieList, RequestError>) -> Void) {
@@ -95,8 +92,12 @@ private extension MoviesViewController {
             guard let self = self else { return }
             switch result {
             case .success(let response):
-                #warning("if the sort type was changed, we need to remove all existing movies, and set the new ones (do not append)")
+                if self.sortTypeWasChanged == true {
+                    self.movies.removeAll()
+                    self.sortTypeWasChanged = false
+                }
                 self.movies.append(contentsOf: response.results)
+                self.setupSortMenu()
                 self.tableview.reloadData()
             case .failure(let error):
                 self.showModal(title: "Error", message: error.customMessage)
@@ -121,13 +122,12 @@ private extension MoviesViewController {
     }
     
     func setupSortMenu() {
-        #warning("Check if we can update an existing UIACTION - with image. If not, will create the actions each time the sort button is touched")
-        var childrens = [UIAction]()
+        var children = [UIAction]()
         for sortType in SortType.allCases {
-            childrens.append(createActionItem(forSortType: sortType))
+            children.append(createActionItem(forSortType: sortType))
         }
         
-        let sortMenu = UIMenu(title: "Sort by", children: childrens)
+        let sortMenu = UIMenu(title: "Sort by", children: children)
         filterButton.menu = sortMenu
     }
     
@@ -146,12 +146,15 @@ private extension MoviesViewController {
     }
 
     func createActionItem(forSortType sortType: SortType) -> UIAction {
-        
-        let actionImage = self.sortType == sortType ? UIImage(systemName: "chevron.right") : nil
+        let actionImage = self.sortType == sortType ? UIImage(systemName: "checkmark") : nil
         let action = UIAction(title: sortType.rawValue, image: actionImage) { [weak self] _ in
+            if self?.sortType != sortType {
+                self?.sortTypeWasChanged = true
+            }
             self?.sortType = sortType
             self?.loadTableView()
         }
+        
         
         return action
     }
@@ -175,7 +178,6 @@ extension MoviesViewController: UITableViewDataSource {
         cell.tintColor = .white
         
         cell.update(withMovie: movie)
-        
         
         return cell
     }
