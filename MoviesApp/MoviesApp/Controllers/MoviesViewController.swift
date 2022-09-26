@@ -46,13 +46,13 @@ class MoviesViewController: UIViewController {
         return tableview
     }()
 
-    private lazy var filterButton: UIBarButtonItem = {
-        let filterButton = UIBarButtonItem(image: UIImage(systemName: "arrow.up.arrow.down.circle"),
-                                           style: .plain,
-                                           target: self,
-                                           action: .none)
+    private lazy var sortButton: UIBarButtonItem = {
+        let sortButton = UIBarButtonItem(image: UIImage(systemName: "arrow.up.arrow.down.circle"),
+                                         style: .plain,
+                                         target: self,
+                                         action: .none)
         
-        return filterButton
+        return sortButton
     }()
     
     // MARK: - Public API
@@ -74,7 +74,7 @@ private extension MoviesViewController {
     func setupUserInterface() {
         title = "All Movies"
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
-        navigationItem.rightBarButtonItem = filterButton
+        navigationItem.rightBarButtonItem = sortButton
         setupTableView()
     }
     
@@ -97,7 +97,7 @@ private extension MoviesViewController {
                     self.sortTypeWasChanged = false
                 }
                 self.movies.append(contentsOf: response.results)
-                self.setupSortMenu()
+                self.createSortMenu()
                 self.tableview.reloadData()
             case .failure(let error):
                 self.showModal(title: "Error", message: error.customMessage)
@@ -121,14 +121,14 @@ private extension MoviesViewController {
         ])
     }
     
-    func setupSortMenu() {
+    func createSortMenu() {
         var children = [UIAction]()
         for sortType in SortType.allCases {
             children.append(createActionItem(forSortType: sortType))
         }
         
         let sortMenu = UIMenu(title: "Sort by", children: children)
-        filterButton.menu = sortMenu
+        sortButton.menu = sortMenu
     }
     
     func showDetail(`for` movie: Movie) {
@@ -146,16 +146,16 @@ private extension MoviesViewController {
     }
 
     func createActionItem(forSortType sortType: SortType) -> UIAction {
-        let actionImage = self.sortType == sortType ? UIImage(systemName: "checkmark") : nil
-        let action = UIAction(title: sortType.rawValue, image: actionImage) { [weak self] _ in
+        let action = UIAction(title: sortType.rawValue) { [weak self] _ in
             if self?.sortType != sortType {
                 self?.sortTypeWasChanged = true
             }
             self?.sortType = sortType
             self?.loadTableView()
+            self?.createSortMenu()
         }
         
-        
+        action.state = self.sortType == sortType ? .on : .off
         return action
     }
 }
