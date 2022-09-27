@@ -11,12 +11,22 @@ class FavoriteMoviesViewController: UIViewController {
     //MARK: - Private properties
     private var service: MoviesServiceable = MovieService()
     private var movies: [Movie] = []
+    private var sortType: SortType = .popularity
     
     private let tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
         
         return tableView
+    }()
+    
+    private lazy var sortButton: UIBarButtonItem = {
+        let sortButton = UIBarButtonItem(image: UIImage(systemName: "arrow.up.arrow.down.circle"),
+                                         style: .plain,
+                                         target: self,
+                                         action: .none)
+        
+        return sortButton
     }()
     
     //MARK: - Public API
@@ -27,7 +37,6 @@ class FavoriteMoviesViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        //self.movies = viewModel.getAllFavoriteMovies() ?? []
         self.movies = FavoriteMoviesManager.shared.favoriteMovies
         tableView.reloadData()
     }
@@ -38,6 +47,7 @@ private extension FavoriteMoviesViewController {
     func setupUserInterface() {
         navigationItem.title = "Favorites"
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        navigationItem.rightBarButtonItem = sortButton
         
         setupTableView()
     }
@@ -49,6 +59,7 @@ private extension FavoriteMoviesViewController {
         tableView.register(MovieTableViewCell.self, forCellReuseIdentifier: "cellId")
         
         view.addSubview(tableView)
+        self.createSortMenu()
         
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -69,6 +80,46 @@ private extension FavoriteMoviesViewController {
             case .failure(let error):
                 self.showModal(title: "Error", message: error.customMessage)
             }
+        }
+    }
+    
+    func createSortMenu() {
+        var children = [UIAction]()
+        for sortType in SortType.allCases {
+            children.append(createActionItem(forSortType: sortType))
+        }
+        
+        let sortMenu = UIMenu(title: "Sort by", children: children)
+        sortButton.menu = sortMenu
+    }
+    
+    func createActionItem(forSortType sortType: SortType) -> UIAction {
+        let action = UIAction(title: sortType.rawValue) { [weak self] _ in
+            if self?.sortType != sortType {
+                self?.sortType = sortType
+                self?.sortBy(sortType)
+                self?.tableView.reloadData()
+            }
+            
+            self?.createSortMenu()
+        }
+        
+        action.state = self.sortType == sortType ? .on : .off
+        return action
+    }
+    
+    func sortBy(_: SortType) {
+        switch sortType {
+        case .popularity:
+            movies = movies.sorted(by: { $1.popularity < $0.popularity })
+        case .releaseDate:
+            movies = movies.sorted(by: { $1.releaseDate < $0.releaseDate })
+        case .rating:
+            movies = movies.sorted(by: { $1.voteAverage < $0.voteAverage })
+        case .ascTitle:
+            movies = movies.sorted(by: { $0.originalTitle < $1.originalTitle })
+        case .descTitle:
+            movies = movies.sorted(by: { $1.originalTitle < $0.originalTitle })
         }
     }
 }
