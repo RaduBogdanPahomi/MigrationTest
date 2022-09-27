@@ -7,29 +7,6 @@
 
 import UIKit
 
-enum SortType: String, CaseIterable {
-    case popularity = "Popularity"
-    case releaseDate = "Release date"
-    case rating = "Rating"
-    case ascTitle = "Title (A-Z)"
-    case descTitle = "Title (Z-A)"
-    
-    func sortQueryParameter() -> String {
-        switch self {
-        case .popularity:
-             return "popularity.desc"
-        case .releaseDate:
-            return "release_date.desc"
-        case .rating:
-            return "vote_average.desc"
-        case .ascTitle:
-            return "original_title.asc"
-        case .descTitle:
-            return "original_title.desc"
-        }
-    }
-}
-
 class MoviesViewController: UIViewController {
     // MARK: - Private properties
     private var movies: [Movie] = []
@@ -149,6 +126,7 @@ private extension MoviesViewController {
         let action = UIAction(title: sortType.rawValue) { [weak self] _ in
             if self?.sortType != sortType {
                 self?.sortTypeWasChanged = true
+                self?.page = 1
             }
             self?.sortType = sortType
             self?.loadTableView()
