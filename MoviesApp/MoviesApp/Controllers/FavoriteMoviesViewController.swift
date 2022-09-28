@@ -12,6 +12,7 @@ class FavoriteMoviesViewController: UIViewController {
     private var service: MoviesServiceable = MovieService()
     private var movies: [Movie] = []
     private var sortType: SortType = .popularity
+    private let manager = FavoriteMoviesManager()
     
     private let tableView: UITableView = {
         let tableView = UITableView()
@@ -51,7 +52,7 @@ private extension FavoriteMoviesViewController {
         
         setupTableView()
     }
-        
+            
     func setupTableView() {
         tableView.delegate = self
         tableView.dataSource = self

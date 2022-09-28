@@ -94,6 +94,9 @@ private extension MovieTableViewCell {
     func setupSubviews() {
         selectionStyle = .none
         backgroundColor = .black
+        
+        accessoryView = UIImageView(image: UIImage(systemName: "chevron.right"))
+        tintColor = .white
 
         contentView.addSubview(horizontalStackView)
         horizontalStackView.addArrangedSubview(posterImageView)

@@ -19,4 +19,9 @@ extension String {
 
         return yearFormatter.string(from: date)
     }
+    
+    static func getFavoriteMoviesPath() -> URL? {
+        let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
+        return documentDirectory?.appendingPathComponent("FavoriteMovies.json")
+    }
 }
