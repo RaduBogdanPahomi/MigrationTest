@@ -10,7 +10,8 @@ import UIKit
 class MovieTableViewCell: UITableViewCell {
     // MARK: - Private properties
     private let movieDetailsView = MovieDetailsView()
-    var favoriteAction: ((Bool) -> Void)?
+    weak var delegate: MovieCellDelegate?
+    private var movie: Movie?
 
     private let horizontalStackView: UIStackView = {
         let horizontalStackView = UIStackView()
@@ -63,6 +64,7 @@ class MovieTableViewCell: UITableViewCell {
     
     func update(withMovie movie: Movie) {
         movieDetailsView.update(withMovie: movie)
+        self.movie = movie
         activityIndicatorView.startAnimating()
         
         let isFavorite = FavoriteMoviesManager.shared.isFavoriteMovie(id: movie.id)
@@ -80,7 +82,8 @@ class MovieTableViewCell: UITableViewCell {
     
     @objc func favoriteButtonAction() {
         favoriteButton.isSelected = !favoriteButton.isSelected
-        favoriteAction?(favoriteButton.isSelected)
+        guard let movie else { return }
+        delegate?.markAsFavorite(movie: movie, favorite: favoriteButton.isSelected)
     }
 }
 
