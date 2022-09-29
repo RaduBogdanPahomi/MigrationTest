@@ -15,7 +15,6 @@ class MovieDescriptionView: UIView {
     @IBOutlet private weak var movieDescriptionLabel: UILabel!
     private var genre: Genre?
         
-    
     // MARK: - Public API
     override init(frame: CGRect) {
         super.init(frame: frame)

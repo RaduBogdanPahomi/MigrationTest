@@ -105,7 +105,10 @@ class MovieDetailsViewController: UIViewController {
     @objc func favoriteButtonAction() {
         FavoriteMoviesManager.shared.changeFavoriteState(forMovie: movie)
         let isFavorite = FavoriteMoviesManager.shared.isFavoriteMovie(id: movie.id)
+        
+        #warning("Rename fav to something more apropiate. movieFavDetails or notificationInfo is a better name")
         var fav: [String : Any] = ["isFavorite" : isFavorite, "withId" : movie.id]
+        #warning("Move isFavoriteNotification to Notification+name extension")
         NotificationCenter.default.post(name: NSNotification.Name("isFavoriteNotification"), object: nil, userInfo: fav)
         favoriteButton.image = UIImage(systemName: isFavorite ? "heart.fill" : "heart")
     }

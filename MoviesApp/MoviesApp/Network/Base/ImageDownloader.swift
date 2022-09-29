@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 final class ImageDownloader {
-
+    #warning("Please goup private / public parameters and use MARK")
     static let shared = ImageDownloader()
 
     private var cachedImages: [String: UIImage]
@@ -78,6 +78,7 @@ final class ImageDownloader {
         }
     }
 
+    #warning("Move the private functions in an extension")
     private func cancelPreviousTask(with urlString: String?) {
         if let urlString = urlString, let task = getDataTaskFrom(urlString: urlString) {
             task.cancel()
