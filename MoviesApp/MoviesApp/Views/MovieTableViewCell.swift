@@ -8,7 +8,6 @@
 import UIKit
 
 class MovieTableViewCell: UITableViewCell {
-    #warning("Make this cell from interface builder")
     // MARK: - Private properties
     private let movieDetailsView = MovieDetailsView()
     weak var delegate: MovieCellDelegate?
