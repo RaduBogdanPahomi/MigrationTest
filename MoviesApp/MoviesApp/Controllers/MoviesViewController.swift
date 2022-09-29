@@ -15,6 +15,7 @@ class MoviesViewController: UIViewController {
     private var isMovieRequestInProgress = false
     private var sortType: SortType = .popularity
     private var sortTypeWasChanged = false
+    private let myNotification: NSNotification? = nil
     
     private let tableview: UITableView = {
         let tableview = UITableView()
@@ -38,6 +39,7 @@ class MoviesViewController: UIViewController {
         
         setupUserInterface()
         loadTableView()
+        setupNotification()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -136,6 +138,22 @@ private extension MoviesViewController {
         action.state = self.sortType == sortType ? .on : .off
         return action
     }
+    
+    func setupNotification() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(didReceiveNotification(_:)),
+                                               name: NSNotification.Name("isFavoriteNotification"),
+                                               object: nil)
+    }
+    
+    @objc func didReceiveNotification(_ notification: NSNotification) {
+        guard let notificationInfo = notification.userInfo,
+              let movieId = notificationInfo["withId"] else { tableview.reloadData(); return }
+        let movieIndex = movies.firstIndex { movie in
+            movie.id == movieId as! Int
+        } ?? 0
+        tableview.reloadRows(at: [IndexPath(row: movieIndex, section: 0)], with: .automatic)
+    }
 }
 
 // MARK: - UITableViewDataSource protocol
@@ -148,10 +166,7 @@ extension MoviesViewController: UITableViewDataSource {
         let cell = tableview.dequeueReusableCell(withIdentifier: "cellId", for: indexPath) as! MovieTableViewCell
         let movie = movies[indexPath.row]
         
-        cell.favoriteAction = { isFavorite in
-            FavoriteMoviesManager.shared.markMovie(movie: movie, asFavorite: isFavorite)
-        }
-                
+        cell.delegate = self
         cell.update(withMovie: movie)
         
         return cell
@@ -169,5 +184,11 @@ extension MoviesViewController: UITableViewDelegate {
             page += 1
             loadTableView()
         }
+    }
+}
+
+extension MoviesViewController: MovieCellDelegate {
+    func markAsFavorite(movie: Movie, favorite: Bool) {
+        FavoriteMoviesManager.shared.markMovie(movie: movie, asFavorite: favorite)
     }
 }

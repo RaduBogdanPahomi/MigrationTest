@@ -87,6 +87,8 @@ class MovieDetailsViewController: UIViewController {
         super.viewDidLoad()
         setupUserInterface()
         loadCollectionView()
+        
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -103,6 +105,8 @@ class MovieDetailsViewController: UIViewController {
     @objc func favoriteButtonAction() {
         FavoriteMoviesManager.shared.changeFavoriteState(forMovie: movie)
         let isFavorite = FavoriteMoviesManager.shared.isFavoriteMovie(id: movie.id)
+        var fav: [String : Any] = ["isFavorite" : isFavorite, "withId" : movie.id]
+        NotificationCenter.default.post(name: NSNotification.Name("isFavoriteNotification"), object: nil, userInfo: fav)
         favoriteButton.image = UIImage(systemName: isFavorite ? "heart.fill" : "heart")
     }
 }
