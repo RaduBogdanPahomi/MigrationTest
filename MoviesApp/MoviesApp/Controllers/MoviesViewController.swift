@@ -151,10 +151,7 @@ extension MoviesViewController: UITableViewDataSource {
         cell.favoriteAction = { isFavorite in
             FavoriteMoviesManager.shared.markMovie(movie: movie, asFavorite: isFavorite)
         }
-        
-        cell.accessoryView = UIImageView(image: UIImage(systemName: "chevron.right"))
-        cell.tintColor = .white
-        
+                
         cell.update(withMovie: movie)
         
         return cell
