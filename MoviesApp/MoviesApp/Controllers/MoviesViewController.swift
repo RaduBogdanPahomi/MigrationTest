@@ -16,8 +16,6 @@ class MoviesViewController: UIViewController {
     private var sortType: SortType = .popularity
     private var sortTypeWasChanged = false
     
-    #warning("myNotification is not needed, also not used. Please remove")
-    private let myNotification: NSNotification? = nil
     
     private let tableview: UITableView = {
         let tableview = UITableView()
@@ -42,12 +40,6 @@ class MoviesViewController: UIViewController {
         setupUserInterface()
         loadTableView()
         setupNotification()
-    }
-    
-    #warning("Since we are refreshing the corresponding cell from notifications, we do not need to refresh the entire screen on viewWillAppear. Can be removed")
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        tableview.reloadData()
     }
 }
     
@@ -145,23 +137,17 @@ private extension MoviesViewController {
     func setupNotification() {
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(didReceiveNotification(_:)),
-    #warning("Move notification name in Notification+name")
-                                               name: NSNotification.Name("isFavoriteNotification"),
+                                               name: .myNotification,
                                                object: nil)
     }
     
     @objc func didReceiveNotification(_ notification: NSNotification) {
         guard let notificationInfo = notification.userInfo,
-              let movieId = notificationInfo["withId"] else { tableview.reloadData(); return }
+              let movieId = notificationInfo["withId"],
+              let movieIndex = movies.firstIndex(where: { movie in
+                  movie.id == movieId as! Int
+              }) else { tableview.reloadData(); return }
         
-    #warning("We can also move bellow code in guard. If the movie is not found in movies, then we are always defaulting to 0 - and we will always reload the first cell - first movie")
-        let movieIndex = movies.firstIndex { movie in
-            movie.id == movieId as! Int
-        } ?? 0
-        
-        #warning("This is fine, but we can do an update, and use the same refresh in func markAsFavorite(movie: Movie, favorite: Bool) { - where we have the delegate implementation")
-        #warning("create a method that reloads a row; the function should get a movie id as parameter")
-        #warning("Call this method here, in didReceiveNotification, and in markAsFavorite")
         tableview.reloadRows(at: [IndexPath(row: movieIndex, section: 0)], with: .automatic)
     }
 }
