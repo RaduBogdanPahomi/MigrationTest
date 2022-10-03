@@ -13,6 +13,8 @@ class MovieMoreDetailsViewController: UIViewController {
     private var movie: Movie!
     private var movies: [Movie] = []
     private var favMovie: FavoriteMovie!
+    private var page = 1
+    private var isMovieRequestInProgress = false
     
     private lazy var favoriteButton: UIBarButtonItem = {
         let favoriteButton = UIBarButtonItem(image: .none,
@@ -149,7 +151,9 @@ private extension MovieMoreDetailsViewController {
     
     func fetchData(completion: @escaping (Result<SimilarMovies, RequestError>) -> Void) {
         Task(priority: .background) {
-            let result = await service.getSimilarMovies(id: movie?.id ?? 0)
+            isMovieRequestInProgress = true
+            let result = await service.getSimilarMovies(page: page, id: movie?.id ?? 0)
+            isMovieRequestInProgress = false
             completion(result)
         }
     }
@@ -159,12 +163,10 @@ private extension MovieMoreDetailsViewController {
             guard let self = self else { return }
             switch result {
             case .success(let response):
-                self.movies = response.results
+                self.movies.append(contentsOf: response.results)
                 self.collectionview.reloadData()
-                completion?()
             case .failure(let error):
                 self.showModal(title: "Error", message: error.customMessage)
-                completion?()
             }
         }
     }
@@ -244,5 +246,12 @@ extension MovieMoreDetailsViewController: UICollectionViewDataSource {
 extension MovieMoreDetailsViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         showDetail(for: movies[indexPath.section])
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if indexPath.section + 1 == movies.count && isMovieRequestInProgress == false {
+            page += 1
+            loadCollectionView()
+        }
     }
 }

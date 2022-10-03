@@ -8,7 +8,7 @@
 enum MoviesEndpoint {
     case movieList(page: Int, sortType: String)
     case movie(id: Int)
-    case similarMovie(id: Int)
+    case similarMovie(page: Int, id: Int)
 }
 
 extension MoviesEndpoint: Endpoint {    
@@ -18,7 +18,7 @@ extension MoviesEndpoint: Endpoint {
             return "/3/discover/movie"
         case .movie(let id):
             return "/3/movie/\(id)"
-        case .similarMovie(let id):
+        case .similarMovie( _, let id):
             return "/3/movie/\(id)/similar"
         }
     }
@@ -54,6 +54,10 @@ extension MoviesEndpoint: Endpoint {
         
         if case .movieList(let page, let sortType) = self {
             queryParameters["sort_by"] = sortType
+            queryParameters["page"] = "\(page)"
+        }
+        
+        if case .similarMovie(let page, _) = self {
             queryParameters["page"] = "\(page)"
         }
         

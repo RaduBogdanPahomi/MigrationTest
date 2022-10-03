@@ -10,7 +10,7 @@ import Foundation
 protocol MoviesServiceable {
     func getMovieList(page: Int, sortType: String) async -> Result<MovieList, RequestError>
     func getMovie(id: Int) async -> Result<Movie, RequestError>
-    func getSimilarMovies(id: Int) async -> Result<SimilarMovies, RequestError>
+    func getSimilarMovies(page: Int, id: Int) async -> Result<SimilarMovies, RequestError>
 }
 
 struct MovieService: HTTPClient, MoviesServiceable {
@@ -22,7 +22,7 @@ struct MovieService: HTTPClient, MoviesServiceable {
         return await sendRequest(endpoint: MoviesEndpoint.movie(id: id), responseModel: Movie.self)
     }
     
-    func getSimilarMovies(id: Int) async -> Result<SimilarMovies ,RequestError> {
-        return await sendRequest(endpoint: MoviesEndpoint.similarMovie(id: id), responseModel: SimilarMovies.self)
+    func getSimilarMovies(page: Int, id: Int) async -> Result<SimilarMovies ,RequestError> {
+        return await sendRequest(endpoint: MoviesEndpoint.similarMovie(page: page, id: id), responseModel: SimilarMovies.self)
     }
 }
