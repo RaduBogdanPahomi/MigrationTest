@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_0" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="189" id="Kcw-Dc-FOc" customClass="MovieTableViewCell" customModule="MoviesApp" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="468" height="189"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Kcw-Dc-FOc" id="1Eu-2R-zm0">
+                <rect key="frame" x="0.0" y="0.0" width="468" height="189"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="2Ui-kr-esS">
+                        <rect key="frame" x="0.0" y="-10" width="468" height="200"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="1000" verticalHuggingPriority="251" image="MoviePoster" translatesAutoresizingMaskIntoConstraints="NO" id="e79-Hd-2XQ">
+                                <rect key="frame" x="0.0" y="0.0" width="150" height="200"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="225" id="XaI-U1-Eha"/>
+                                    <constraint firstAttribute="width" constant="150" id="hjQ-5z-lor"/>
+                                </constraints>
+                            </imageView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3fC-DT-Tms" customClass="MovieDetailsView" customModule="MoviesApp" customModuleProvider="target">
+                                <rect key="frame" x="160" y="51.666666666666657" width="308" height="97"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="3fC-DT-Tms" firstAttribute="centerY" secondItem="2Ui-kr-esS" secondAttribute="centerY" id="dAa-Wo-4z6"/>
+                        </constraints>
+                    </stackView>
+                    <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0fv-TS-nYb">
+                        <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
+                        <color key="backgroundColor" white="0.33333333329999998" alpha="0.69838055460000004" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="40" id="iDk-LV-IfH"/>
+                            <constraint firstAttribute="height" constant="40" id="zk9-8q-emn"/>
+                        </constraints>
+                        <color key="tintColor" systemColor="systemRedColor"/>
+                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                        <state key="normal" image="heart" catalog="system">
+                            <color key="titleColor" systemColor="systemPinkColor"/>
+                        </state>
+                        <state key="selected">
+                            <color key="titleColor" systemColor="systemRedColor"/>
+                            <imageReference key="image" image="heart.fill" catalog="system" symbolScale="medium"/>
+                        </state>
+                    </button>
+                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="ZrB-w6-ZEW">
+                        <rect key="frame" x="65" y="81" width="20" height="20"/>
+                    </activityIndicatorView>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                <constraints>
+                    <constraint firstItem="ZrB-w6-ZEW" firstAttribute="leading" secondItem="1Eu-2R-zm0" secondAttribute="leadingMargin" constant="45" id="5xO-h4-IT4"/>
+                    <constraint firstItem="2Ui-kr-esS" firstAttribute="leading" secondItem="1Eu-2R-zm0" secondAttribute="leading" id="LIC-tu-PzT"/>
+                    <constraint firstItem="2Ui-kr-esS" firstAttribute="top" secondItem="1Eu-2R-zm0" secondAttribute="top" constant="-10" id="Wcf-GS-rfA"/>
+                    <constraint firstItem="ZrB-w6-ZEW" firstAttribute="top" secondItem="1Eu-2R-zm0" secondAttribute="topMargin" constant="70" id="WuK-hV-wGi"/>
+                    <constraint firstAttribute="trailing" secondItem="2Ui-kr-esS" secondAttribute="trailing" id="bjt-EZ-OJs"/>
+                    <constraint firstAttribute="bottom" secondItem="2Ui-kr-esS" secondAttribute="bottom" constant="10" id="dST-Wm-iJq"/>
+                    <constraint firstItem="0fv-TS-nYb" firstAttribute="top" secondItem="2Ui-kr-esS" secondAttribute="topMargin" constant="10" id="fAM-sq-p6J"/>
+                    <constraint firstItem="0fv-TS-nYb" firstAttribute="leading" secondItem="2Ui-kr-esS" secondAttribute="leadingMargin" id="kNX-D0-rc9"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="activityIndicatorView" destination="ZrB-w6-ZEW" id="XTs-qx-Jeo"/>
+                <outlet property="favoriteButton" destination="0fv-TS-nYb" id="Mga-sO-3hK"/>
+                <outlet property="movieDetailsView" destination="3fC-DT-Tms" id="gZ3-cm-sBm"/>
+                <outlet property="posterImageView" destination="e79-Hd-2XQ" id="oJb-pL-bxc"/>
+            </connections>
+            <point key="canvasLocation" x="336.92307692307691" y="-46.563981042654028"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="MoviePoster" width="150" height="200"/>
+        <image name="heart" catalog="system" width="128" height="107"/>
+        <image name="heart.fill" catalog="system" width="128" height="107"/>
+        <systemColor name="systemPinkColor">
+            <color red="1" green="0.17647058823529413" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemRedColor">
+            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>

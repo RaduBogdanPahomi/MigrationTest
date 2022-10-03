@@ -31,8 +31,8 @@ class MovieCollectionViewCell: UICollectionViewCell {
     func update(withMovie movie: Movie) {
         movieCollectionViewFooter.update(withMovie: movie)
         
-        ImageDownloader.shared.downloadImage(with: movie.composedPosterPath(), completionHandler: {(image, cached) in
-            self.posterImageView.image = image
+        ImageDownloader.shared.downloadImage(with: movie.composedPosterPath(), completionHandler: {[weak self] (image, cached) in
+            self?.posterImageView.image = image
         }, placeholderImage: UIImage(named: "MoviePoster.jpeg"))
     }
 }

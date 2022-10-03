@@ -83,7 +83,7 @@ private extension MoviesViewController {
         tableview.delegate = self
         tableview.dataSource = self
         tableview.backgroundColor = .black
-        tableview.register(MovieTableViewCell.self, forCellReuseIdentifier: "cellId")
+        tableview.registerCell(type: MovieTableViewCell.self)
         
         view.addSubview(tableview)
         
@@ -110,7 +110,7 @@ private extension MoviesViewController {
             let result = await service.getMovie(id: movie.id)
             switch result {
             case .success(let movie):
-                let movieDetailsVC = MovieDetailsViewController()
+                let movieDetailsVC = MovieMoreDetailsViewController()
                 movieDetailsVC.update(withMovie: movie)
                 navigationController?.pushViewController(movieDetailsVC, animated: true)
             case .failure(let error):
@@ -159,7 +159,7 @@ extension MoviesViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableview.dequeueReusableCell(withIdentifier: "cellId", for: indexPath) as! MovieTableViewCell
+        guard let cell = tableview.dequeueCell(withType: MovieTableViewCell.self) as? MovieTableViewCell else { return UITableViewCell() }
         let movie = movies[indexPath.row]
         
         cell.delegate = self
