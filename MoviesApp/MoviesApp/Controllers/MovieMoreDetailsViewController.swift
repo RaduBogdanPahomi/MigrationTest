@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MovieDetailsViewController: UIViewController {
+class MovieMoreDetailsViewController: UIViewController {
     // MARK: - Private properties
     private var service: MoviesServiceable = MovieService()
     private var movie: Movie!
@@ -113,7 +113,7 @@ class MovieDetailsViewController: UIViewController {
 }
 
 // MARK: - Private API
-private extension MovieDetailsViewController {
+private extension MovieMoreDetailsViewController {
     func setupUserInterface() {
         title = "\(movie?.originalTitle ?? "")"
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
@@ -129,9 +129,9 @@ private extension MovieDetailsViewController {
         
         if let validPath = movie?.composedBackdropPath() {
             activityIndicatorView.startAnimating()
-            ImageDownloader.shared.downloadImage(with: validPath, completionHandler: {(image, cached) in
-                self.landscapePosterImageView.image = image
-                self.activityIndicatorView.stopAnimating()
+            ImageDownloader.shared.downloadImage(with: validPath, completionHandler: {[weak self] (image, cached) in
+                self?.landscapePosterImageView.image = image
+                self?.activityIndicatorView.stopAnimating()
             }, placeholderImage: UIImage(named: "MoviePoster.jpeg"))
         } else {
             landscapePosterImageView.image = UIImage(named: "MoviePoster.jpeg")
@@ -211,7 +211,7 @@ private extension MovieDetailsViewController {
             let result = await service.getMovie(id: movie.id)
             switch result {
             case .success(let movie):
-                let movieDetailsVC = MovieDetailsViewController()
+                let movieDetailsVC = MovieMoreDetailsViewController()
                 movieDetailsVC.update(withMovie: movie)
                 navigationController?.pushViewController(movieDetailsVC, animated: true)
             case .failure(let error):
@@ -222,7 +222,7 @@ private extension MovieDetailsViewController {
 }
 
 // MARK: - UICollectionViewDataSource protocol
-extension MovieDetailsViewController: UICollectionViewDataSource {
+extension MovieMoreDetailsViewController: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return movies.count
     }
@@ -241,7 +241,7 @@ extension MovieDetailsViewController: UICollectionViewDataSource {
 }
 
 // MARK: - UICollectionViewDelegate protocol
-extension MovieDetailsViewController: UICollectionViewDelegate {
+extension MovieMoreDetailsViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         showDetail(for: movies[indexPath.section])
     }

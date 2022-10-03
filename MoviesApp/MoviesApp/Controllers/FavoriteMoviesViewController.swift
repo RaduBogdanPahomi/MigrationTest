@@ -39,6 +39,7 @@ class FavoriteMoviesViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.movies = FavoriteMoviesManager.shared.favoriteMovies
+        self.sortBy(sortType)
         tableView.reloadData()
     }
 }
@@ -57,7 +58,7 @@ private extension FavoriteMoviesViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.backgroundColor = .black
-        tableView.register(MovieTableViewCell.self, forCellReuseIdentifier: "cellId")
+        tableView.registerCell(type: MovieTableViewCell.self)
         
         view.addSubview(tableView)
         self.createSortMenu()
@@ -75,7 +76,7 @@ private extension FavoriteMoviesViewController {
             let result = await service.getMovie(id: Int(movie.id))
             switch result {
             case .success(let movie):
-                let movieDetailsVC = MovieDetailsViewController()
+                let movieDetailsVC = MovieMoreDetailsViewController()
                 movieDetailsVC.update(withMovie: movie)
                 navigationController?.pushViewController(movieDetailsVC, animated: true)
             case .failure(let error):
@@ -132,7 +133,7 @@ extension FavoriteMoviesViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath) as! MovieTableViewCell
+        guard let cell = tableView.dequeueCell(withType: MovieTableViewCell.self) as? MovieTableViewCell else { return UITableViewCell() }
         let movie = movies[indexPath.row]
         cell.shouldHideFavorite(hide: true)
         cell.update(withMovie: movie)

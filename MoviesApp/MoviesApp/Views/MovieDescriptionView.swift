@@ -30,8 +30,8 @@ class MovieDescriptionView: UIView {
         movieDescriptionLabel.text = movie.overview
         getMovieTagLabels(forMovie: movie)
         
-        ImageDownloader.shared.downloadImage(with: movie.composedPosterPath(), completionHandler: {(image, cached) in
-            self.moviePosterImageView.image = image
+        ImageDownloader.shared.downloadImage(with: movie.composedPosterPath(), completionHandler: {[weak self] (image, cached) in
+            self?.moviePosterImageView.image = image
         }, placeholderImage: UIImage(named: "MoviePoster.jpeg"))
     }
     

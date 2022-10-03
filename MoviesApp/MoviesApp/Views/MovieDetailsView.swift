@@ -2,54 +2,26 @@
 //  MovieDetailsView.swift
 //  MoviesApp
 //
-//  Created by Tudor Ghilvacs on 12.08.2022.
+//  Created by Tudor Ghilvacs on 30.09.2022.
 //
 
+import Foundation
 import UIKit
 
 class MovieDetailsView: UIView {
-    // MARK: - Private properties
-    private let containerStackView = UIStackView()
-    private let horizontalStackView = UIStackView()
+    @IBOutlet private weak var contentView: UIView!
+    @IBOutlet private weak var movieNameLabel: UILabel!
+    @IBOutlet private weak var movieRatingLabel: UILabel!
+    @IBOutlet private weak var movieYearLabel: UILabel!
     
-    private let movieNameLabel: UILabel = {
-        let movieNameLabel = UILabel()
-        movieNameLabel.font = movieNameLabel.font.withSize(23)
-        
-        return movieNameLabel
-    }()
-    
-    private let starImageView: UIImageView = {
-        let starImageView = UIImageView()
-        starImageView.contentMode = .scaleAspectFit
-        starImageView.image = UIImage(named: "StarIcon.png")
-        starImageView.setContentHuggingPriority(.required, for: .horizontal)
-        
-        return starImageView
-    }()
-    
-    private let movieRatingLabel: UILabel = {
-        let movieRatinglabel = UILabel()
-        movieRatinglabel.font = movieRatinglabel.font.withSize(18)
-        
-        return movieRatinglabel
-    }()
-    
-    private let movieYearLabel: UILabel = {
-        let movieYearLabel = UILabel()
-        movieYearLabel.font = movieYearLabel.font.withSize(18)
-        
-        return movieYearLabel
-    }()
-    
-    // MARK: - Public API
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupUserInterface()
+        commonInit()
     }
     
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: coder)
+        commonInit()
     }
     
     convenience init() {
@@ -60,52 +32,21 @@ class MovieDetailsView: UIView {
         movieNameLabel.text = movie.originalTitle
         movieRatingLabel.text = "\(movie.voteAverage)"
         movieYearLabel.text = movie.releaseDate.getYear() ?? ""
-    }    
+    }
 }
 
 // MARK: - Private API
 private extension MovieDetailsView {
-    func setupUserInterface() {
-        containerStackView.axis = .vertical
-        containerStackView.translatesAutoresizingMaskIntoConstraints = false
-        containerStackView.spacing = 10.0
+    func commonInit() {
+        Bundle.main.loadNibNamed(MovieDetailsView.identifier, owner: self, options: nil)
+        addSubview(contentView)
+        contentView.translatesAutoresizingMaskIntoConstraints = false
         
-        movieNameLabel.numberOfLines = 0
-        movieNameLabel.textColor = .white
-        
-        horizontalStackView.axis = .horizontal
-        horizontalStackView.translatesAutoresizingMaskIntoConstraints = false
-        horizontalStackView.spacing = 10.0
-
-        movieRatingLabel.numberOfLines = 0
-        movieRatingLabel.textColor = .white
-        movieRatingLabel.setContentHuggingPriority(.required, for: .horizontal)
-        
-        movieYearLabel.numberOfLines = 0
-        movieYearLabel.textColor = .gray
-        movieYearLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
-        
-        containerStackView.addArrangedSubview(movieNameLabel)
-        containerStackView.addArrangedSubview(horizontalStackView)
-        
-        horizontalStackView.addArrangedSubview(starImageView)
-        horizontalStackView.addArrangedSubview(movieRatingLabel)
-        horizontalStackView.addArrangedSubview(movieYearLabel)
-        
-        addSubview(containerStackView)
-        
-        setupContraints()
-    }
-    
-    func setupContraints() {
         NSLayoutConstraint.activate([
-            containerStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            containerStackView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            containerStackView.topAnchor.constraint(equalTo: topAnchor),
-            containerStackView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            
-            starImageView.heightAnchor.constraint(equalToConstant: 20),
-            starImageView.widthAnchor.constraint(equalToConstant: 20)
+            contentView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            contentView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            contentView.topAnchor.constraint(equalTo: topAnchor),
+            contentView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
     }
 }
