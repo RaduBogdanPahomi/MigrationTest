@@ -14,9 +14,9 @@ class MoviesViewController: UIViewController {
     private var page = 1
     private var isMovieRequestInProgress = false
     private var sortType: SortType = .popularity
-    private var sortTypeWasChanged = false
-    
-    
+    private var requestWasChanged = false
+    private let searchController = UISearchController()
+
     private let tableview: UITableView = {
         let tableview = UITableView()
         tableview.translatesAutoresizingMaskIntoConstraints = false
@@ -49,26 +49,33 @@ private extension MoviesViewController {
         title = "All Movies"
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         navigationItem.rightBarButtonItem = sortButton
+        navigationItem.searchController = searchController
+        searchController.searchBar.delegate = self
         setupTableView()
     }
     
-    func fetchData(completion: @escaping (Result<MovieList, RequestError>) -> Void) {
+    func fetchData(withKeyword keyword: String, completion: @escaping (Result<MovieList, RequestError>) -> Void) {
         Task(priority: .background) {
             isMovieRequestInProgress = true
-            let result = await service.getMovieList(page: page, sortType: sortType.sortQueryParameter())
+            if keyword.isEmpty == false {
+                let result = await service.getSearchMovies(page: page, keyword: keyword)
+                completion(result)
+            } else {
+                let result = await service.getMovieList(page: page, sortType: sortType.sortQueryParameter())
+                completion(result)
+            }
             isMovieRequestInProgress = false
-            completion(result)
         }
     }
     
     func loadTableView() {
-        fetchData { [weak self] result in
+        fetchData(withKeyword: searchController.searchBar.text ?? "") { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .success(let response):
-                if self.sortTypeWasChanged == true {
+                if self.requestWasChanged == true {
                     self.movies.removeAll()
-                    self.sortTypeWasChanged = false
+                    self.requestWasChanged = false
                 }
                 self.movies.append(contentsOf: response.results)
                 self.createSortMenu()
@@ -122,7 +129,7 @@ private extension MoviesViewController {
     func createActionItem(forSortType sortType: SortType) -> UIAction {
         let action = UIAction(title: sortType.rawValue) { [weak self] _ in
             if self?.sortType != sortType {
-                self?.sortTypeWasChanged = true
+                self?.requestWasChanged = true
                 self?.page = 1
             }
             self?.sortType = sortType
@@ -186,5 +193,13 @@ extension MoviesViewController: UITableViewDelegate {
 extension MoviesViewController: MovieCellDelegate {
     func markAsFavorite(movie: Movie, favorite: Bool) {
         FavoriteMoviesManager.shared.markMovie(movie: movie, asFavorite: favorite)
+    }
+}
+
+extension MoviesViewController: UISearchBarDelegate {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        requestWasChanged = true
+        page = 1
+        loadTableView()
     }
 }
