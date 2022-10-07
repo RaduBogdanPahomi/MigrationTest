@@ -11,8 +11,11 @@ class FavoriteMoviesViewController: UIViewController {
     //MARK: - Private properties
     private var service: MoviesServiceable = MovieService()
     private var movies: [Movie] = []
+
+    private var filteredMovies: [Movie] = []
     private var sortType: SortType = .popularity
     private let manager = FavoriteMoviesManager()
+    private let searchController = UISearchController()
     
     private let tableView: UITableView = {
         let tableView = UITableView()
@@ -50,6 +53,8 @@ private extension FavoriteMoviesViewController {
         navigationItem.title = "Favorites"
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         navigationItem.rightBarButtonItem = sortButton
+        navigationItem.searchController = searchController
+        searchController.searchResultsUpdater = self
         
         setupTableView()
     }
@@ -113,15 +118,15 @@ private extension FavoriteMoviesViewController {
     func sortBy(_: SortType) {
         switch sortType {
         case .popularity:
-            movies = movies.sorted(by: { $1.popularity < $0.popularity })
+            filteredMovies = filteredMovies.sorted(by: { $1.popularity < $0.popularity })
         case .releaseDate:
-            movies = movies.sorted(by: { $1.releaseDate < $0.releaseDate })
+            filteredMovies = filteredMovies.sorted(by: { $1.releaseDate < $0.releaseDate })
         case .rating:
-            movies = movies.sorted(by: { $1.voteAverage < $0.voteAverage })
+            filteredMovies = filteredMovies.sorted(by: { $1.voteAverage < $0.voteAverage })
         case .ascTitle:
-            movies = movies.sorted(by: { $0.originalTitle < $1.originalTitle })
+            filteredMovies = filteredMovies.sorted(by: { $0.originalTitle < $1.originalTitle })
         case .descTitle:
-            movies = movies.sorted(by: { $1.originalTitle < $0.originalTitle })
+            filteredMovies = filteredMovies.sorted(by: { $1.originalTitle < $0.originalTitle })
         }
     }
 }
@@ -146,5 +151,28 @@ extension FavoriteMoviesViewController: UITableViewDataSource {
 extension FavoriteMoviesViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         showDetail(for: movies[indexPath.row])
+    }
+}
+
+//MARK: - UISearchResultsUpdating protocol
+extension FavoriteMoviesViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        let searchText = searchController.searchBar.text ?? ""
+        if searchText.isEmpty == true {
+            movies = FavoriteMoviesManager.shared.favoriteMovies
+            tableView.reloadData()
+        }
+        
+        movies = searchText.isEmpty ? movies : FavoriteMoviesManager.shared.favoriteMovies.filter({(movie: Movie) -> Bool in
+            return movie.title.range(of: searchText, options: .caseInsensitive) != nil
+        })
+        
+        tableView.reloadData()
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.text?.removeAll()
+        searchBar.resignFirstResponder()
+        tableView.reloadData()
     }
 }

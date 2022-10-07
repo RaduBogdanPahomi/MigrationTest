@@ -7,15 +7,27 @@
 
 import UIKit
 
+protocol FilterResultsDelegate {
+    func didSelect(keyword: String)
+}
+
 class MoviesViewController: UIViewController {
     // MARK: - Private properties
     private var movies: [Movie] = []
+    private var keywords: [Keyword] = []
     private var service: MoviesServiceable = MovieService()
     private var page = 1
     private var isMovieRequestInProgress = false
     private var sortType: SortType = .popularity
     private var requestWasChanged = false
-    private let searchController = UISearchController()
+    private let filterResultsViewController = FilterResultsViewController()
+    
+    private lazy var searchController: UISearchController = {
+        let searchController = UISearchController(searchResultsController: filterResultsViewController)
+        searchController.searchResultsUpdater = self
+        
+        return  searchController
+    }()
 
     private let tableview: UITableView = {
         let tableview = UITableView()
@@ -50,10 +62,20 @@ private extension MoviesViewController {
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         navigationItem.rightBarButtonItem = sortButton
         navigationItem.searchController = searchController
+        
         searchController.searchBar.delegate = self
+        filterResultsViewController.delegate = self
+        
         setupTableView()
     }
     
+    func fetchKeyword(completion: @escaping (Result<Keywords, RequestError>) -> Void) {
+        Task(priority: .background) {
+            let result = await service.getSearchKeyword(keyword: searchController.searchBar.text ?? "")
+            completion(result)
+        }
+    }
+
     func fetchData(withKeyword keyword: String, completion: @escaping (Result<MovieList, RequestError>) -> Void) {
         Task(priority: .background) {
             isMovieRequestInProgress = true
@@ -190,16 +212,66 @@ extension MoviesViewController: UITableViewDelegate {
     }
 }
 
+//MARK: - MovieViewCellDelegate protocol
 extension MoviesViewController: MovieCellDelegate {
     func markAsFavorite(movie: Movie, favorite: Bool) {
         FavoriteMoviesManager.shared.markMovie(movie: movie, asFavorite: favorite)
     }
 }
 
+//MARK: - UISearchBarDelegate protocol
 extension MoviesViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         requestWasChanged = true
         page = 1
+        searchController.dismiss(animated: true, completion: nil)
+        if #available(iOS 16.0, *) {
+            navigationItem.rightBarButtonItem?.isHidden = true
+        }
         loadTableView()
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.text?.removeAll()
+        requestWasChanged = true
+        if #available(iOS 16.0, *) {
+            navigationItem.rightBarButtonItem?.isHidden = false
+        }
+        loadTableView()
+    }
+}
+
+//MARK: - UISearchResultsUpdating protocol
+extension MoviesViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        searchController.showsSearchResultsController = true
+        if searchController.searchBar.text?.isEmpty == true {
+            navigationItem.hidesSearchBarWhenScrolling = true
+        } else {
+            navigationItem.hidesSearchBarWhenScrolling = false
+        }
+       
+        fetchKeyword() { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .success(let response):
+                if searchController.searchBar.text?.isEmpty == true {
+                    self.requestWasChanged = true
+                    self.page = 1
+                    self.loadTableView()
+                }
+                self.filterResultsViewController.update(withKeywords: response.results)
+            case .failure(let error):
+                self.showModal(title: "Error", message: error.customMessage)
+            }
+        }
+    }
+}
+
+//MARK: - FilterResultsDelegate protocol
+extension MoviesViewController: FilterResultsDelegate {
+    func didSelect(keyword: String) {
+        searchController.searchBar.text = keyword
+        searchBarSearchButtonClicked(searchController.searchBar)
     }
 }
