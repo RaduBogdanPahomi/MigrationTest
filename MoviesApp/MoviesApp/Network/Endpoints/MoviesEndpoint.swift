@@ -10,6 +10,7 @@ enum MoviesEndpoint {
     case movie(id: Int)
     case similarMovie(page: Int, id: Int)
     case searchMovie(page: Int, keyword: String)
+    case searchKeyword(keyword: String)
 }
 
 extension MoviesEndpoint: Endpoint {    
@@ -22,13 +23,15 @@ extension MoviesEndpoint: Endpoint {
         case .similarMovie(_, let id):
             return "/3/movie/\(id)/similar"
         case .searchMovie:
-            return"/3/search/movie"
+            return "/3/search/movie"
+        case .searchKeyword:
+            return "/3/search/keyword"
         }
     }
     
     var method: RequestMethod {
         switch self {
-        case .movieList, .movie, .similarMovie, .searchMovie:
+        case .movieList, .movie, .similarMovie, .searchMovie, .searchKeyword:
             return .get
         }
     }
@@ -36,7 +39,7 @@ extension MoviesEndpoint: Endpoint {
     var header: [String : String]? {
         let accessToken = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2NDBjMmI0OWM4ZDNkMTg3MDRiMDkyMzc0ZjM2ZGNjNSIsInN1YiI6IjYyZmYyYzE0YmM4NjU3MDA4MzdjOGE4MCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.wO7miNgox_YNDY-qNU0BKAEM_bgd9ewsIR38f-NJZZg"
         switch self {
-        case .movieList, .movie, .similarMovie, .searchMovie:
+        case .movieList, .movie, .similarMovie, .searchMovie, .searchKeyword:
             return [
                 "Authorization": "Bearer \(accessToken)",
                 "Content-Type": "application/json;charset=utf-8"
@@ -46,7 +49,7 @@ extension MoviesEndpoint: Endpoint {
     
     var body: [String : String]? {
         switch self {
-        case .movieList, .movie, .similarMovie, .searchMovie:
+        case .movieList, .movie, .similarMovie, .searchMovie, .searchKeyword:
             return nil
         }
     }
@@ -67,6 +70,14 @@ extension MoviesEndpoint: Endpoint {
         if case .searchMovie(let page, let keyword) = self {
             queryParameters["query"] = "\(keyword)"
             queryParameters["page"] = "\(page)"
+        }
+        
+        if case .searchKeyword(let keyword) = self {
+            if keyword.isEmpty == false {
+                queryParameters["query"] = "\(keyword)"
+            } else {
+                queryParameters["query"] = "\"\""
+            }
         }
         
         return queryParameters
