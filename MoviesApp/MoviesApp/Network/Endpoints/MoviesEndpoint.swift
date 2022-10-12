@@ -47,37 +47,27 @@ extension MoviesEndpoint: Endpoint {
         }
     }
     
-    var body: [String : String]? {
-        switch self {
-        case .movieList, .movie, .similarMovie, .searchMovie, .searchKeyword:
-            return nil
-        }
-    }
-    
     var queryStrings: [String: String?]? {
         let apiKey = "626d05abf324b3be1c089c695497d49c"
         var queryParameters = ["api_key": apiKey]
-        
-        if case .movieList(let page, let sortType) = self {
+
+        switch self {
+        case .movieList(page: let page, sortType: let sortType):
             queryParameters["sort_by"] = sortType
             queryParameters["page"] = "\(page)"
-        }
-        
-        if case .similarMovie(let page, _) = self {
+        case .similarMovie(page: let page):
             queryParameters["page"] = "\(page)"
-        }
-        
-        if case .searchMovie(let page, let keyword) = self {
+        case .searchMovie(page: let page, keyword: let keyword):
             queryParameters["query"] = "\(keyword)"
             queryParameters["page"] = "\(page)"
-        }
-        
-        if case .searchKeyword(let keyword) = self {
+        case .searchKeyword(keyword: let keyword):
             if keyword.isEmpty == false {
-                queryParameters["query"] = "\(keyword)"
+            queryParameters["query"] = "\(keyword)"
             } else {
-                queryParameters["query"] = "\"\""
+            queryParameters["query"] = "\"\""
             }
+        default:
+            return queryParameters
         }
         
         return queryParameters

@@ -17,7 +17,7 @@ protocol MoviesServiceable {
 
 struct MovieService: HTTPClient, MoviesServiceable {
     func getMovieList(page: Int, sortType: String) async -> Result<MovieList, RequestError> {
-            return await sendRequest(endpoint: MoviesEndpoint.movieList(page: page, sortType: sortType), responseModel: MovieList.self)
+        return await sendRequest(endpoint: MoviesEndpoint.movieList(page: page, sortType: sortType), responseModel: MovieList.self)
     }
     
     func getMovie(id: Int) async -> Result<Movie, RequestError> {

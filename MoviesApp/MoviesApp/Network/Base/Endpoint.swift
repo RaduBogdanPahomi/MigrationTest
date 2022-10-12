@@ -27,4 +27,8 @@ extension Endpoint {
     var queryStrings: [String : String?]? {
         return nil
     }
+    
+    var body: [String : String]? {
+        return nil
+    }
 }

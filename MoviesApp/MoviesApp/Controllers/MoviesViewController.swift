@@ -13,9 +13,10 @@ protocol FilterResultsDelegate {
 
 class MoviesViewController: UIViewController {
     // MARK: - Private properties
+    #warning("We have some constraints warnings on main page")
     private var movies: [Movie] = []
     private var keywords: [Keyword] = []
-    private var service: MoviesServiceable = MovieService()
+    private var service: MoviesServiceable = MovieService()	
     private var page = 1
     private var isMovieRequestInProgress = false
     private var sortType: SortType = .popularity
