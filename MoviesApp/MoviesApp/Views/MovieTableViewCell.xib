@@ -19,7 +19,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="2Ui-kr-esS">
-                        <rect key="frame" x="0.0" y="-10" width="468" height="200"/>
+                        <rect key="frame" x="0.0" y="0.0" width="468" height="200"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="1000" verticalHuggingPriority="251" image="MoviePoster" translatesAutoresizingMaskIntoConstraints="NO" id="e79-Hd-2XQ">
                                 <rect key="frame" x="0.0" y="0.0" width="150" height="200"/>
@@ -34,7 +34,7 @@
                             </view>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="3fC-DT-Tms" firstAttribute="centerY" secondItem="2Ui-kr-esS" secondAttribute="centerY" id="dAa-Wo-4z6"/>
+                            <constraint firstItem="3fC-DT-Tms" firstAttribute="centerY" secondItem="2Ui-kr-esS" secondAttribute="centerY" id="MlS-b8-tbr"/>
                         </constraints>
                     </stackView>
                     <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0fv-TS-nYb">
@@ -62,11 +62,11 @@
                 <constraints>
                     <constraint firstItem="ZrB-w6-ZEW" firstAttribute="leading" secondItem="1Eu-2R-zm0" secondAttribute="leadingMargin" constant="45" id="5xO-h4-IT4"/>
                     <constraint firstItem="2Ui-kr-esS" firstAttribute="leading" secondItem="1Eu-2R-zm0" secondAttribute="leading" id="LIC-tu-PzT"/>
-                    <constraint firstItem="2Ui-kr-esS" firstAttribute="top" secondItem="1Eu-2R-zm0" secondAttribute="top" constant="-10" id="Wcf-GS-rfA"/>
+                    <constraint firstItem="2Ui-kr-esS" firstAttribute="top" secondItem="1Eu-2R-zm0" secondAttribute="top" id="Wcf-GS-rfA"/>
                     <constraint firstItem="ZrB-w6-ZEW" firstAttribute="top" secondItem="1Eu-2R-zm0" secondAttribute="topMargin" constant="70" id="WuK-hV-wGi"/>
                     <constraint firstAttribute="trailing" secondItem="2Ui-kr-esS" secondAttribute="trailing" id="bjt-EZ-OJs"/>
                     <constraint firstAttribute="bottom" secondItem="2Ui-kr-esS" secondAttribute="bottom" constant="10" id="dST-Wm-iJq"/>
-                    <constraint firstItem="0fv-TS-nYb" firstAttribute="top" secondItem="2Ui-kr-esS" secondAttribute="topMargin" constant="10" id="fAM-sq-p6J"/>
+                    <constraint firstItem="0fv-TS-nYb" firstAttribute="top" secondItem="2Ui-kr-esS" secondAttribute="top" id="fAM-sq-p6J"/>
                     <constraint firstItem="0fv-TS-nYb" firstAttribute="leading" secondItem="2Ui-kr-esS" secondAttribute="leadingMargin" id="kNX-D0-rc9"/>
                 </constraints>
             </tableViewCellContentView>
