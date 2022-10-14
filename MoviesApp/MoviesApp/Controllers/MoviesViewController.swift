@@ -13,7 +13,6 @@ protocol FilterResultsDelegate {
 
 class MoviesViewController: UIViewController {
     // MARK: - Private properties
-    #warning("We have some constraints warnings on main page")
     private var movies: [Movie] = []
     private var keywords: [Keyword] = []
     private var service: MoviesServiceable = MovieService()	
@@ -59,8 +58,6 @@ class MoviesViewController: UIViewController {
 // MARK: - Private API
 private extension MoviesViewController {
     func setupUserInterface() {
-        title = "All Movies"
-        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         navigationItem.rightBarButtonItem = sortButton
         navigationItem.searchController = searchController
         

@@ -9,6 +9,7 @@ enum AuthEndpoint {
     case requestToken
     case logInRequest(username: String, password: String, token: String)
     case createSession(token: String)
+    case accountDetails(sessionID: String)
 }
 
 extension AuthEndpoint: Endpoint {
@@ -20,12 +21,15 @@ extension AuthEndpoint: Endpoint {
             return "/3/authentication/token/validate_with_login"
         case .createSession:
             return "/3/authentication/session/new"
+        case .accountDetails:
+            return "/3/account"
         }
+        
     }
     
     var method: RequestMethod {
         switch self {
-        case .requestToken:
+        case .requestToken, .accountDetails:
             return .get
         case .logInRequest, .createSession:
             return .post
@@ -35,7 +39,7 @@ extension AuthEndpoint: Endpoint {
     var header: [String : String]? {
         let accessToken = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2NDBjMmI0OWM4ZDNkMTg3MDRiMDkyMzc0ZjM2ZGNjNSIsInN1YiI6IjYyZmYyYzE0YmM4NjU3MDA4MzdjOGE4MCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.wO7miNgox_YNDY-qNU0BKAEM_bgd9ewsIR38f-NJZZg"
         switch self {
-        case .requestToken, .logInRequest, .createSession:
+        case .requestToken, .logInRequest, .createSession, .accountDetails:
             return [
                 "Authorization": "Bearer \(accessToken)",
                 "Content-Type": "application/json;charset=utf-8"
@@ -53,6 +57,8 @@ extension AuthEndpoint: Endpoint {
             queryParameters["request_token"] = "\(token)"
         case .createSession(token: let token):
             queryParameters["request_token"] = "\(token)"
+        case .accountDetails(sessionID: let sessionID):
+            queryParameters["session_id"] = "\(sessionID)"
         default:
             return queryParameters
         }

@@ -50,8 +50,6 @@ class FavoriteMoviesViewController: UIViewController {
 //MARK: - Private API
 private extension FavoriteMoviesViewController {
     func setupUserInterface() {
-        navigationItem.title = "Favorites"
-        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         navigationItem.rightBarButtonItem = sortButton
         navigationItem.searchController = searchController
         searchController.searchResultsUpdater = self

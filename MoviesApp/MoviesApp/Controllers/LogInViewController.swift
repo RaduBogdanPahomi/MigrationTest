@@ -15,23 +15,29 @@ class LogInViewController: UIViewController {
     @IBOutlet private weak var passwordTextField: UITextField!
     @IBOutlet private weak var errorLabel: UILabel!
     @IBOutlet private weak var loginActivityIndicator: UIActivityIndicatorView!
-    
-    private var service: AuthServiceable = AuthService()
+
+    private let service: AuthServiceable = AuthService()
+    private var sessionID: String?
     
     //MARK: - Public API
     override func viewDidLoad() {
         super.viewDidLoad()
-        usernameTextField.delegate = self
-        passwordTextField.delegate = self
-        errorLabel.isHidden = true
-        loginActivityIndicator.isHidden = true
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let destinationVC = segue.destination as? UITabBarController,
+        let navControlers = destinationVC.viewControllers as? [UINavigationController] else { return }
+        
+        for navController in navControlers {
+            if let settingsVC = navController.viewControllers.first as? SettingsViewController {
+                settingsVC.sessionID = sessionID
+            }
+        }
     }
     
     @IBAction func signInAction(_ sender: Any) {
-        loginActivityIndicator.isHidden = false
         loginActivityIndicator.startAnimating()
-        fetchToken() { [weak self] result in
-            guard let self = self else { return }
+        fetchToken() { result in
             switch result {
             case .success(let response):
                 self.sendCredentials(token: response.requestToken) { result in
@@ -39,15 +45,17 @@ class LogInViewController: UIViewController {
                     case .success(_):
                         self.createSession(token: response.requestToken) { result in
                             switch result {
-                            case .success(_):
-                                self.loginActivityIndicator.isHidden = true
+                            case .success(let response):
+                                self.errorLabel.isHidden = true
+                                self.loginActivityIndicator.stopAnimating()
+                                self.sessionID = response.sessionId
                                 self.performSegue(withIdentifier: "mySegue", sender: nil)
-                            case .failure(_):
-                                print("Error")
+                            case .failure(let error):
+                                self.showModal(title: "Error", message: error.customMessage)
                             }
                         }
                     case .failure(_):
-                        self.loginActivityIndicator.isHidden = true
+                        self.loginActivityIndicator.stopAnimating()
                         self.passwordTextField.text?.removeAll()
                         self.errorLabel.isHidden = false
                     }
@@ -60,6 +68,10 @@ class LogInViewController: UIViewController {
     
     @IBAction func continueAction(_ sender: Any) {
         performSegue(withIdentifier: "mySegue", sender: nil)
+    }
+    
+    @IBAction func unwind(_ segue: UIStoryboardSegue) {
+        
     }
 }
 

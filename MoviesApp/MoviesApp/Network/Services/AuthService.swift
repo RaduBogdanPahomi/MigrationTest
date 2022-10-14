@@ -9,6 +9,7 @@ protocol AuthServiceable {
     func getAuthenticationToken() async -> Result<LogInResponse, RequestError>
     func postCredentials(username: String, password: String, token: String) async -> Result<LogInResponse, RequestError>
     func createSession(token: String) async -> Result<Session, RequestError>
+    func getAccountDetails(sessionID: String) async -> Result<Account, RequestError>
 }
 
 struct AuthService: HTTPClient, AuthServiceable {
@@ -22,5 +23,9 @@ struct AuthService: HTTPClient, AuthServiceable {
     
     func createSession(token: String) async -> Result<Session, RequestError> {
         return await sendRequest(endpoint: AuthEndpoint.createSession(token: token), responseModel: Session.self)
+    }
+    
+    func getAccountDetails(sessionID: String) async -> Result<Account, RequestError> {
+        return await sendRequest(endpoint: AuthEndpoint.accountDetails(sessionID: sessionID), responseModel: Account.self)
     }
 }
