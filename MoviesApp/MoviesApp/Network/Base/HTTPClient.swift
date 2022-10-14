@@ -29,7 +29,7 @@ extension HTTPClient {
         var request = URLRequest(url: url)
         request.httpMethod = endpoint.method.rawValue
         request.allHTTPHeaderFields = endpoint.header
-        
+       
         if let body = endpoint.body {
             request.httpBody = try? JSONSerialization.data(withJSONObject: body, options: [])
         }
@@ -41,10 +41,16 @@ extension HTTPClient {
             }
             switch response.statusCode {
             case 200...299:
-                guard let decodeResponse = try? JSONDecoder().decode(responseModel, from: data) else {
-                    return .failure(.decode)
+                do {
+                    let decodeResponse = try JSONDecoder().decode(responseModel, from: data)
+                    return .success(decodeResponse)
+                } catch (let error) {
+                    if let error = error as? DecodingError {
+                        return.failure(.decode(error: error))
+                    } else {
+                        return.failure(.unknown)
+                    }
                 }
-                return .success(decodeResponse)
             case 401:
                 return.failure(.unauthorized)
             default:

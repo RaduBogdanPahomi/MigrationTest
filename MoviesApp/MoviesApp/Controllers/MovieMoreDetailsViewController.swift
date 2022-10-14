@@ -43,6 +43,7 @@ class MovieMoreDetailsViewController: UIViewController {
         let landscapePosterImageView = UIImageView()
         landscapePosterImageView.translatesAutoresizingMaskIntoConstraints = false
         landscapePosterImageView.image = UIImage(named: "LandscapeMoviePoster.jpeg")
+        landscapePosterImageView.isUserInteractionEnabled = true
         
         return landscapePosterImageView
     }()

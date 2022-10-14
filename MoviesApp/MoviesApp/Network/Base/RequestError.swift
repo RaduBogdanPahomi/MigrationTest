@@ -8,7 +8,7 @@
 import Foundation
 
 enum RequestError: Error {
-    case decode
+    case decode(error: DecodingError)
     case noResponse
     case unauthorized
     case unexpectedStatusCode
@@ -17,8 +17,19 @@ enum RequestError: Error {
     
     var customMessage: String {
         switch self {
-        case .decode:
-            return "Decoding error"
+        case .decode(let error):
+            switch error {
+            case .typeMismatch:
+                return "Decode error: Type mismatch"
+            case .valueNotFound(let any, _):
+                return "Decode error: Value \(any) not found"
+            case .keyNotFound(let codingKey, _):
+                return "Decode error: \(codingKey)"
+            case .dataCorrupted:
+                return "Decode error: Data corrupted"
+            @unknown default:
+                fatalError()
+            }
         case .unauthorized:
             return "Session expired"
         default:
