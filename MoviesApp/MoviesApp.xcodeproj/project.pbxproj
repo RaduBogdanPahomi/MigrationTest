@@ -10,6 +10,7 @@
 		35037B3928BCB2EE006C5C6D /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35037B3828BCB2EE006C5C6D /* UIViewController+Extension.swift */; };
 		3504877828ACCA5A002FDF41 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3504877728ACCA5A002FDF41 /* UIView+Extension.swift */; };
 		3504877E28ACDA79002FDF41 /* MovieCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3504877D28ACDA79002FDF41 /* MovieCollectionViewCell.swift */; };
+		3516253428FD432900559D79 /* KeychainHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3516253328FD432900559D79 /* KeychainHelper.swift */; };
 		3523139D28F6A9BE008F8AB7 /* AuthEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3523139C28F6A9BE008F8AB7 /* AuthEndpoint.swift */; };
 		3523139F28F6ACBA008F8AB7 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3523139E28F6ACBA008F8AB7 /* AuthService.swift */; };
 		352313A128F6B507008F8AB7 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 352313A028F6B507008F8AB7 /* Session.swift */; };
@@ -42,6 +43,7 @@
 		35D5452228D0517A0025BDB0 /* FavoriteMoviesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D5452128D0517A0025BDB0 /* FavoriteMoviesViewController.swift */; };
 		35D7A05328EED0040092AC0D /* FilterResultsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D7A05128EED0040092AC0D /* FilterResultsTableViewCell.swift */; };
 		35D7A05428EED0040092AC0D /* FilterResultsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 35D7A05228EED0040092AC0D /* FilterResultsTableViewCell.xib */; };
+		35D8A72428FE85FB0046B350 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D8A72328FE85FB0046B350 /* Constants.swift */; };
 		35DF8D7C28F038F70064E3D6 /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35DF8D7B28F038F70064E3D6 /* LogInViewController.swift */; };
 		35DF8D7E28F041BF0064E3D6 /* LogInResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35DF8D7D28F041BF0064E3D6 /* LogInResponse.swift */; };
 		A201467928A3938600DD1CA8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A201467828A3938600DD1CA8 /* AppDelegate.swift */; };
@@ -69,6 +71,7 @@
 		35037B3828BCB2EE006C5C6D /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		3504877728ACCA5A002FDF41 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		3504877D28ACDA79002FDF41 /* MovieCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieCollectionViewCell.swift; sourceTree = "<group>"; };
+		3516253328FD432900559D79 /* KeychainHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainHelper.swift; sourceTree = "<group>"; };
 		3523139C28F6A9BE008F8AB7 /* AuthEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthEndpoint.swift; sourceTree = "<group>"; };
 		3523139E28F6ACBA008F8AB7 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		352313A028F6B507008F8AB7 /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
@@ -101,6 +104,7 @@
 		35D5452128D0517A0025BDB0 /* FavoriteMoviesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteMoviesViewController.swift; sourceTree = "<group>"; };
 		35D7A05128EED0040092AC0D /* FilterResultsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterResultsTableViewCell.swift; sourceTree = "<group>"; };
 		35D7A05228EED0040092AC0D /* FilterResultsTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FilterResultsTableViewCell.xib; sourceTree = "<group>"; };
+		35D8A72328FE85FB0046B350 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		35DF8D7B28F038F70064E3D6 /* LogInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
 		35DF8D7D28F041BF0064E3D6 /* LogInResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInResponse.swift; sourceTree = "<group>"; };
 		A201467528A3938600DD1CA8 /* MoviesApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MoviesApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -258,6 +262,8 @@
 		A201468D28A394C300DD1CA8 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				3516253328FD432900559D79 /* KeychainHelper.swift */,
+				35D8A72328FE85FB0046B350 /* Constants.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -428,6 +434,7 @@
 				3559B59328E1D49000AEC874 /* SortType.swift in Sources */,
 				35CCE8B328ED7C0E00E581C0 /* Keywords.swift in Sources */,
 				A22C1C3528D8899D00951828 /* FavoriteMovie+CoreDataClass.swift in Sources */,
+				3516253428FD432900559D79 /* KeychainHelper.swift in Sources */,
 				3523139F28F6ACBA008F8AB7 /* AuthService.swift in Sources */,
 				358329BD28B6138300574C19 /* Double+Extension.swift in Sources */,
 				352313A328F6F302008F8AB7 /* Account.swift in Sources */,
@@ -436,6 +443,7 @@
 				352313A128F6B507008F8AB7 /* Session.swift in Sources */,
 				3592F6B728AFC71000546BDE /* MoviesService.swift in Sources */,
 				35D0A0FE28B3AD3D007C1ED6 /* ImageDownloader.swift in Sources */,
+				35D8A72428FE85FB0046B350 /* Constants.swift in Sources */,
 				A201467B28A3938600DD1CA8 /* SceneDelegate.swift in Sources */,
 				35DF8D7C28F038F70064E3D6 /* LogInViewController.swift in Sources */,
 				355F97B628AE11600086AD25 /* MovieCollectionViewCellFooter.swift in Sources */,

@@ -15,13 +15,15 @@ class LogInViewController: UIViewController {
     @IBOutlet private weak var passwordTextField: UITextField!
     @IBOutlet private weak var errorLabel: UILabel!
     @IBOutlet private weak var loginActivityIndicator: UIActivityIndicatorView!
-
-    private let service: AuthServiceable = AuthService()
+    
+    private var service: AuthServiceable = AuthService()
+    private let keychain = KeychainHelper.standard
     private var sessionID: String?
     
     //MARK: - Public API
     override func viewDidLoad() {
         super.viewDidLoad()
+        populateTextFields()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -43,6 +45,7 @@ class LogInViewController: UIViewController {
                 self.sendCredentials(token: response.requestToken) { result in
                     switch result {
                     case .success(_):
+                        self.saveCredentials()
                         self.createSession(token: response.requestToken) { result in
                             switch result {
                             case .success(let response):
@@ -89,6 +92,29 @@ private extension LogInViewController {
             let result = await service.postCredentials(username: usernameTextField.text ?? "", password: passwordTextField.text ?? "", token: token)
             completion(result)
         }
+    }
+    
+    func populateTextFields() {
+        guard let usernameData = keychain.read(service: Constants.Keychain.Service.username, account: Constants.Keychain.Account.TMDB)
+        else { return }
+        guard let passwordData = keychain.read(service: Constants.Keychain.Service.password, account: Constants.Keychain.Account.TMDB)
+        else { return }
+        
+        let username = String(data: usernameData, encoding: .utf8)
+        let password = String(data: passwordData, encoding: .utf8)
+        
+        usernameTextField.text = username
+        passwordTextField.text = password
+    }
+    
+    func saveCredentials() {
+        let username = usernameTextField.text ?? ""
+        let password = passwordTextField.text ?? ""
+        let usernameData = Data(username.utf8)
+        let passwordData = Data(password.utf8)
+        
+        keychain.save(usernameData, service: Constants.Keychain.Service.username, account: Constants.Keychain.Account.TMDB)
+        keychain.save(passwordData, service: Constants.Keychain.Service.password, account: Constants.Keychain.Account.TMDB)
     }
     
     func createSession(token: String, completion: @escaping (Result<Session, RequestError>) -> Void) {
