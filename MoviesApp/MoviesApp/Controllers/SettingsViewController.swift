@@ -7,11 +7,6 @@
 
 import UIKit
 
-enum AuthStatus: Int {
-    case loggedIn
-    case loggedOut
-}
-
 enum CellType {
     case signIn
     case signOut
@@ -55,13 +50,6 @@ class SettingsViewController: UIViewController {
     
     private let service: AuthServiceable = AuthService()
     private var accountName: String?
-    private var authStatus: AuthStatus = .loggedOut
-    
-    var sessionID: String? {
-        didSet {
-            authStatus = sessionID == nil ? .loggedOut : .loggedIn
-        }
-    }
     
     //MARK: - Public API
     override func viewDidLoad() {
@@ -81,7 +69,7 @@ extension SettingsViewController {
     }
 
     func loadUsername() {
-        fetchAccountDetails(sessionID: sessionID ?? "") { result in
+        fetchAccountDetails(sessionID: UserManager.shared.sessionID ?? "") { result in
             switch result {
             case .success(let response):
                 self.accountName = response.name
@@ -96,14 +84,14 @@ extension SettingsViewController {
 //MARK: - UITableViewDataSource protocol
 extension SettingsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return authStatus == .loggedOut ? 1 : 2
+        return UserManager.shared.authStatus == .loggedOut ? 1 : 2
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueCell(withType: SettingsTableViewCell.self) as? SettingsTableViewCell else { return UITableViewCell() }
 
         var cellType = CellType.signIn
-        if authStatus == .loggedIn && indexPath.row == 0 {
+        if UserManager.shared.authStatus == .loggedIn && indexPath.row == 0 {
             cellType = .username(name: accountName)
         } else if indexPath.row == 1 {
             cellType = .signOut
@@ -117,7 +105,7 @@ extension SettingsViewController: UITableViewDataSource {
 //MARK: - UITableViewDelegate protocol
 extension SettingsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if authStatus == .loggedOut {
+        if UserManager.shared.authStatus == .loggedOut {
             performSegue(withIdentifier: "unwindToLogin", sender: self)
         } else if indexPath.row == 1 {
             showSignOutModal(title: "Are you sure you want to sign out?")

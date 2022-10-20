@@ -164,7 +164,7 @@ private extension MoviesViewController {
     func setupNotification() {
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(didReceiveNotification(_:)),
-                                               name: .myNotification,
+                                               name: .markAsFavorite,
                                                object: nil)
     }
     

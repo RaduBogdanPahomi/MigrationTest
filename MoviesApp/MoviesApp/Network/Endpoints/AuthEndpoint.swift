@@ -46,9 +46,9 @@ extension AuthEndpoint: Endpoint {
             ]
         }
     }
-    
+
     var queryStrings: [String : String?]? {
-        let apiKey = "626d05abf324b3be1c089c695497d49c"
+        let apiKey = UserManager.shared.apiKey
         var queryParameters = ["api_key": apiKey]
         switch self {
         case .logInRequest(username: let username, password: let password, token: let token):

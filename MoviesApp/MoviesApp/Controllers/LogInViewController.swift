@@ -20,51 +20,44 @@ class LogInViewController: UIViewController {
     private let keychain = KeychainHelper.standard
     private var sessionID: String?
     
+    deinit {
+        print("~~~~~~~~~~~~~~ deinit LogInViewController")
+    }
+    
     //MARK: - Public API
     override func viewDidLoad() {
         super.viewDidLoad()
         populateTextFields()
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let destinationVC = segue.destination as? UITabBarController,
-        let navControlers = destinationVC.viewControllers as? [UINavigationController] else { return }
-        
-        for navController in navControlers {
-            if let settingsVC = navController.viewControllers.first as? SettingsViewController {
-                settingsVC.sessionID = sessionID
-            }
-        }
-    }
-    
     @IBAction func signInAction(_ sender: Any) {
         loginActivityIndicator.startAnimating()
-        fetchToken() { result in
+        fetchToken() { [weak self] result in
             switch result {
             case .success(let response):
-                self.sendCredentials(token: response.requestToken) { result in
+                self?.sendCredentials(token: response.requestToken) { result in
                     switch result {
                     case .success(_):
-                        self.saveCredentials()
-                        self.createSession(token: response.requestToken) { result in
+                        self?.saveCredentials()
+                        self?.createSession(token: response.requestToken) { result in
                             switch result {
                             case .success(let response):
-                                self.errorLabel.isHidden = true
-                                self.loginActivityIndicator.stopAnimating()
-                                self.sessionID = response.sessionId
-                                self.performSegue(withIdentifier: "mySegue", sender: nil)
+                                self?.errorLabel.isHidden = true
+                                self?.loginActivityIndicator.stopAnimating()
+                                UserManager.shared.sessionID = response.sessionId
+                                self?.performSegue(withIdentifier: "mySegue", sender: nil)
                             case .failure(let error):
-                                self.showModal(title: "Error", message: error.customMessage)
+                                self?.showModal(title: "Error", message: error.customMessage)
                             }
                         }
                     case .failure(_):
-                        self.loginActivityIndicator.stopAnimating()
-                        self.passwordTextField.text?.removeAll()
-                        self.errorLabel.isHidden = false
+                        self?.loginActivityIndicator.stopAnimating()
+                        self?.passwordTextField.text?.removeAll()
+                        self?.errorLabel.isHidden = false
                     }
                 }
             case .failure(let error):
-                self.showModal(title: "Error", message: error.customMessage)
+                self?.showModal(title: "Error", message: error.customMessage)
             }
         }
     }

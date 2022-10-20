@@ -31,7 +31,7 @@ class MovieCollectionViewCellFooter: UIView {
 
     func update(withMovie movie: Movie) {
         movieNameLabel.text = movie.originalTitle
-        movieRatingLabel.text = "\(movie.voteAverage.limitNumberOfDigits(forDouble: movie.voteAverage))"
+        movieRatingLabel.text = "\(movie.voteAverage.limitNumberOfDigits())"
     }
 }
 

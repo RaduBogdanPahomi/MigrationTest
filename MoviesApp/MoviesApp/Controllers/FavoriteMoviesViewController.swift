@@ -11,7 +11,6 @@ class FavoriteMoviesViewController: UIViewController {
     //MARK: - Private properties
     private var service: MoviesServiceable = MovieService()
     private var movies: [Movie] = []
-
     private var filteredMovies: [Movie] = []
     private var sortType: SortType = .popularity
     private let manager = FavoriteMoviesManager()
@@ -29,7 +28,6 @@ class FavoriteMoviesViewController: UIViewController {
                                          style: .plain,
                                          target: self,
                                          action: .none)
-        
         return sortButton
     }()
     
@@ -53,7 +51,6 @@ private extension FavoriteMoviesViewController {
         navigationItem.rightBarButtonItem = sortButton
         navigationItem.searchController = searchController
         searchController.searchResultsUpdater = self
-        
         setupTableView()
     }
             
@@ -116,15 +113,15 @@ private extension FavoriteMoviesViewController {
     func sortBy(_: SortType) {
         switch sortType {
         case .popularity:
-            filteredMovies = filteredMovies.sorted(by: { $1.popularity < $0.popularity })
+            movies = movies.sorted(by: { $1.popularity < $0.popularity })
         case .releaseDate:
-            filteredMovies = filteredMovies.sorted(by: { $1.releaseDate < $0.releaseDate })
+            movies = movies.sorted(by: { $1.releaseDate < $0.releaseDate })
         case .rating:
-            filteredMovies = filteredMovies.sorted(by: { $1.voteAverage < $0.voteAverage })
+            movies = movies.sorted(by: { $1.voteAverage < $0.voteAverage })
         case .ascTitle:
-            filteredMovies = filteredMovies.sorted(by: { $0.originalTitle < $1.originalTitle })
+            movies = movies.sorted(by: { $0.originalTitle < $1.originalTitle })
         case .descTitle:
-            filteredMovies = filteredMovies.sorted(by: { $1.originalTitle < $0.originalTitle })
+            movies = movies.sorted(by: { $1.originalTitle < $0.originalTitle })
         }
     }
 }

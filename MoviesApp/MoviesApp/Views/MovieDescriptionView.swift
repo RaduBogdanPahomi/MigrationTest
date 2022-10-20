@@ -13,8 +13,7 @@ class MovieDescriptionView: UIView {
     @IBOutlet private weak var moviePosterImageView: UIImageView!
     @IBOutlet private weak var tagStackView: UIStackView!
     @IBOutlet private weak var movieDescriptionLabel: UILabel!
-    private var genre: Genre?
-        
+    
     // MARK: - Public API
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -36,10 +35,7 @@ class MovieDescriptionView: UIView {
     }
     
     func getMovieTagLabels(forMovie movie: Movie) {
-        tagStackView.subviews.forEach { (view) in
-            view.removeFromSuperview()
-        }
-        
+        tagStackView.removeAllArrangedSubviews()
         if let genres = movie.genres {
             for genre in genres {
                 let genreLabel = UILabel()

@@ -8,5 +8,7 @@
 import Foundation
 
 extension Notification.Name {
-    static let myNotification = Notification.Name("isFavoriteNotification")
+    static let markAsFavorite = Notification.Name("isFavoriteNotification")
+    static let didRate = Notification.Name("didRateNotification")
+
 }
