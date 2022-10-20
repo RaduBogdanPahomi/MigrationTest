@@ -8,8 +8,8 @@
 import Foundation
 
 extension Double {
-    func limitNumberOfDigits(forDouble originalNumber: Double) -> Double {
-        let limitedNumber = Double((originalNumber * 10).rounded() / 10)
+    func limitNumberOfDigits() -> Double {
+        let limitedNumber = Double((self * 10).rounded() / 10)
         return limitedNumber
    }
     

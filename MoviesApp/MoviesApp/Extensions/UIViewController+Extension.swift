@@ -19,9 +19,10 @@ extension UIViewController {
         let alert = UIAlertController(title: title, message: .none, preferredStyle: .alert)
         let yesAction = UIAlertAction(title: "Yes", style: .destructive) {
             UIAlertAction in
+            KeychainHelper.standard.delete(service: Constants.Keychain.Service.username, account: Constants.Keychain.Account.TMDB)
+            KeychainHelper.standard.delete(service: Constants.Keychain.Service.password, account: Constants.Keychain.Account.TMDB)
             self.performSegue(withIdentifier: "unwindToLogin", sender: nil)
         }
-        
         alert.addAction(yesAction)
         alert.addAction(UIAlertAction(title: "No", style: .default, handler: nil))
         present(alert, animated: true, completion: nil)

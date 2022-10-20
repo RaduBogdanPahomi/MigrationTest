@@ -55,7 +55,14 @@ struct Movie: Codable {
     
     func composedBackdropPath() -> String? {
         guard let backdropPath = backdropPath else { return nil }
-            
         return posterBaseURL + "\(imageSize)" + backdropPath
+    }
+    
+    func formatRuntime() -> String {
+        let totalHours = self.runtime?.minutesToHours(self.runtime ?? 0).hours
+        let totalMinutes = self.runtime?.minutesToHours(self.runtime ?? 0).leftMinutes
+        let formatedRuntime = "\(Int((totalHours) ?? 0))h" + " \(Int((totalMinutes) ?? 0))m"
+        
+        return formatedRuntime
     }
 }

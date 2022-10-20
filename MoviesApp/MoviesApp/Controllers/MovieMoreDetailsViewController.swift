@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol MovieDetailsProtocol: AnyObject {
+    func rateMovie()
+}
+    
 class MovieMoreDetailsViewController: UIViewController {
     // MARK: - Private properties
     private var service: MoviesServiceable = MovieService()
@@ -24,18 +28,22 @@ class MovieMoreDetailsViewController: UIViewController {
         let isFavorite = FavoriteMoviesManager.shared.isFavoriteMovie(id: movie.id)
         favoriteButton.image = UIImage(systemName: isFavorite ? "heart.fill" : "heart")
         favoriteButton.tintColor = .red
+        
         return favoriteButton
     }()
 
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
+        
         return scrollView
     }()
         
-    private let detailsHeaderView: MovieDetailsHeaderView = {
+    private lazy var detailsHeaderView: MovieDetailsHeaderView = {
         let detailsHeaderView = MovieDetailsHeaderView()
         detailsHeaderView.translatesAutoresizingMaskIntoConstraints = false
+        detailsHeaderView.delegate = self
+        
         return detailsHeaderView
     }()
     
@@ -51,6 +59,7 @@ class MovieMoreDetailsViewController: UIViewController {
     private let descriptionView: MovieDescriptionView = {
         let descriptionView = MovieDescriptionView()
         descriptionView.translatesAutoresizingMaskIntoConstraints = false
+        
         return descriptionView
     }()
     
@@ -85,13 +94,14 @@ class MovieMoreDetailsViewController: UIViewController {
         return activityIndicatorView
     }()
     
+    //MARK: - Public Properties
+   
+    
     // MARK: - Public API
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUserInterface()
         loadCollectionView()
-        
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -103,6 +113,7 @@ class MovieMoreDetailsViewController: UIViewController {
         self.movie = movie
         detailsHeaderView.update(withMovie: movie)
         descriptionView.update(withMovie: movie)
+        detailsHeaderView.shouldHideRateButton(shouldHide: UserManager.shared.authStatus == .loggedOut)
     }
     
     @objc func favoriteButtonAction() {
@@ -110,7 +121,7 @@ class MovieMoreDetailsViewController: UIViewController {
         let isFavorite = FavoriteMoviesManager.shared.isFavoriteMovie(id: movie.id)
         
         let notficationInfo: [String : Any] = ["isFavorite" : isFavorite, "withId" : movie.id]
-        NotificationCenter.default.post(name: .myNotification, object: nil, userInfo: notficationInfo)
+        NotificationCenter.default.post(name: .markAsFavorite, object: nil, userInfo: notficationInfo)
         favoriteButton.image = UIImage(systemName: isFavorite ? "heart.fill" : "heart")
     }
 }
@@ -254,5 +265,15 @@ extension MovieMoreDetailsViewController: UICollectionViewDelegate {
             page += 1
             loadCollectionView()
         }
+    }
+}
+
+//MARK: - MovieDetails protocol
+extension MovieMoreDetailsViewController: MovieDetailsProtocol {
+    func rateMovie() {
+        let ratingVC = RatingViewController()
+        ratingVC.modalPresentationStyle = .overFullScreen
+        self.present(ratingVC, animated: true)
+        ratingVC.update(withMovie: movie)
     }
 }
