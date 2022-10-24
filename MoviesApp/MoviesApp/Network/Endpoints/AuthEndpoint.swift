@@ -36,17 +36,6 @@ extension AuthEndpoint: Endpoint {
         }
     }
     
-    var header: [String : String]? {
-        let accessToken = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2NDBjMmI0OWM4ZDNkMTg3MDRiMDkyMzc0ZjM2ZGNjNSIsInN1YiI6IjYyZmYyYzE0YmM4NjU3MDA4MzdjOGE4MCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.wO7miNgox_YNDY-qNU0BKAEM_bgd9ewsIR38f-NJZZg"
-        switch self {
-        case .requestToken, .logInRequest, .createSession, .accountDetails:
-            return [
-                "Authorization": "Bearer \(accessToken)",
-                "Content-Type": "application/json;charset=utf-8"
-            ]
-        }
-    }
-
     var queryStrings: [String : String?]? {
         let apiKey = UserManager.shared.apiKey
         var queryParameters = ["api_key": apiKey]

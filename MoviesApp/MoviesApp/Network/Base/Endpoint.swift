@@ -31,4 +31,8 @@ extension Endpoint {
     var body: [String : Codable]? {
         return nil
     }
+    
+    var header: [String : String]? {
+            return ["Content-Type": "application/json;charset=utf-8"]
+    }
 }

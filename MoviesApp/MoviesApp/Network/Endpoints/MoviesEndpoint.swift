@@ -12,6 +12,7 @@ enum MoviesEndpoint {
     case searchMovie(page: Int, keyword: String)
     case searchKeyword(keyword: String)
     case rateMovie(id: Int, sessionID: String, rating: Float)
+    case movieReviews(id: Int, page: Int)
 }
 
 extension MoviesEndpoint: Endpoint {    
@@ -29,29 +30,20 @@ extension MoviesEndpoint: Endpoint {
             return "/3/search/keyword"
         case .rateMovie(let id, _, _):
             return "/3/movie/\(id)/rating"
+        case .movieReviews(let id, _):
+            return "/3/movie/\(id)/reviews"
         }
     }
     
     var method: RequestMethod {
         switch self {
-        case .movieList, .movie, .similarMovie, .searchMovie, .searchKeyword:
+        case .movieList, .movie, .similarMovie, .searchMovie, .searchKeyword, .movieReviews:
             return .get
         case .rateMovie:
             return .post
         }
     }
-    
-    var header: [String : String]? {
-        let accessToken = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2NDBjMmI0OWM4ZDNkMTg3MDRiMDkyMzc0ZjM2ZGNjNSIsInN1YiI6IjYyZmYyYzE0YmM4NjU3MDA4MzdjOGE4MCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.wO7miNgox_YNDY-qNU0BKAEM_bgd9ewsIR38f-NJZZg"
-        switch self {
-        case .movieList, .movie, .similarMovie, .searchMovie, .searchKeyword, .rateMovie:
-            return [
-                "Authorization": "Bearer \(accessToken)",
-                "Content-Type": "application/json;charset=utf-8"
-            ]
-        }
-    }
-    
+        
     var body: [String : Codable]? {
         if case .rateMovie(_, _, let rating) = self {
             return ["value": rating]
@@ -80,6 +72,8 @@ extension MoviesEndpoint: Endpoint {
             }
         case .rateMovie(_, sessionID: let sessionID, _):
             queryParameters["session_id"] = "\(sessionID)"
+        case .movieReviews(_, page: let page):
+            queryParameters["page"] = "\(page)"
         default:
             return queryParameters
         }
