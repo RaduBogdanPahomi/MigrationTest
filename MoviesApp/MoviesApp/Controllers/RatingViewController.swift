@@ -21,8 +21,6 @@ class RatingViewController: UIViewController {
     private var movie: Movie!
     private var service: MoviesServiceable = MovieService()
     
-    //MARK: - Public properties
-    
     //MARK: - Public API
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,7 +28,7 @@ class RatingViewController: UIViewController {
     
     func update(withMovie movie: Movie) {
         self.movie = movie
-        ratingLabel?.text = "How would you rate \(movie.title)?"
+        ratingLabel.text = "How would you rate \(movie.title)?"
         ratingSlider.value = Float(movie.voteAverage).round(toNearest: 0.5)
         sliderValueLabel.text = "\(ratingSlider.value.round(toNearest: 0.5))"
         

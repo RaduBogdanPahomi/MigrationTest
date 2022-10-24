@@ -9,6 +9,7 @@ import UIKit
 
 protocol MovieDetailsProtocol: AnyObject {
     func rateMovie()
+    func movieReviews()
 }
     
 class MovieMoreDetailsViewController: UIViewController {
@@ -93,9 +94,6 @@ class MovieMoreDetailsViewController: UIViewController {
         
         return activityIndicatorView
     }()
-    
-    //MARK: - Public Properties
-   
     
     // MARK: - Public API
     override func viewDidLoad() {
@@ -275,5 +273,11 @@ extension MovieMoreDetailsViewController: MovieDetailsProtocol {
         ratingVC.modalPresentationStyle = .overFullScreen
         self.present(ratingVC, animated: true)
         ratingVC.update(withMovie: movie)
+    }
+    
+    func movieReviews() {
+        let reviewsVC = ReviewsViewController()
+        navigationController?.pushViewController(reviewsVC, animated: true)
+        reviewsVC.update(withMovie: movie)
     }
 }

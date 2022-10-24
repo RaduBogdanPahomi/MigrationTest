@@ -12,9 +12,8 @@ class MovieDetailsHeaderView: UIView {
 	@IBOutlet private weak var contentView: UIView!
     @IBOutlet private weak var movieYearLabel: UILabel!
     @IBOutlet private weak var movieLengthLabel: UILabel!
-    @IBOutlet private weak var movieRatingLabel: UILabel!
     @IBOutlet private weak var movieTitleLabel: UILabel!
-    @IBOutlet private weak var starImageView: UIImageView!
+    @IBOutlet private weak var reviewsButton: UIButton!
     @IBOutlet private weak var rateButton: UIButton!
     
     // MARK: - Public properties
@@ -35,7 +34,8 @@ class MovieDetailsHeaderView: UIView {
         movieTitleLabel.text = movie.originalTitle
         movieYearLabel.text = movie.releaseDate.getYear()
         movieLengthLabel.text = movie.formatRuntime()
-        movieRatingLabel.text = "\(movie.voteAverage.limitNumberOfDigits())/10"
+        reviewsButton.setTitle("\(movie.voteAverage.limitNumberOfDigits())/10", for: .normal)
+        reviewsButton.setTitleColor(.white, for: .normal)
     }
     
     func shouldHideRateButton(shouldHide: Bool) {
@@ -67,5 +67,9 @@ private extension MovieDetailsHeaderView {
     
     @IBAction func rateMovieAction(_ sender: Any) {
         delegate?.rateMovie()
+    }
+    
+    @IBAction func reviewsButtonTapped(_ sender: Any) {
+        delegate?.movieReviews()
     }
 }
