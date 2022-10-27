@@ -8,11 +8,13 @@
 import UIKit
 
 class FilterResultsTableViewCell: UITableViewCell {
+    //MARK: - Private properties
     @IBOutlet private weak var searchImageView: UIImageView!
     @IBOutlet private weak var keywordLabel: UILabel!
     
     private var keyword: Keyword?
     
+    //MARK: - Public API
     override func awakeFromNib() {
         super.awakeFromNib()
     }

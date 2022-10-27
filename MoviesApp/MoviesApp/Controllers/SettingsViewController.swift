@@ -60,7 +60,7 @@ class SettingsViewController: UIViewController {
 }
 
 //MARK: - Private API
-extension SettingsViewController {
+private extension SettingsViewController {
     func fetchAccountDetails(sessionID: String, completion: @escaping (Result<Account, RequestError>) -> Void) {
         Task(priority: .background) {
             let result = await service.getAccountDetails(sessionID: sessionID)

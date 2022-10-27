@@ -9,19 +9,14 @@ import UIKit
 
 class FavoriteMoviesViewController: UIViewController {
     //MARK: - Private properties
+    @IBOutlet private weak var tableView: UITableView!
+    
     private var service: MoviesServiceable = MovieService()
     private var movies: [Movie] = []
     private var filteredMovies: [Movie] = []
     private var sortType: SortType = .popularity
     private let manager = FavoriteMoviesManager()
     private let searchController = UISearchController()
-    
-    private let tableView: UITableView = {
-        let tableView = UITableView()
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        
-        return tableView
-    }()
     
     private lazy var sortButton: UIBarButtonItem = {
         let sortButton = UIBarButtonItem(image: UIImage(systemName: "arrow.up.arrow.down.circle"),
@@ -51,34 +46,19 @@ private extension FavoriteMoviesViewController {
         navigationItem.rightBarButtonItem = sortButton
         navigationItem.searchController = searchController
         searchController.searchResultsUpdater = self
-        setupTableView()
+        
+        tableView.registerCell(type: MovieTableViewCell.self)
+        self.createSortMenu()
     }
             
-    func setupTableView() {
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.backgroundColor = .black
-        tableView.registerCell(type: MovieTableViewCell.self)
-        
-        view.addSubview(tableView)
-        self.createSortMenu()
-        
-        NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.topAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            tableView.rightAnchor.constraint(equalTo: view.rightAnchor),
-            tableView.leftAnchor.constraint(equalTo: view.leftAnchor)
-        ])
-    }
-    
     func showDetail(`for` movie: Movie) {
         Task(priority: .background) {
             let result = await service.getMovie(id: Int(movie.id))
             switch result {
             case .success(let movie):
-                let movieDetailsVC = MovieMoreDetailsViewController()
-                movieDetailsVC.update(withMovie: movie)
+                let movieDetailsVC = MovieMoreDetailsViewController(nibName: "MovieMoreDetailsViewController", bundle: nil)
                 navigationController?.pushViewController(movieDetailsVC, animated: true)
+                movieDetailsVC.movie = movie
             case .failure(let error):
                 self.showModal(title: "Error", message: error.customMessage)
             }

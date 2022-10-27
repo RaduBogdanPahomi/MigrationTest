@@ -9,11 +9,13 @@ import Foundation
 import UIKit
 
 class MovieDetailsView: UIView {
+    //MARK: - Private properties
     @IBOutlet private weak var contentView: UIView!
     @IBOutlet private weak var movieNameLabel: UILabel!
     @IBOutlet private weak var movieRatingLabel: UILabel!
     @IBOutlet private weak var movieYearLabel: UILabel!
     
+    //MARK: - Public API
     override init(frame: CGRect) {
         super.init(frame: frame)
         commonInit()
@@ -30,7 +32,7 @@ class MovieDetailsView: UIView {
     
     func update(withMovie movie: Movie) {
         movieNameLabel.text = movie.originalTitle
-        movieRatingLabel.text = "\(movie.voteAverage)"
+        movieRatingLabel.text = "\(movie.voteAverage.limitNumberOfDigits())"
         movieYearLabel.text = movie.releaseDate.getYear() ?? ""
     }
 }

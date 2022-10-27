@@ -33,6 +33,21 @@ class MovieDescriptionView: UIView {
             self?.moviePosterImageView.image = image
         }, placeholderImage: UIImage(named: "MoviePoster.jpeg"))
     }
+}
+
+// MARK: - Private API
+private extension MovieDescriptionView {
+    func commonInit() {
+        Bundle.main.loadNibNamed(MovieDescriptionView.identifier, owner: self, options: nil)
+        addSubview(contentView)
+        
+        NSLayoutConstraint.activate([
+            contentView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            contentView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            contentView.topAnchor.constraint(equalTo: topAnchor),
+            contentView.bottomAnchor.constraint(equalTo: bottomAnchor)
+        ])
+    }
     
     func getMovieTagLabels(forMovie movie: Movie) {
         tagStackView.removeAllArrangedSubviews()
@@ -48,20 +63,5 @@ class MovieDescriptionView: UIView {
                 tagStackView.addArrangedSubview(genreLabel)
             }
         }
-    }
-}
-
-// MARK: - Private API
-private extension MovieDescriptionView {
-    func commonInit() {
-        Bundle.main.loadNibNamed(MovieDescriptionView.identifier, owner: self, options: nil)
-        addSubview(contentView)
-        
-        NSLayoutConstraint.activate([
-            contentView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            contentView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            contentView.topAnchor.constraint(equalTo: topAnchor),
-            contentView.bottomAnchor.constraint(equalTo: bottomAnchor)
-        ])
     }
 }

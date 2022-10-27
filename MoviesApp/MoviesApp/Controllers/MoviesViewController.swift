@@ -22,18 +22,13 @@ class MoviesViewController: UIViewController {
     private var requestWasChanged = false
     private let filterResultsViewController = FilterResultsViewController()
     
+    @IBOutlet private weak var tableView: UITableView!
+    
     private lazy var searchController: UISearchController = {
         let searchController = UISearchController(searchResultsController: filterResultsViewController)
         searchController.searchResultsUpdater = self
         
         return  searchController
-    }()
-
-    private let tableview: UITableView = {
-        let tableview = UITableView()
-        tableview.translatesAutoresizingMaskIntoConstraints = false
-        
-        return tableview
     }()
 
     private lazy var sortButton: UIBarButtonItem = {
@@ -64,7 +59,7 @@ private extension MoviesViewController {
         searchController.searchBar.delegate = self
         filterResultsViewController.delegate = self
         
-        setupTableView()
+        tableView.registerCell(type: MovieTableViewCell.self)
     }
     
     func fetchKeyword(completion: @escaping (Result<Keywords, RequestError>) -> Void) {
@@ -99,29 +94,13 @@ private extension MoviesViewController {
                 }
                 self.movies.append(contentsOf: response.results)
                 self.createSortMenu()
-                self.tableview.reloadData()
+                self.tableView.reloadData()
             case .failure(let error):
                 self.showModal(title: "Error", message: error.customMessage)
             }
         }
     }
-    
-    func setupTableView() {
-        tableview.delegate = self
-        tableview.dataSource = self
-        tableview.backgroundColor = .black
-        tableview.registerCell(type: MovieTableViewCell.self)
-        
-        view.addSubview(tableview)
-        
-        NSLayoutConstraint.activate([
-            tableview.topAnchor.constraint(equalTo: view.topAnchor),
-            tableview.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            tableview.rightAnchor.constraint(equalTo: view.rightAnchor),
-            tableview.leftAnchor.constraint(equalTo: view.leftAnchor)
-        ])
-    }
-    
+     
     func createSortMenu() {
         var children = [UIAction]()
         for sortType in SortType.allCases {
@@ -137,8 +116,8 @@ private extension MoviesViewController {
             let result = await service.getMovie(id: movie.id)
             switch result {
             case .success(let movie):
-                let movieDetailsVC = MovieMoreDetailsViewController()
-                movieDetailsVC.update(withMovie: movie)
+                let movieDetailsVC = MovieMoreDetailsViewController(nibName: "MovieMoreDetailsViewController", bundle: nil)
+                movieDetailsVC.movie = movie
                 navigationController?.pushViewController(movieDetailsVC, animated: true)
             case .failure(let error):
                 self.showModal(title: "Error", message: error.customMessage)
@@ -173,9 +152,9 @@ private extension MoviesViewController {
               let movieId = notificationInfo["withId"],
               let movieIndex = movies.firstIndex(where: { movie in
                   movie.id == movieId as! Int
-              }) else { tableview.reloadData(); return }
+              }) else { tableView.reloadData(); return }
         
-        tableview.reloadRows(at: [IndexPath(row: movieIndex, section: 0)], with: .automatic)
+        tableView.reloadRows(at: [IndexPath(row: movieIndex, section: 0)], with: .automatic)
     }
 }
 
@@ -186,7 +165,7 @@ extension MoviesViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableview.dequeueCell(withType: MovieTableViewCell.self) as? MovieTableViewCell else { return UITableViewCell() }
+        guard let cell = tableView.dequeueCell(withType: MovieTableViewCell.self) as? MovieTableViewCell else { return UITableViewCell() }
         let movie = movies[indexPath.row]
         
         cell.delegate = self

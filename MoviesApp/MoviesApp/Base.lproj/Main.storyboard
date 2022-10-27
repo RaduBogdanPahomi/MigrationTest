@@ -16,10 +16,29 @@
                     <view key="view" contentMode="scaleToFill" id="Yuc-MW-fJB">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="721"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="EGi-Tb-ZOh">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="721"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="QIi-sQ-ybp" id="aNh-5B-22h"/>
+                                    <outlet property="delegate" destination="QIi-sQ-ybp" id="cB1-7a-hRs"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="EAd-dG-WAn"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="EAd-dG-WAn" firstAttribute="bottom" secondItem="EGi-Tb-ZOh" secondAttribute="bottom" id="2lM-Zk-T8h"/>
+                            <constraint firstItem="EGi-Tb-ZOh" firstAttribute="leading" secondItem="EAd-dG-WAn" secondAttribute="leading" id="CYN-Ft-Tu4"/>
+                            <constraint firstItem="EGi-Tb-ZOh" firstAttribute="top" secondItem="EAd-dG-WAn" secondAttribute="top" id="mj4-ja-GxH"/>
+                            <constraint firstItem="EAd-dG-WAn" firstAttribute="trailing" secondItem="EGi-Tb-ZOh" secondAttribute="trailing" id="sdv-69-Ph5"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Favorites" largeTitleDisplayMode="always" id="FPP-9F-Ksg"/>
+                    <connections>
+                        <outlet property="tableView" destination="EGi-Tb-ZOh" id="F6c-wS-aXt"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DaV-EH-0tn" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -90,11 +109,30 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="721"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="nkJ-l8-Fv2">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="721"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="Zjw-yl-Exg"/>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="OUv-PU-TV1"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="nkJ-l8-Fv2" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="9Tv-f2-gpF"/>
+                            <constraint firstItem="nkJ-l8-Fv2" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Kv5-5r-lYZ"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="nkJ-l8-Fv2" secondAttribute="trailing" id="MeW-Tf-CsO"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="nkJ-l8-Fv2" secondAttribute="bottom" id="xdw-uV-oAG"/>
+                        </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Item" id="XGD-8E-b3p"/>
                     <navigationItem key="navigationItem" title="All Movies" largeTitleDisplayMode="always" id="eC3-0d-K5W"/>
+                    <connections>
+                        <outlet property="tableView" destination="nkJ-l8-Fv2" id="pAf-Wd-Grz"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
