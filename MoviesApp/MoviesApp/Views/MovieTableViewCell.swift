@@ -10,7 +10,7 @@ import UIKit
 
 
 class MovieTableViewCell: UITableViewCell {
-    weak var delegate: MovieCellDelegate?
+    //MARK: - Private properties
     private var movie: Movie?
     
     @IBOutlet private weak var posterImageView: UIImageView!
@@ -18,6 +18,10 @@ class MovieTableViewCell: UITableViewCell {
     @IBOutlet private weak var movieDetailsView: MovieDetailsView!
     @IBOutlet private weak var activityIndicatorView: UIActivityIndicatorView!
     
+    //MARK: - Public properties
+    weak var delegate: MovieCellDelegate?
+    
+    //MARK: - Public API
     override func awakeFromNib() {
         super.awakeFromNib()
         accessoryView = UIImageView(image: UIImage(systemName: "chevron.right"))
@@ -30,7 +34,7 @@ class MovieTableViewCell: UITableViewCell {
         movieDetailsView.update(withMovie: movie)
         self.movie = movie
         activityIndicatorView.startAnimating()
-    
+        
         favoriteButton.addTarget(self, action: #selector(favoriteButtonAction), for: .touchUpInside)
         let isFavorite = FavoriteMoviesManager.shared.isFavoriteMovie(id: movie.id)
         favoriteButton.isSelected = isFavorite
@@ -40,11 +44,14 @@ class MovieTableViewCell: UITableViewCell {
             self?.activityIndicatorView.stopAnimating()
         }, placeholderImage: UIImage(named: "MoviePoster.jpeg"))
     }
-        
+    
     func shouldHideFavorite(hide: Bool) {
         favoriteButton.isHidden = hide
     }
-    
+}
+  
+//MARK: - Private API
+private extension MovieTableViewCell {
     @objc func favoriteButtonAction() {
         favoriteButton.isSelected = !favoriteButton.isSelected
         guard let movie else { return }

@@ -13,6 +13,7 @@ enum MoviesEndpoint {
     case searchKeyword(keyword: String)
     case rateMovie(id: Int, sessionID: String, rating: Float)
     case movieReviews(id: Int, page: Int)
+    case movieVideos(id: Int)
 }
 
 extension MoviesEndpoint: Endpoint {    
@@ -32,12 +33,14 @@ extension MoviesEndpoint: Endpoint {
             return "/3/movie/\(id)/rating"
         case .movieReviews(let id, _):
             return "/3/movie/\(id)/reviews"
+        case .movieVideos(let id):
+            return "/3/movie/\(id)/videos"
         }
     }
     
     var method: RequestMethod {
         switch self {
-        case .movieList, .movie, .similarMovie, .searchMovie, .searchKeyword, .movieReviews:
+        case .movieList, .movie, .similarMovie, .searchMovie, .searchKeyword, .movieReviews, .movieVideos:
             return .get
         case .rateMovie:
             return .post

@@ -8,9 +8,11 @@
 import UIKit
 
 class SettingsTableViewCell: UITableViewCell {
+    //MARK: - Private properties
     @IBOutlet private weak var cellLabel: UILabel!
     @IBOutlet private weak var signOutImage: UIImageView!
-    
+
+    //MARK: - Public API
     override func awakeFromNib() {
         super.awakeFromNib()
     }

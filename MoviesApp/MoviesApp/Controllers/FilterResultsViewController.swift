@@ -10,8 +10,9 @@ import UIKit
 class FilterResultsViewController: UIViewController {
     // MARK: - Private properties
     @IBOutlet private weak var tableView: UITableView!
-    
     private var keywords: [Keyword]?
+    
+    //MARK: - Public properties
     var delegate: FilterResultsDelegate?
     
     // MARK: - Public API

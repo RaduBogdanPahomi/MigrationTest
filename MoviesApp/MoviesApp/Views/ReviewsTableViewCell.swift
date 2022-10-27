@@ -8,14 +8,16 @@
 import UIKit
 
 class ReviewsTableViewCell: UITableViewCell {
-    @IBOutlet weak var ratingLabel: UILabel!
-    @IBOutlet weak var reviewTitleLabel: UILabel!
-    @IBOutlet weak var usernameLabel: UILabel!
-    @IBOutlet weak var dateLabel: UILabel!
-    @IBOutlet weak var reviewLabel: UILabel!
+    //MARK: - Private properties
+    @IBOutlet private weak var ratingLabel: UILabel!
+    @IBOutlet private weak var reviewTitleLabel: UILabel!
+    @IBOutlet private weak var usernameLabel: UILabel!
+    @IBOutlet private weak var dateLabel: UILabel!
+    @IBOutlet private weak var reviewLabel: UILabel!
     
     private var review: Review?
     
+    //MARK: - Public API
     override func awakeFromNib() {
         super.awakeFromNib()
     }

@@ -20,10 +20,6 @@ class LogInViewController: UIViewController {
     private let keychain = KeychainHelper.standard
     private var sessionID: String?
     
-    deinit {
-        print("~~~~~~~~~~~~~~ deinit LogInViewController")
-    }
-    
     //MARK: - Public API
     override func viewDidLoad() {
         super.viewDidLoad()
