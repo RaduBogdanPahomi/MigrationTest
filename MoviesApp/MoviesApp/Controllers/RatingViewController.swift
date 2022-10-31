@@ -28,7 +28,7 @@ class RatingViewController: UIViewController {
     
     func update(withMovie movie: Movie) {
         self.movie = movie
-        ratingLabel.text = "How would you rate \(movie.title)?"
+        ratingLabel.text = "\(NSLocalizedString("how_would_you_rate", comment: "")) \(movie.title)?"
         ratingSlider.value = Float(movie.voteAverage).round(toNearest: 0.5)
         sliderValueLabel.text = "\(ratingSlider.value.round(toNearest: 0.5))"
         

@@ -5,6 +5,8 @@
 //  Created by Tudor Ghilvacs on 19.08.2022.
 //
 
+import Foundation
+
 enum MoviesEndpoint {
     case movieList(page: Int, sortType: String)
     case movie(id: Int)
@@ -57,7 +59,8 @@ extension MoviesEndpoint: Endpoint {
     var queryStrings: [String: String?]? {
         let apiKey = UserManager.shared.apiKey
         var queryParameters = ["api_key": apiKey]
-
+        queryParameters["language"] = Locale.current.languageCode
+        
         switch self {
         case .movieList(page: let page, sortType: let sortType):
             queryParameters["sort_by"] = sortType
@@ -77,6 +80,8 @@ extension MoviesEndpoint: Endpoint {
             queryParameters["session_id"] = "\(sessionID)"
         case .movieReviews(_, page: let page):
             queryParameters["page"] = "\(page)"
+        case .movieVideos:
+            queryParameters["language"] = "en"
         default:
             return queryParameters
         }

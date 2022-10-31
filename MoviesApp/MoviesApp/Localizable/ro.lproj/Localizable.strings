@@ -1,0 +1,46 @@
+/* 
+  Localizable.strings
+  MoviesApp
+
+  Created by Tudor Ghilvacs on 28.10.2022.
+  
+*/
+
+//MARK: - LogIn Screen
+"username_textfield_default" = "Nume utilizator";
+"password_textfield_default" = "Parolă";
+"incorrect_username_password" = "Nume utilizator sau parolă greșite";
+"sign_in_button_text" = "Conectare";
+"continue_without" = "Continuă fără a te conecta";
+
+//MARK: - TabBar items
+"all_movies_title" = "Toate filmele";
+"favorites_title" = "Favorite";
+"settings_title" = "Setări";
+
+//MARK: - All Movies Screen
+"sort_by" = "Sortează după";
+"sort_popularity" = "Popularitate";
+"sort_release_date" = "Data apariției";
+"sort_rating" = "Notă";
+"sort_title_AZ" = "Titlu(A-Z)";
+"sort_title_ZA" = "Titlu(Z-A)";
+
+//MARK: - Movie Details Screen
+"rate_button_text" = "Evaluează";
+"videos_label_text" = "";
+"similar_movies_label_text" = "Filme similare";
+
+//MARK: - User Reviews Screen
+"user_reviews_title" = "Recenzii utilizatori";
+"imdb_rating" = "Notă IMDb";
+"your_rating" = "Nota ta";
+
+//MARK: - Rating Screen
+"share_button_text" = "Distribuie";
+"how_would_you_rate" = "Cum ți s-a părut";
+
+//MARK: - Settings Screen
+"sign_in_label" = "Conectare";
+"sign_out_label" = "Deconectare";
+"are_you_sure" = "Sigur vrei să te deconectezi?";

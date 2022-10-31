@@ -23,7 +23,7 @@ class MovieCollectionViewCell: UICollectionViewCell {
             self?.moviePosterImageView.image = image
         }, placeholderImage: UIImage(named: "MoviePoster.jpeg"))
         
-        movieTitleLabel.text = movie.originalTitle
+        movieTitleLabel.text = movie.title
         movieRatingLabel.text = "\(movie.voteAverage.limitNumberOfDigits())"
     }
 }

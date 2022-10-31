@@ -28,7 +28,7 @@ class ReviewsViewController: UIViewController {
     //MARK: Public API
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = "User reviews"
+        navigationItem.title = NSLocalizedString("user_reviews_title", comment: "")
         movieTitleLabel?.text = "\(movie.title)"
         movieRatingLabel?.text = "\(movie.voteAverage.limitNumberOfDigits())"
         

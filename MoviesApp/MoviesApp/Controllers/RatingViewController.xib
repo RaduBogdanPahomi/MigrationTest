@@ -52,6 +52,9 @@
                                         </fragment>
                                     </attributedString>
                                 </buttonConfiguration>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="keyValue" value="share_button_text"/>
+                                </userDefinedRuntimeAttributes>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iCS-gI-gO1">
                                 <rect key="frame" x="20.000000000000004" y="30.000000000000004" width="41.333333333333343" height="34.333333333333343"/>
@@ -93,6 +96,9 @@
                                 <buttonConfiguration key="configuration" style="plain" title="Rate">
                                     <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </buttonConfiguration>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="keyValue" value="rate_button_text"/>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="rateMovieAction:" destination="-1" eventType="touchUpInside" id="k0N-jm-Kma"/>
                                 </connections>

@@ -28,16 +28,16 @@
                     <rect key="frame" x="0.0" y="0.0" width="683" height="189"/>
                     <subviews>
                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="e5Z-6w-jfb">
-                            <rect key="frame" x="10" y="94.333333333333329" width="279" height="49.333333333333329"/>
+                            <rect key="frame" x="10" y="94.333333333333329" width="274.66666666666669" height="49.333333333333329"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="500" verticalHuggingPriority="251" horizontalCompressionResistancePriority="251" verticalCompressionResistancePriority="251" text="Spider-Man: No Way Home" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="prB-fJ-fiT">
-                                    <rect key="frame" x="0.0" y="0.0" width="279" height="27.666666666666668"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="274.66666666666669" height="27.666666666666668"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="23"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <stackView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="500" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="dWz-jG-QTK">
-                                    <rect key="frame" x="0.0" y="27.666666666666671" width="279" height="21.666666666666671"/>
+                                    <rect key="frame" x="0.0" y="27.666666666666671" width="274.66666666666669" height="21.666666666666671"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2021" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OAq-ib-uRa">
                                             <rect key="frame" x="0.0" y="0.0" width="39.666666666666664" height="21.666666666666668"/>
@@ -46,7 +46,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="2h 28m" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ls6-pB-cYJ">
-                                            <rect key="frame" x="49.666666666666671" y="0.0" width="229.33333333333331" height="21.666666666666668"/>
+                                            <rect key="frame" x="49.666666666666657" y="0.0" width="224.99999999999997" height="21.666666666666668"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                             <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <nil key="highlightedColor"/>
@@ -56,11 +56,11 @@
                             </subviews>
                         </stackView>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VHG-p3-mcm">
-                            <rect key="frame" x="289" y="59" width="207" height="120"/>
+                            <rect key="frame" x="284.66666666666669" y="59" width="214.33333333333331" height="120"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </view>
                         <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XjY-Hw-Pwy">
-                            <rect key="frame" x="496.00000000000006" y="88.333333333333329" width="78.666666666666686" height="61.666666666666671"/>
+                            <rect key="frame" x="498.99999999999994" y="88.333333333333329" width="77.333333333333314" height="61.666666666666671"/>
                             <color key="tintColor" systemColor="systemYellowColor"/>
                             <state key="normal" title="Button"/>
                             <buttonConfiguration key="configuration" style="plain" imagePlacement="top" title="Button" imagePadding="3">
@@ -73,13 +73,16 @@
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="252" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I9i-GI-CII">
-                            <rect key="frame" x="574.66666666666663" y="88.333333333333329" width="98.333333333333371" height="61.666666666666671"/>
+                            <rect key="frame" x="576.33333333333337" y="88.333333333333329" width="96.666666666666629" height="61.666666666666671"/>
                             <state key="normal" title="Button"/>
                             <buttonConfiguration key="configuration" style="plain" imagePlacement="top" title="Rate this" imagePadding="3">
                                 <imageReference key="image" image="star" catalog="system" variableValue="1"/>
                                 <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="20"/>
                                 <fontDescription key="titleFontDescription" name="Helvetica" family="Helvetica" pointSize="18"/>
                             </buttonConfiguration>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="string" keyPath="keyValue" value="rate_button_text"/>
+                            </userDefinedRuntimeAttributes>
                             <connections>
                                 <action selector="rateMovieAction:" destination="-1" eventType="touchUpInside" id="aV2-qp-xXc"/>
                             </connections>

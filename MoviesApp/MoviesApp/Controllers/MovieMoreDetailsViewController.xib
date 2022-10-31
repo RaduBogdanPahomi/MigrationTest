@@ -30,7 +30,7 @@
                     <rect key="frame" x="0.0" y="47" width="390" height="763"/>
                     <subviews>
                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="snZ-35-CkD">
-                            <rect key="frame" x="0.0" y="0.0" width="390" height="1450.6666666666667"/>
+                            <rect key="frame" x="0.0" y="0.0" width="390" height="1480.3333333333333"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8r6-lf-Cur" customClass="MovieDetailsHeaderView" customModule="MoviesApp" customModuleProvider="target">
                                     <rect key="frame" x="0.0" y="0.0" width="390" height="270"/>
@@ -69,14 +69,17 @@
                                         <outlet property="delegate" destination="-1" id="9d3-jn-OQi"/>
                                     </connections>
                                 </collectionView>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Similar Movies" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7wv-Il-Zq5">
-                                    <rect key="frame" x="0.0" y="1130.3333333333333" width="390" height="20.333333333333258"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7wv-Il-Zq5">
+                                    <rect key="frame" x="0.0" y="1130.3333333333333" width="390" height="50"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <nil key="highlightedColor"/>
+                                    <userDefinedRuntimeAttributes>
+                                        <userDefinedRuntimeAttribute type="string" keyPath="keyValue" value="similar_movies_label_text"/>
+                                    </userDefinedRuntimeAttributes>
                                 </label>
                                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="ENc-AB-bkI">
-                                    <rect key="frame" x="0.0" y="1150.6666666666667" width="390" height="300"/>
+                                    <rect key="frame" x="0.0" y="1180.3333333333333" width="390" height="300"/>
                                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="300" id="l20-K1-lAy"/>

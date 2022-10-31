@@ -9,7 +9,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Favorites-->
+        <!--Favorite Movies View Controller-->
         <scene sceneID="yHI-ss-6qe">
             <objects>
                 <viewController id="QIi-sQ-ybp" customClass="FavoriteMoviesViewController" customModule="MoviesApp" customModuleProvider="target" sceneMemberID="viewController">
@@ -35,7 +35,11 @@
                             <constraint firstItem="EAd-dG-WAn" firstAttribute="trailing" secondItem="EGi-Tb-ZOh" secondAttribute="trailing" id="sdv-69-Ph5"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Favorites" largeTitleDisplayMode="always" id="FPP-9F-Ksg"/>
+                    <navigationItem key="navigationItem" largeTitleDisplayMode="always" id="FPP-9F-Ksg">
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="string" keyPath="keyValue" value="favorites_title"/>
+                        </userDefinedRuntimeAttributes>
+                    </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="EGi-Tb-ZOh" id="F6c-wS-aXt"/>
                     </connections>
@@ -44,11 +48,15 @@
             </objects>
             <point key="canvasLocation" x="1945" y="78"/>
         </scene>
-        <!--Settings-->
+        <!--Navigation Controller-->
         <scene sceneID="2lV-m1-uAa">
             <objects>
                 <navigationController id="oeT-CC-4bp" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Settings" image="gearshape" catalog="system" selectedImage="gearshape.fill" id="Ec6-L8-kxq"/>
+                    <tabBarItem key="tabBarItem" title="" image="gearshape" catalog="system" selectedImage="gearshape.fill" id="Ec6-L8-kxq">
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="string" keyPath="keyValue" value="settings_title"/>
+                        </userDefinedRuntimeAttributes>
+                    </tabBarItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" barStyle="black" translucent="NO" prompted="NO"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" translucent="NO" id="PhG-d8-pkL">
                         <rect key="frame" x="0.0" y="48" width="414" height="44"/>
@@ -62,7 +70,7 @@
             </objects>
             <point key="canvasLocation" x="1103" y="899"/>
         </scene>
-        <!--Settings-->
+        <!--Settings View Controller-->
         <scene sceneID="Nx1-G4-mBe">
             <objects>
                 <viewController id="9Sj-Me-n4J" customClass="SettingsViewController" customModule="MoviesApp" customModuleProvider="target" sceneMemberID="viewController">
@@ -90,7 +98,11 @@
                             <constraint firstItem="raf-e6-X5q" firstAttribute="leading" secondItem="Oo7-PN-fds" secondAttribute="leading" id="oaM-ob-WmC"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Settings" largeTitleDisplayMode="always" id="9TP-lw-nSz"/>
+                    <navigationItem key="navigationItem" largeTitleDisplayMode="always" id="9TP-lw-nSz">
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="string" keyPath="keyValue" value="settings_title"/>
+                        </userDefinedRuntimeAttributes>
+                    </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="raf-e6-X5q" id="Ek2-Pi-bv0"/>
                         <segue destination="v3y-eb-Bc4" kind="presentation" identifier="mySegue" modalPresentationStyle="fullScreen" id="SeK-ji-axZ"/>
@@ -102,7 +114,7 @@
             </objects>
             <point key="canvasLocation" x="1945" y="899"/>
         </scene>
-        <!--All Movies-->
+        <!--Item-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="MoviesViewController" customModule="MoviesApp" customModuleProvider="target" sceneMemberID="viewController">
@@ -129,7 +141,11 @@
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Item" id="XGD-8E-b3p"/>
-                    <navigationItem key="navigationItem" title="All Movies" largeTitleDisplayMode="always" id="eC3-0d-K5W"/>
+                    <navigationItem key="navigationItem" largeTitleDisplayMode="always" id="eC3-0d-K5W">
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="string" keyPath="keyValue" value="all_movies_title"/>
+                        </userDefinedRuntimeAttributes>
+                    </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="nkJ-l8-Fv2" id="pAf-Wd-Grz"/>
                     </connections>
@@ -138,11 +154,15 @@
             </objects>
             <point key="canvasLocation" x="1946" y="-615"/>
         </scene>
-        <!--All Movies-->
+        <!--Navigation Controller-->
         <scene sceneID="fTA-NQ-UNp">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="AE3-Y0-vkv" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="All Movies" image="film" catalog="system" selectedImage="film.fill" id="Y6I-9Z-D2a"/>
+                    <tabBarItem key="tabBarItem" title="" image="film" catalog="system" selectedImage="film.fill" id="Y6I-9Z-D2a">
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="string" keyPath="keyValue" value="all_movies_title"/>
+                        </userDefinedRuntimeAttributes>
+                    </tabBarItem>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" translucent="NO" id="sO1-20-Eqd">
                         <rect key="frame" x="0.0" y="48" width="414" height="44"/>
@@ -176,38 +196,34 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Cs-cu-YdF">
-                                <rect key="frame" x="141.5" y="534" width="131" height="51"/>
+                                <rect key="frame" x="195" y="534" width="24" height="14"/>
                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Sign In">
+                                <buttonConfiguration key="configuration" style="plain" title="">
                                     <backgroundConfiguration key="background" cornerRadius="7">
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </backgroundConfiguration>
-                                    <fontDescription key="titleFontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="32"/>
                                 </buttonConfiguration>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="keyValue" value="sign_in_button_text"/>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="signInAction:" destination="v3y-eb-Bc4" eventType="touchUpInside" id="nZb-d8-R90"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PDW-N8-yeq">
-                                <rect key="frame" x="105" y="588" width="204" height="31.5"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PDW-N8-yeq">
+                                <rect key="frame" x="192" y="551" width="30" height="30"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                <state key="normal" title="Button">
-                                    <attributedString key="attributedTitle">
-                                        <fragment content="Continue without signing in">
-                                            <attributes>
-                                                <font key="NSFont" size="17" name="Helvetica"/>
-                                                <integer key="NSUnderline" value="1"/>
-                                            </attributes>
-                                        </fragment>
-                                    </attributedString>
-                                </state>
+                                <state key="normal" title=""/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="keyValue" value="continue_without"/>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="continueAction:" destination="v3y-eb-Bc4" eventType="touchUpInside" id="RRb-mS-Ml4"/>
                                 </connections>
                             </button>
-                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Username" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="a8a-uw-eV7">
+                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="a8a-uw-eV7">
                                 <rect key="frame" x="107" y="431" width="200" height="34"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="34" id="hD2-n6-oAC"/>
@@ -215,6 +231,9 @@
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" returnKeyType="next" enablesReturnKeyAutomatically="YES"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="keyValue" value="username_textfield_default"/>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <outlet property="delegate" destination="v3y-eb-Bc4" id="gji-xa-cb9"/>
                                 </connections>
@@ -226,15 +245,21 @@
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="done" enablesReturnKeyAutomatically="YES" secureTextEntry="YES"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="keyValue" value="password_textfield_default"/>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <outlet property="delegate" destination="v3y-eb-Bc4" id="nKZ-di-RoA"/>
                                 </connections>
                             </textField>
-                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Username or password are incorrect." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aOa-NA-U6L">
-                                <rect key="frame" x="102.5" y="514" width="209" height="14.5"/>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aOa-NA-U6L">
+                                <rect key="frame" x="207" y="514" width="0.0" height="0.0"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="textColor" systemColor="systemRedColor"/>
                                 <nil key="highlightedColor"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="keyValue" value="incorrect_username_password"/>
+                                </userDefinedRuntimeAttributes>
                             </label>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="I4M-lY-elP">
                                 <rect key="frame" x="197" y="381" width="20" height="20"/>
@@ -302,11 +327,15 @@
             </objects>
             <point key="canvasLocation" x="165" y="78"/>
         </scene>
-        <!--Favorites-->
+        <!--Navigation Controller-->
         <scene sceneID="7RG-a9-cKA">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="ivF-zm-gy9" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Favorites" image="heart" catalog="system" selectedImage="heart.fill" id="0KY-jv-fHW"/>
+                    <tabBarItem key="tabBarItem" title="" image="heart" catalog="system" selectedImage="heart.fill" id="0KY-jv-fHW">
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="string" keyPath="keyValue" value="favorites_title"/>
+                        </userDefinedRuntimeAttributes>
+                    </tabBarItem>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" translucent="NO" id="T5E-VS-YUW">
                         <rect key="frame" x="0.0" y="48" width="414" height="44"/>

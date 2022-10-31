@@ -15,9 +15,9 @@ enum CellType {
     func title() -> String? {
         switch self {
         case .signIn:
-            return "Sign in"
+            return NSLocalizedString("sign_in_label", comment: "")
         case .signOut:
-            return "Sign out"
+            return NSLocalizedString("sign_out_label", comment: "")
         case .username(let name):
             return name
         }
@@ -108,7 +108,7 @@ extension SettingsViewController: UITableViewDelegate {
         if UserManager.shared.authStatus == .loggedOut {
             performSegue(withIdentifier: "unwindToLogin", sender: self)
         } else if indexPath.row == 1 {
-            showSignOutModal(title: "Are you sure you want to sign out?")
+            showSignOutModal(title: NSLocalizedString("are_you_sure", comment: ""))
         }
     }
 }

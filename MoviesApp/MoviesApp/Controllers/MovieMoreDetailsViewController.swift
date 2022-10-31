@@ -72,7 +72,7 @@ class MovieMoreDetailsViewController: UIViewController {
 // MARK: - Private API
 private extension MovieMoreDetailsViewController {
     func setupUserInterface() {
-        title = "\(movie?.originalTitle ?? "")"
+        title = "\(movie?.title ?? "")"
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         navigationItem.rightBarButtonItem = favoriteButton
        
@@ -121,8 +121,13 @@ private extension MovieMoreDetailsViewController {
             guard let self = self else { return }
             switch result {
             case .success(let response):
-                self.videos = response.results
+                for video in response.results {
+                    if video.site == "YouTube" {
+                        self.videos.append(video)
+                    }
+                }
                 self.videosCollectionView.reloadData()
+                self.videosLabel.text = "Videos: \(self.videos.count)"
             case .failure(let error):
                 self.showModal(title: "Error", message: error.customMessage)
             }
@@ -190,11 +195,8 @@ extension MovieMoreDetailsViewController: UICollectionViewDataSource {
         } else {
             let video = videos[indexPath.section]
             let cell = videosCollectionView.dequeueCell(withType: MovieVideosCollectionViewCell.self, for: indexPath) as! MovieVideosCollectionViewCell
-            #warning("We should filter for YOUTUBE in movies array, so that we will remove all videos which are not from youtube")
-            if video.site == "YouTube" {
-                cell.update(withVideo: video)
-                videosLabel.text = "Videos: \(videos.count)"
-            }
+            cell.update(withVideo: video)
+                
             return cell
         }
     }
@@ -212,10 +214,11 @@ extension MovieMoreDetailsViewController: UICollectionViewDelegate {
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-    #warning("Check if the collection view is the intended one (moviesCollectionView and not videosCollectionView)")
-        if indexPath.section + 1 == movies.count && isMovieRequestInProgress == false {
-            page += 1
-            loadCollectionView()
+        if collectionView == moviesCollectionView {
+            if indexPath.section + 1 == movies.count && isMovieRequestInProgress == false {
+                page += 1
+                loadCollectionView()
+            }
         }
     }
 }
@@ -235,9 +238,3 @@ extension MovieMoreDetailsViewController: MovieDetailsProtocol {
         reviewsVC.update(withMovie: movie)
     }
 }
-
-#warning("Remove this empty extension")
-extension MovieMoreDetailsViewController: WKNavigationDelegate {
-    
-}
-

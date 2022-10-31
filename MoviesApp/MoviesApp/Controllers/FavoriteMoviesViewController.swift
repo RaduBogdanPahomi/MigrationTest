@@ -99,9 +99,9 @@ private extension FavoriteMoviesViewController {
         case .rating:
             movies = movies.sorted(by: { $1.voteAverage < $0.voteAverage })
         case .ascTitle:
-            movies = movies.sorted(by: { $0.originalTitle < $1.originalTitle })
+            movies = movies.sorted(by: { $0.title < $1.title })
         case .descTitle:
-            movies = movies.sorted(by: { $1.originalTitle < $0.originalTitle })
+            movies = movies.sorted(by: { $1.title < $0.title })
         }
     }
 }

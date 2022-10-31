@@ -107,7 +107,7 @@ private extension MoviesViewController {
             children.append(createActionItem(forSortType: sortType))
         }
         
-        let sortMenu = UIMenu(title: "Sort by", children: children)
+        let sortMenu = UIMenu(title: NSLocalizedString("sort_by", comment: "") , children: children)
         sortButton.menu = sortMenu
     }
     

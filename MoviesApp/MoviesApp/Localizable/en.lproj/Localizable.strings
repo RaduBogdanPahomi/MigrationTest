@@ -1,0 +1,46 @@
+/* 
+  Localizable.strings
+  MoviesApp
+
+  Created by Tudor Ghilvacs on 28.10.2022.
+  
+*/
+
+//MARK: - LogIn Screen
+"username_textfield_default" = "Username";
+"password_textfield_default" = "Password";
+"incorrect_username_password" = "Username or password are incorrect";
+"sign_in_button_text" = "Sign In";
+"continue_without" = "Continue without signing in";
+
+//MARK: - TabBar items
+"all_movies_title" = "All Movies";
+"favorites_title" = "Favorites";
+"settings_title" = "Settings";
+
+//MARK: - All Movies Screen
+"sort_by" = "Sort by";
+"sort_popularity" = "Popularity";
+"sort_release_date" = "Release date";
+"sort_rating" = "Rating";
+"sort_title_AZ" = "Title(A-Z)";
+"sort_title_ZA" = "Title(Z-A)";
+
+//MARK: - Movie Details Screen
+"rate_button_text" = "Rate this";
+"videos_label_text" = "Videos";
+"similar_movies_label_text" = "Similar Movies";
+
+//MARK: - User Reviews Screen
+"user_reviews_title" = "User reviews";
+"imdb_rating" = "iMDb rating";
+"your_rating" = "Your rating";
+
+//MARK: - Rating Screen
+"share_button_text" = "Share";
+"how_would_you_rate" = "How would you rate";
+
+//MARK: - Settings Screen
+"sign_in_label" = "Sign in";
+"sign_out_label" = "Sign out";
+"are_you_sure" = "Are you sure you want to sign out?";

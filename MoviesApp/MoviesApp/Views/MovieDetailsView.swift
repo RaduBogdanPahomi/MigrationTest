@@ -31,7 +31,7 @@ class MovieDetailsView: UIView {
     }
     
     func update(withMovie movie: Movie) {
-        movieNameLabel.text = movie.originalTitle
+        movieNameLabel.text = movie.title
         movieRatingLabel.text = "\(movie.voteAverage.limitNumberOfDigits())"
         movieYearLabel.text = movie.releaseDate.getYear() ?? ""
     }

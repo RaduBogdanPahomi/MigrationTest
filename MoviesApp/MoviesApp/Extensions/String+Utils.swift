@@ -24,4 +24,10 @@ extension String {
         let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
         return documentDirectory?.appendingPathComponent("FavoriteMovies.json")
     }
+    
+    func localizeString(string: String) -> String {
+            let path = Bundle.main.path(forResource: string, ofType: "lproj")
+            let bundle = Bundle(path: path!)
+            return NSLocalizedString(self, tableName: nil, bundle: bundle!, value: "", comment: "")
+        }
 }

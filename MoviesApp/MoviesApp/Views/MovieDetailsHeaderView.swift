@@ -31,7 +31,7 @@ class MovieDetailsHeaderView: UIView {
 	}
     
     func update(withMovie movie: Movie) {
-        movieTitleLabel.text = movie.originalTitle
+        movieTitleLabel.text = movie.title
         movieYearLabel.text = movie.releaseDate.getYear()
         movieLengthLabel.text = movie.formatRuntime()
         reviewsButton.setTitle("\(movie.voteAverage.limitNumberOfDigits())/10", for: .normal)
