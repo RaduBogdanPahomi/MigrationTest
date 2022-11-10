@@ -13,7 +13,6 @@ class MovieVideosCollectionViewCell: UICollectionViewCell {
     @IBOutlet private weak var videoTypeLabel: UILabel!
     @IBOutlet private weak var dateLabel: UILabel!
     @IBOutlet private weak var thumbnailImageView: UIImageView!
-    private var video: VideoResult!
     
     //MARK: - Public API
     override func awakeFromNib() {

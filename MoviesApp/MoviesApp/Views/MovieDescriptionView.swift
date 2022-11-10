@@ -26,7 +26,7 @@ class MovieDescriptionView: UIView {
     }
     
     func update(withMovie movie: Movie) {
-        movieDescriptionLabel.text = movie.overview
+        movieDescriptionLabel.text = movie.overview		
         getMovieTagLabels(forMovie: movie)
         
         ImageDownloader.shared.downloadImage(with: movie.composedPosterPath(), completionHandler: {[weak self] (image, cached) in

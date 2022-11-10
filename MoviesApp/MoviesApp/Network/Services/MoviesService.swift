@@ -10,12 +10,14 @@ import Foundation
 protocol MoviesServiceable {
     func getMovieList(page: Int, sortType: String) async -> Result<MovieList, RequestError>
     func getMovie(id: Int) async -> Result<Movie, RequestError>
+    func getLatestMovie() async -> Result<Movie, RequestError>
     func getSimilarMovies(page: Int, id: Int) async -> Result<SimilarMovies, RequestError>
+    func getExploreMovies(page: Int, type: String) async -> Result<MovieList, RequestError>
     func getSearchMovies(page: Int, keyword: String) async -> Result<MovieList, RequestError>
     func getSearchKeyword(keyword: String) async -> Result<Keywords, RequestError>
     func getMovieReviews(id: Int, page: Int) async -> Result<Reviews, RequestError>
     func getVideos(id: Int) async -> Result<VideosResponse, RequestError>
-    func postMovieRating(id: Int, sessionID: String, rating: Float) async -> Result<RatingResponse, RequestError>
+    func postMovieRating(id: Int, sessionID: String, rating: Double) async -> Result<RatingResponse, RequestError>
 }
 
 struct MovieService: HTTPClient, MoviesServiceable {
@@ -27,8 +29,16 @@ struct MovieService: HTTPClient, MoviesServiceable {
         return await sendRequest(endpoint: MoviesEndpoint.movie(id: id), responseModel: Movie.self)
     }
     
+    func getLatestMovie() async -> Result<Movie, RequestError> {
+        return await sendRequest(endpoint: MoviesEndpoint.latestMovie, responseModel: Movie.self)
+    }
+    
     func getSimilarMovies(page: Int, id: Int) async -> Result<SimilarMovies ,RequestError> {
         return await sendRequest(endpoint: MoviesEndpoint.similarMovie(page: page, id: id), responseModel: SimilarMovies.self)
+    }
+    
+    func getExploreMovies(page: Int, type: String) async -> Result<MovieList, RequestError> {
+        return await sendRequest(endpoint: MoviesEndpoint.exploreMovies(page: page, type: type), responseModel: MovieList.self)
     }
     
     func getSearchMovies(page: Int, keyword: String) async -> Result<MovieList, RequestError> {
@@ -47,7 +57,7 @@ struct MovieService: HTTPClient, MoviesServiceable {
         return await sendRequest(endpoint: MoviesEndpoint.movieVideos(id: id), responseModel: VideosResponse.self)
     }
     
-    func postMovieRating(id: Int, sessionID: String, rating: Float) async -> Result<RatingResponse, RequestError> {
+    func postMovieRating(id: Int, sessionID: String, rating: Double) async -> Result<RatingResponse, RequestError> {
         return await sendRequest(endpoint: MoviesEndpoint.rateMovie(id: id, sessionID: sessionID, rating: rating), responseModel: RatingResponse.self)
     }
 }

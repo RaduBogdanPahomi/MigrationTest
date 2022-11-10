@@ -8,10 +8,12 @@
 enum MoviesEndpoint {
     case movieList(page: Int, sortType: String)
     case movie(id: Int)
+    case latestMovie
     case similarMovie(page: Int, id: Int)
+    case exploreMovies(page: Int, type: String)
     case searchMovie(page: Int, keyword: String)
     case searchKeyword(keyword: String)
-    case rateMovie(id: Int, sessionID: String, rating: Float)
+    case rateMovie(id: Int, sessionID: String, rating: Double)
     case movieReviews(id: Int, page: Int)
     case movieVideos(id: Int)
 }
@@ -23,8 +25,12 @@ extension MoviesEndpoint: Endpoint {
             return "/3/discover/movie"
         case .movie(let id):
             return "/3/movie/\(id)"
+        case .latestMovie:
+            return "/3/movie/latest"
         case .similarMovie(_, let id):
             return "/3/movie/\(id)/similar"
+        case .exploreMovies(_, let type):
+            return "/3/movie/\(type)"
         case .searchMovie:
             return "/3/search/movie"
         case .searchKeyword:
@@ -40,7 +46,7 @@ extension MoviesEndpoint: Endpoint {
     
     var method: RequestMethod {
         switch self {
-        case .movieList, .movie, .similarMovie, .searchMovie, .searchKeyword, .movieReviews, .movieVideos:
+        case .movieList, .movie, .latestMovie, .similarMovie, .exploreMovies, .searchMovie, .searchKeyword, .movieReviews, .movieVideos:
             return .get
         case .rateMovie:
             return .post
@@ -63,6 +69,8 @@ extension MoviesEndpoint: Endpoint {
             queryParameters["sort_by"] = sortType
             queryParameters["page"] = "\(page)"
         case .similarMovie(page: let page, _):
+            queryParameters["page"] = "\(page)"
+        case .exploreMovies(page: let page, _):
             queryParameters["page"] = "\(page)"
         case .searchMovie(page: let page, keyword: let keyword):
             queryParameters["query"] = "\(keyword)"
