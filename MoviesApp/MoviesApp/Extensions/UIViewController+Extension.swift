@@ -21,6 +21,7 @@ extension UIViewController {
             UIAlertAction in
             KeychainHelper.standard.delete(service: Constants.Keychain.Service.username, account: Constants.Keychain.Account.TMDB)
             KeychainHelper.standard.delete(service: Constants.Keychain.Service.password, account: Constants.Keychain.Account.TMDB)
+            UserManager.shared.authStatus = .loggedOut
             self.performSegue(withIdentifier: "unwindToLogin", sender: nil)
         }
         alert.addAction(yesAction)

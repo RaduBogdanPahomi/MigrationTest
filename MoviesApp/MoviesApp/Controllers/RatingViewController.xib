@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Image references" minToolsVersion="12.0"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -17,9 +18,9 @@
                 <outlet property="moviePosterImageView" destination="NZ9-OM-lVm" id="cRj-xw-LE0"/>
                 <outlet property="rateButton" destination="bzf-hQ-bVv" id="dq5-rw-uAJ"/>
                 <outlet property="ratingLabel" destination="6PR-QC-0kD" id="z0u-6q-qRO"/>
-                <outlet property="ratingSlider" destination="eaU-M5-oAg" id="Nqu-2a-3Yx"/>
+                <outlet property="ratingValueLabel" destination="QHa-6q-nYp" id="3qO-vy-xQa"/>
                 <outlet property="shareButton" destination="Fbg-iI-ogg" id="RrA-Yt-1hG"/>
-                <outlet property="sliderValueLabel" destination="QzM-f8-xp9" id="f8Q-Xr-cTH"/>
+                <outlet property="starRatingView" destination="KMo-tc-piP" id="hfV-BZ-uvd"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="i1V-AI-E0i"/>
             </connections>
         </placeholder>
@@ -70,17 +71,8 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="1" maxValue="10" translatesAutoresizingMaskIntoConstraints="NO" id="eaU-M5-oAg">
-                                <rect key="frame" x="133" y="518.33333333333337" width="124" height="31"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="120" id="9Ux-6Z-bFM"/>
-                                </constraints>
-                                <connections>
-                                    <action selector="updateSliderValueLabel:" destination="-1" eventType="valueChanged" id="egg-NV-xfu"/>
-                                </connections>
-                            </slider>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bzf-hQ-bVv">
-                                <rect key="frame" x="50" y="578.33333333333337" width="290" height="34.333333333333371"/>
+                                <rect key="frame" x="50" y="573.33333333333337" width="290" height="34.333333333333371"/>
                                 <color key="backgroundColor" systemColor="linkColor"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="290" id="zgf-hs-gU3"/>
@@ -104,30 +96,50 @@
                                     <constraint firstAttribute="width" constant="200" id="cdZ-h3-ngL"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QzM-f8-xp9">
-                                <rect key="frame" x="275" y="523" width="42" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QHa-6q-nYp">
+                                <rect key="frame" x="91.666666666666686" y="226.99999999999997" width="207" height="107.66666666666666"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="90"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KMo-tc-piP" customClass="CosmosView" customModule="MoviesApp" customModuleProvider="target">
+                                <rect key="frame" x="47.666666666666657" y="518.33333333333337" width="295" height="25"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="filledColor">
+                                        <color key="value" name="AccentColor"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="filledBorderColor">
+                                        <color key="value" name="AccentColor"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="emptyBorderColor">
+                                        <color key="value" name="AccentColor"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="totalStars">
+                                        <integer key="value" value="10"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="starSize">
+                                        <real key="value" value="25"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
                         </subviews>
                         <constraints>
                             <constraint firstItem="Fbg-iI-ogg" firstAttribute="top" secondItem="rXl-J6-9F0" secondAttribute="top" constant="30" id="0di-hh-JZz"/>
-                            <constraint firstItem="QzM-f8-xp9" firstAttribute="centerY" secondItem="eaU-M5-oAg" secondAttribute="centerY" id="8Eg-fT-Nhg"/>
                             <constraint firstItem="bzf-hQ-bVv" firstAttribute="centerX" secondItem="rXl-J6-9F0" secondAttribute="centerX" id="9w7-KZ-Ud5"/>
-                            <constraint firstItem="QzM-f8-xp9" firstAttribute="leading" secondItem="eaU-M5-oAg" secondAttribute="trailing" constant="20" id="CZO-ko-aoL"/>
                             <constraint firstItem="6PR-QC-0kD" firstAttribute="top" secondItem="NZ9-OM-lVm" secondAttribute="bottom" constant="30" id="Dhd-fk-Fy5"/>
                             <constraint firstItem="6PR-QC-0kD" firstAttribute="centerX" secondItem="rXl-J6-9F0" secondAttribute="centerX" id="Ebz-lc-2J8"/>
-                            <constraint firstItem="eaU-M5-oAg" firstAttribute="top" secondItem="6PR-QC-0kD" secondAttribute="bottom" constant="30" id="Joh-6y-x2x"/>
                             <constraint firstAttribute="trailing" secondItem="Fbg-iI-ogg" secondAttribute="trailing" constant="20" id="Ma3-u3-AEZ"/>
-                            <constraint firstItem="bzf-hQ-bVv" firstAttribute="top" secondItem="eaU-M5-oAg" secondAttribute="bottom" constant="30" id="SFm-kR-C0G"/>
+                            <constraint firstItem="KMo-tc-piP" firstAttribute="top" secondItem="6PR-QC-0kD" secondAttribute="bottom" constant="30" id="N6J-o8-eif"/>
                             <constraint firstAttribute="trailing" secondItem="6PR-QC-0kD" secondAttribute="trailing" constant="50" id="Sqo-6n-eVS"/>
-                            <constraint firstItem="eaU-M5-oAg" firstAttribute="centerX" secondItem="rXl-J6-9F0" secondAttribute="centerX" id="T8b-r7-YOa"/>
                             <constraint firstItem="NZ9-OM-lVm" firstAttribute="top" secondItem="Fbg-iI-ogg" secondAttribute="bottom" constant="30" id="Tl3-Ak-qdb"/>
                             <constraint firstItem="6PR-QC-0kD" firstAttribute="leading" secondItem="rXl-J6-9F0" secondAttribute="leading" constant="50" id="WmJ-0c-gGc"/>
+                            <constraint firstItem="QHa-6q-nYp" firstAttribute="top" secondItem="rXl-J6-9F0" secondAttribute="top" constant="227" id="av2-l1-6sm"/>
                             <constraint firstItem="iCS-gI-gO1" firstAttribute="leading" secondItem="rXl-J6-9F0" secondAttribute="leading" constant="20" id="bea-f6-gO0"/>
+                            <constraint firstItem="QHa-6q-nYp" firstAttribute="centerX" secondItem="rXl-J6-9F0" secondAttribute="centerX" id="fwQ-ff-75r"/>
                             <constraint firstItem="iCS-gI-gO1" firstAttribute="top" secondItem="rXl-J6-9F0" secondAttribute="top" constant="30" id="hSY-Nd-9ns"/>
                             <constraint firstItem="NZ9-OM-lVm" firstAttribute="centerX" secondItem="rXl-J6-9F0" secondAttribute="centerX" id="xNx-dl-IcS"/>
+                            <constraint firstItem="bzf-hQ-bVv" firstAttribute="top" secondItem="KMo-tc-piP" secondAttribute="bottom" constant="30" id="xu5-IA-EjC"/>
+                            <constraint firstItem="KMo-tc-piP" firstAttribute="centerX" secondItem="rXl-J6-9F0" secondAttribute="centerX" id="yb7-Fx-j1K"/>
                         </constraints>
                     </view>
                     <blurEffect style="systemUltraThinMaterialDark"/>
@@ -140,13 +152,21 @@
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="66J-0J-ySc" secondAttribute="trailing" id="n6z-LH-J4t"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="66J-0J-ySc" secondAttribute="bottom" id="pjc-jw-CDn"/>
             </constraints>
-            <point key="canvasLocation" x="140" y="21"/>
+            <point key="canvasLocation" x="140" y="20.616113744075829"/>
         </view>
     </objects>
+    <designables>
+        <designable name="KMo-tc-piP">
+            <size key="intrinsicContentSize" width="295" height="25"/>
+        </designable>
+    </designables>
     <resources>
         <image name="MoviePoster" width="150" height="200"/>
         <image name="point.3.connected.trianglepath.dotted" catalog="system" width="128" height="96"/>
         <image name="xmark" catalog="system" width="128" height="113"/>
+        <namedColor name="AccentColor">
+            <color red="0.0" green="0.46000000000000002" blue="0.89000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <systemColor name="linkColor">
             <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

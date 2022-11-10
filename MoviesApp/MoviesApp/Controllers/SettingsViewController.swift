@@ -69,14 +69,19 @@ private extension SettingsViewController {
     }
 
     func loadUsername() {
-        fetchAccountDetails(sessionID: UserManager.shared.sessionID ?? "") { result in
-            switch result {
-            case .success(let response):
-                self.accountName = response.name
-                self.tableView.reloadData()
-            case .failure(let error):
-                self.showModal(title: "Error", message: error.customMessage)
+        switch UserManager.shared.authStatus {
+        case .loggedIn:
+            fetchAccountDetails(sessionID: UserManager.shared.sessionID ?? "") { result in
+                switch result {
+                case .success(let response):
+                    self.accountName = response.name
+                    self.tableView.reloadData()
+                case .failure(let error):
+                    self.showModal(title: "Error", message: error.customMessage)
+                }
             }
+        case .loggedOut:
+            self.tableView.reloadData()
         }
     }
 }

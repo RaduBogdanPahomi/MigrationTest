@@ -190,7 +190,6 @@ extension MovieMoreDetailsViewController: UICollectionViewDataSource {
         } else {
             let video = videos[indexPath.section]
             let cell = videosCollectionView.dequeueCell(withType: MovieVideosCollectionViewCell.self, for: indexPath) as! MovieVideosCollectionViewCell
-            #warning("We should filter for YOUTUBE in movies array, so that we will remove all videos which are not from youtube")
             if video.site == "YouTube" {
                 cell.update(withVideo: video)
                 videosLabel.text = "Videos: \(videos.count)"
@@ -212,10 +211,11 @@ extension MovieMoreDetailsViewController: UICollectionViewDelegate {
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-    #warning("Check if the collection view is the intended one (moviesCollectionView and not videosCollectionView)")
-        if indexPath.section + 1 == movies.count && isMovieRequestInProgress == false {
-            page += 1
-            loadCollectionView()
+        if collectionView == moviesCollectionView {
+            if indexPath.section + 1 == movies.count && isMovieRequestInProgress == false {
+                page += 1
+                loadCollectionView()
+            }
         }
     }
 }
@@ -234,10 +234,5 @@ extension MovieMoreDetailsViewController: MovieDetailsProtocol {
         navigationController?.pushViewController(reviewsVC, animated: true)
         reviewsVC.update(withMovie: movie)
     }
-}
-
-#warning("Remove this empty extension")
-extension MovieMoreDetailsViewController: WKNavigationDelegate {
-    
 }
 

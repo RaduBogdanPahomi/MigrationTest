@@ -14,9 +14,9 @@ class RatingViewController: UIViewController {
     @IBOutlet private weak var closeButton: UIButton!
     @IBOutlet private weak var moviePosterImageView: UIImageView!
     @IBOutlet private weak var ratingLabel: UILabel!
-    @IBOutlet private weak var ratingSlider: UISlider!
     @IBOutlet private weak var rateButton: UIButton!
-    @IBOutlet private weak var sliderValueLabel: UILabel!
+    @IBOutlet private weak var starRatingView: CosmosView!
+    @IBOutlet private weak var ratingValueLabel: UILabel!
     
     private var movie: Movie!
     private var service: MoviesServiceable = MovieService()
@@ -24,13 +24,17 @@ class RatingViewController: UIViewController {
     //MARK: - Public API
     override func viewDidLoad() {
         super.viewDidLoad()
+        starRatingView.settings.fillMode = .half
     }
     
     func update(withMovie movie: Movie) {
         self.movie = movie
         ratingLabel.text = "How would you rate \(movie.title)?"
-        ratingSlider.value = Float(movie.voteAverage).round(toNearest: 0.5)
-        sliderValueLabel.text = "\(ratingSlider.value.round(toNearest: 0.5))"
+        starRatingView.rating = Double(Float(movie.voteAverage).round(toNearest: 0.5))
+        starRatingView.didFinishTouchingCosmos = { rating in
+            self.ratingValueLabel.isHidden = false
+            self.ratingValueLabel.text = "\(rating)"
+        }
         
         ImageDownloader.shared.downloadImage(with: movie.composedPosterPath(), completionHandler: {[weak self] (image, cached) in
             self?.moviePosterImageView.image = image
@@ -40,7 +44,7 @@ class RatingViewController: UIViewController {
 
 //MARK: - Private API
 private extension RatingViewController {
-    func rateMovie(movieID: Int, sessionID: String, rating: Float, completion: @escaping (Result<RatingResponse, RequestError>) -> Void) {
+    func rateMovie(movieID: Int, sessionID: String, rating: Double, completion: @escaping (Result<RatingResponse, RequestError>) -> Void) {
         Task(priority: .background) {
             let result = await service.postMovieRating(id: movieID, sessionID: sessionID, rating: rating)
             completion(result)
@@ -52,19 +56,15 @@ private extension RatingViewController {
     }
     
     @IBAction func rateMovieAction(_ sender: Any) {
-        rateMovie(movieID: movie.id, sessionID: UserManager.shared.sessionID ?? "", rating: ratingSlider.value.round(toNearest: 0.5)) { result in
+        rateMovie(movieID: movie.id, sessionID: UserManager.shared.sessionID ?? "", rating: starRatingView.rating) { result in
             switch result {
             case .success(_):
                 self.dismiss(animated: true)
                 NotificationCenter.default.post(name: .didRate,
-                                                object: self.ratingSlider.value.round(toNearest: 0.5))
+                                                object: self.starRatingView.rating)
             case .failure(let error):
                 self.showModal(title: "Error", message: error.customMessage)
             }
         }
-    }
-    
-    @IBAction func updateSliderValueLabel(_ sender: Any) {
-        sliderValueLabel.text = "\(ratingSlider.value.round(toNearest: 0.5))"
     }
 }
