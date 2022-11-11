@@ -32,6 +32,10 @@ class ReviewsViewController: UIViewController {
         movieTitleLabel?.text = "\(movie.title)"
         movieRatingLabel?.text = "\(movie.voteAverage.limitNumberOfDigits())"
         
+        if UserManager.shared.authStatus == .loggedIn {
+            rateButton.isHidden = false
+        }
+        
         loadTableView()
         
         NotificationCenter.default.addObserver(forName: .didRate,
