@@ -13,6 +13,10 @@ class MovieDescriptionView: UIView {
     @IBOutlet private weak var moviePosterImageView: UIImageView!
     @IBOutlet private weak var tagStackView: UIStackView!
     @IBOutlet private weak var movieDescriptionLabel: UILabel!
+    private var movie: Movie!
+    
+    //MARK: - Public properties
+    weak var delegate: MovieDetailsProtocol?
     
     // MARK: - Public API
     override init(frame: CGRect) {
@@ -26,7 +30,8 @@ class MovieDescriptionView: UIView {
     }
     
     func update(withMovie movie: Movie) {
-        movieDescriptionLabel.text = movie.overview		
+        self.movie = movie
+        movieDescriptionLabel.text = movie.overview
         getMovieTagLabels(forMovie: movie)
         
         ImageDownloader.shared.downloadImage(with: movie.composedPosterPath(), completionHandler: {[weak self] (image, cached) in
@@ -53,15 +58,24 @@ private extension MovieDescriptionView {
         tagStackView.removeAllArrangedSubviews()
         if let genres = movie.genres {
             for genre in genres {
-                let genreLabel = UILabel()
-                genreLabel.text = genre.name
-                genreLabel.textColor = .white
-                genreLabel.textAlignment = .center
-                genreLabel.borderWidth = 3
-                genreLabel.borderColor = .darkGray
+                let genreButton = UIButton()
+                genreButton.tag = genres.firstIndex(of: genre) ?? -1
+                genreButton.addTarget(self, action: #selector(tagButtonAction(_:)), for: .touchUpInside)
+                genreButton.setTitle(genre.name, for: .normal)
+                genreButton.setTitleColor(.white, for: .normal)
+                genreButton.titleLabel?.numberOfLines = 0
+                genreButton.borderWidth = 3
+                genreButton.borderColor = .darkGray
                 
-                tagStackView.addArrangedSubview(genreLabel)
+                tagStackView.addArrangedSubview(genreButton)
             }
         }
+    }
+    
+    @objc func tagButtonAction(_ sender: Any) {
+        guard let button = sender as? UIButton else { return }
+        guard let genre = movie.genres?[button.tag] else { return }
+        
+        delegate?.tappedGenreButton(genre: genre)
     }
 }

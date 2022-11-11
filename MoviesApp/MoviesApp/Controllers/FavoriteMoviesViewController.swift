@@ -50,20 +50,6 @@ private extension FavoriteMoviesViewController {
         tableView.registerCell(type: MovieTableViewCell.self)
         self.createSortMenu()
     }
-            
-    func showDetail(`for` movie: Movie) {
-        Task(priority: .background) {
-            let result = await service.getMovie(id: Int(movie.id))
-            switch result {
-            case .success(let movie):
-                let movieDetailsVC = MovieMoreDetailsViewController(nibName: "MovieMoreDetailsViewController", bundle: nil)
-                navigationController?.pushViewController(movieDetailsVC, animated: true)
-                movieDetailsVC.movie = movie
-            case .failure(let error):
-                self.showModal(title: "Error", message: error.customMessage)
-            }
-        }
-    }
     
     func createSortMenu() {
         var children = [UIAction]()

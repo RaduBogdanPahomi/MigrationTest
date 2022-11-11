@@ -71,7 +71,12 @@
 		35D8A73028FEB7550046B350 /* RatingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 35D8A72E28FEB7550046B350 /* RatingViewController.xib */; };
 		35DF8D7C28F038F70064E3D6 /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35DF8D7B28F038F70064E3D6 /* LogInViewController.swift */; };
 		35DF8D7E28F041BF0064E3D6 /* LogInResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35DF8D7D28F041BF0064E3D6 /* LogInResponse.swift */; };
+<<<<<<< MoviesApp/MoviesApp.xcodeproj/project.pbxproj
+		35F7DEEC291A543D00DA72C8 /* GenreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35F7DEEA291A543D00DA72C8 /* GenreViewController.swift */; };
+		35F7DEED291A543D00DA72C8 /* GenreViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 35F7DEEB291A543D00DA72C8 /* GenreViewController.xib */; };
+=======
 		35FCE4C62918EE9D00424EA7 /* CosmosDistrib.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35FCE4C52918EE9D00424EA7 /* CosmosDistrib.swift */; };
+>>>>>>> MoviesApp/MoviesApp.xcodeproj/project.pbxproj
 		A201467928A3938600DD1CA8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A201467828A3938600DD1CA8 /* AppDelegate.swift */; };
 		A201467B28A3938600DD1CA8 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A201467A28A3938600DD1CA8 /* SceneDelegate.swift */; };
 		A201468028A3938600DD1CA8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A201467E28A3938600DD1CA8 /* Main.storyboard */; };
@@ -157,6 +162,8 @@
 		35D8A72E28FEB7550046B350 /* RatingViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RatingViewController.xib; sourceTree = "<group>"; };
 		35DF8D7B28F038F70064E3D6 /* LogInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
 		35DF8D7D28F041BF0064E3D6 /* LogInResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInResponse.swift; sourceTree = "<group>"; };
+		35F7DEEA291A543D00DA72C8 /* GenreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenreViewController.swift; sourceTree = "<group>"; };
+		35F7DEEB291A543D00DA72C8 /* GenreViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GenreViewController.xib; sourceTree = "<group>"; };
 		35FCE4C52918EE9D00424EA7 /* CosmosDistrib.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CosmosDistrib.swift; sourceTree = "<group>"; };
 		A201467528A3938600DD1CA8 /* MoviesApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MoviesApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A201467828A3938600DD1CA8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -395,6 +402,8 @@
 				35D64BFF29027E4200775196 /* ReviewsViewController.xib */,
 				3505C6A529091BA40025A10D /* MovieMoreDetailsViewController.swift */,
 				3505C6A629091BA40025A10D /* MovieMoreDetailsViewController.xib */,
+				35F7DEEA291A543D00DA72C8 /* GenreViewController.swift */,
+				35F7DEEB291A543D00DA72C8 /* GenreViewController.xib */,
 				3519B3C2290FBF3200A10EC4 /* ExploreViewController.swift */,
 			);
 			path = Controllers;
@@ -470,6 +479,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				35F7DEED291A543D00DA72C8 /* GenreViewController.xib in Resources */,
 				A269401D28AE30620040A726 /* MovieDetailsHeaderView.xib in Resources */,
 				35D8A73028FEB7550046B350 /* RatingViewController.xib in Resources */,
 				A269401C28AE30620040A726 /* MovieDescriptionView.xib in Resources */,
@@ -522,6 +532,7 @@
 				35112F5C2912A44B0062A0D9 /* ExploreMovieCollectionViewCell.swift in Sources */,
 				359D545F28A66A2C000D3430 /* Movie.swift in Sources */,
 				352500AA28F44BDB004D691A /* SettingsTableViewCell.swift in Sources */,
+				35F7DEEC291A543D00DA72C8 /* GenreViewController.swift in Sources */,
 				A22C1C3628D8899D00951828 /* FavoriteMovie+CoreDataProperties.swift in Sources */,
 				3592F6AC28AFBBF800546BDE /* HTTPMethod.swift in Sources */,
 				35037B3928BCB2EE006C5C6D /* UIViewController+Extension.swift in Sources */,

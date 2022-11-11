@@ -28,4 +28,19 @@ extension UIViewController {
         alert.addAction(UIAlertAction(title: "No", style: .default, handler: nil))
         present(alert, animated: true, completion: nil)
     }
+    
+    func showDetail(`for` movie: Movie) {
+        let service: MoviesServiceable = MovieService()
+        Task(priority: .background) {
+            let result = await service.getMovie(id: movie.id)
+            switch result {
+            case .success(let movie):
+                let movieDetailsVC = MovieMoreDetailsViewController(nibName: "MovieMoreDetailsViewController", bundle: nil)
+                movieDetailsVC.movie = movie
+                navigationController?.pushViewController(movieDetailsVC, animated: true)
+            case .failure(let error):
+                self.showModal(title: "Error", message: error.customMessage)
+            }
+        }
+    }
 }

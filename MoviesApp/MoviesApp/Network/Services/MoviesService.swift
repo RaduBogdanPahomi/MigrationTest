@@ -17,6 +17,7 @@ protocol MoviesServiceable {
     func getSearchKeyword(keyword: String) async -> Result<Keywords, RequestError>
     func getMovieReviews(id: Int, page: Int) async -> Result<Reviews, RequestError>
     func getVideos(id: Int) async -> Result<VideosResponse, RequestError>
+    func getMoviesWithGenre(genreID: Int) async -> Result<MovieList, RequestError>
     func postMovieRating(id: Int, sessionID: String, rating: Double) async -> Result<RatingResponse, RequestError>
 }
 
@@ -55,6 +56,10 @@ struct MovieService: HTTPClient, MoviesServiceable {
     
     func getVideos(id: Int) async -> Result<VideosResponse, RequestError> {
         return await sendRequest(endpoint: MoviesEndpoint.movieVideos(id: id), responseModel: VideosResponse.self)
+    }
+
+    func getMoviesWithGenre(genreID: Int) async -> Result<MovieList, RequestError> {
+        return await sendRequest(endpoint: MoviesEndpoint.movieWithGenre(genreID: genreID), responseModel: MovieList.self)
     }
     
     func postMovieRating(id: Int, sessionID: String, rating: Double) async -> Result<RatingResponse, RequestError> {

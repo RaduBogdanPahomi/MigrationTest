@@ -16,6 +16,7 @@ enum MoviesEndpoint {
     case rateMovie(id: Int, sessionID: String, rating: Double)
     case movieReviews(id: Int, page: Int)
     case movieVideos(id: Int)
+    case movieWithGenre(genreID: Int)
 }
 
 extension MoviesEndpoint: Endpoint {    
@@ -41,12 +42,14 @@ extension MoviesEndpoint: Endpoint {
             return "/3/movie/\(id)/reviews"
         case .movieVideos(let id):
             return "/3/movie/\(id)/videos"
+        case .movieWithGenre:
+            return "/3/discover/movie"
         }
     }
     
     var method: RequestMethod {
         switch self {
-        case .movieList, .movie, .latestMovie, .similarMovie, .exploreMovies, .searchMovie, .searchKeyword, .movieReviews, .movieVideos:
+        case .movieList, .movie, .latestMovie, .similarMovie, .exploreMovies, .searchMovie, .searchKeyword, .movieReviews, .movieVideos, .movieWithGenre:
             return .get
         case .rateMovie:
             return .post
@@ -85,6 +88,8 @@ extension MoviesEndpoint: Endpoint {
             queryParameters["session_id"] = "\(sessionID)"
         case .movieReviews(_, page: let page):
             queryParameters["page"] = "\(page)"
+        case .movieWithGenre(genreID: let genreID):
+            queryParameters["with_genres"] = "\(genreID)"
         default:
             return queryParameters
         }

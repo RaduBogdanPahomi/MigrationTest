@@ -12,6 +12,7 @@ import WebKit
 protocol MovieDetailsProtocol: AnyObject {
     func rateMovie()
     func movieReviews()
+    func tappedGenreButton(genre: Genre)
 }
 
 class MovieMoreDetailsViewController: UIViewController {
@@ -89,6 +90,7 @@ private extension MovieMoreDetailsViewController {
         }
         
         movieDetailsHeaderView.delegate = self
+        movieDescriptionView.delegate = self
         
         videosCollectionView.registerCell(type: MovieVideosCollectionViewCell.self)
         moviesCollectionView.registerCell(type: MovieCollectionViewCell.self)
@@ -149,20 +151,6 @@ private extension MovieMoreDetailsViewController {
         webVC.preferredBarTintColor = .black
         webVC.preferredControlTintColor = .white
         self.present(webVC, animated: true)
-    }
-    
-    func showDetail(`for` movie: Movie) {
-        Task(priority: .background) {
-            let result = await service.getMovie(id: movie.id)
-            switch result {
-            case .success(let movie):
-                let movieDetailsVC = MovieMoreDetailsViewController(nibName: "MovieMoreDetailsViewController", bundle: nil)
-                navigationController?.pushViewController(movieDetailsVC, animated: true)
-                movieDetailsVC.movie = movie
-            case .failure(let error):
-                showModal(title: "Error", message: error.customMessage)
-            }
-        }
     }
 }
 
@@ -234,5 +222,10 @@ extension MovieMoreDetailsViewController: MovieDetailsProtocol {
         navigationController?.pushViewController(reviewsVC, animated: true)
         reviewsVC.update(withMovie: movie)
     }
+    
+    func tappedGenreButton(genre: Genre) {
+        let genreVC = GenreViewController()
+        genreVC.genre = genre
+        navigationController?.pushViewController(genreVC, animated: true)
+    }
 }
-

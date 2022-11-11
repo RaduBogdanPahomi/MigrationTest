@@ -110,20 +110,6 @@ private extension MoviesViewController {
         let sortMenu = UIMenu(title: "Sort by", children: children)
         sortButton.menu = sortMenu
     }
-    
-    func showDetail(`for` movie: Movie) {
-        Task(priority: .background) {
-            let result = await service.getMovie(id: movie.id)
-            switch result {
-            case .success(let movie):
-                let movieDetailsVC = MovieMoreDetailsViewController(nibName: "MovieMoreDetailsViewController", bundle: nil)
-                movieDetailsVC.movie = movie
-                navigationController?.pushViewController(movieDetailsVC, animated: true)
-            case .failure(let error):
-                self.showModal(title: "Error", message: error.customMessage)
-            }
-        }
-    }
 
     func createActionItem(forSortType sortType: SortType) -> UIAction {
         let action = UIAction(title: sortType.rawValue) { [weak self] _ in
